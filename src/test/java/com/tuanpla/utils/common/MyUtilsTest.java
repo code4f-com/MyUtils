@@ -4,34 +4,35 @@
  */
 package com.tuanpla.utils.common;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 /**
  *
  * @author tuanpla
  */
 public class MyUtilsTest {
-    
+
     public MyUtilsTest() {
     }
-    
+
     @BeforeAll
     public static void setUpClass() {
     }
-    
+
     @AfterAll
     public static void tearDownClass() {
     }
-    
+
     @BeforeEach
     public void setUp() {
     }
-    
+
     @AfterEach
     public void tearDown() {
     }
@@ -59,7 +60,7 @@ public class MyUtilsTest {
         long d = 1000000L;
         String expResult = "CEXHO";
         String result = MyUtils.decimalTo26(d);
-        System.out.println("----> Result:"+result);
+        System.out.println("----> Result:" + result);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -71,12 +72,23 @@ public class MyUtilsTest {
     @Test
     public void testDecToHex() {
         System.out.println("decToHex");
-        int dec = 0;
-        String expResult = "";
+        int dec = 123450;
+        String expResult = "0001E23A";
         String result = MyUtils.decToHex(dec);
+        System.out.println("-->testDecToHex result:" + result);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testHexToDecimal() {
+        System.out.println("hexToDecimal");
+        String hex = "0001E23A";
+        int expResult = 123450;
+        int result = MyUtils.hexToDecimal(hex);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
@@ -291,5 +303,5 @@ public class MyUtilsTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
