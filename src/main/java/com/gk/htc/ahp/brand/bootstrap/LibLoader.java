@@ -48,11 +48,11 @@ public class LibLoader {
     /**
      * Matches any file that is a directory.
      */
-    private static final FileFilter m_dirFilter = (File pathname) -> pathname.isDirectory();
+    private static final FileFilter matches_dirFilter = (File pathname) -> pathname.isDirectory();
     /**
      * Matches any file that has a name ending in ".jar".
      */
-    private static final FilenameFilter m_jarFilter = (File dir, String name) -> name.endsWith(".jar");
+    private static final FilenameFilter matches_jarFilter = (File dir, String name) -> name.endsWith(".jar");
 
     /**
      * Create a ClassLoader with the JARs found in dirStr.
@@ -115,12 +115,12 @@ public class LibLoader {
      */
     public static void loadClasses(File dir, boolean recursive, LinkedList<URL> urls) throws MalformedURLException {
         // Add the directory
-        urls.add(dir.toURI());
+        urls.add(dir.toURL());
 //        System.out.println("parsing jar file:" + dir.toURL());
 //        System.out.println("Recursive:" + recursive);
         if (recursive) {
             // Descend into sub-directories
-            File[] dirlist = dir.listFiles(m_dirFilter);
+            File[] dirlist = dir.listFiles(matches_dirFilter);
             if (dirlist != null) {
                 for (File childDir : dirlist) {
                     loadClasses(childDir, recursive, urls);
@@ -129,7 +129,7 @@ public class LibLoader {
         }
 
         // Add individual JAR files
-        File[] children = dir.listFiles(m_jarFilter);
+        File[] children = dir.listFiles(matches_jarFilter);
         System.out.println("Dir:" + dir.getPath());
         if (children != null) {
             for (File childFile : children) {
