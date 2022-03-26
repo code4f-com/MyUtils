@@ -1,13 +1,14 @@
 package com.gk.htc.ahp.brand.bootstrap;
 
 import java.io.File;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 
 public class Bootstrap {
 
+    private final String classToExec = "com.gk.htc.ahp.brand.app.AppStart";
+    private final String methodExec = "main";
     ClassLoader cl;
     Class<?> mainClass;
 
@@ -22,14 +23,11 @@ public class Bootstrap {
     public void start(String[] args) throws Exception {
         this.cl = this.loadLib();
         if (cl != null) {
-            final String classToExec = "com.gk.htc.ahp.brand.app.AppStart";
-            final String methodExec = "main";
             final String[] argsExec = args;
             //-
-            final String className = classToExec;
             final Class<?>[] classes = new Class[]{argsExec.getClass()};
             final Object[] methodArgs = new Object[]{argsExec};
-            mainClass = cl.loadClass(className);
+            mainClass = cl.loadClass(classToExec);
             final Method method = mainClass.getMethod(methodExec, classes);
             Runnable execer = new Runnable() {
                 @Override

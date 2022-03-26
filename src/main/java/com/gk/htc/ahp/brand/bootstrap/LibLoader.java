@@ -33,13 +33,10 @@ package com.gk.htc.ahp.brand.bootstrap;
 //
 import java.io.File;
 import java.io.FileFilter;
-
 import java.io.FilenameFilter;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -51,21 +48,11 @@ public class LibLoader {
     /**
      * Matches any file that is a directory.
      */
-    private static FileFilter m_dirFilter = new FileFilter() {
-        @Override
-        public boolean accept(File pathname) {
-            return pathname.isDirectory();
-        }
-    };
+    private static final FileFilter m_dirFilter = (File pathname) -> pathname.isDirectory();
     /**
      * Matches any file that has a name ending in ".jar".
      */
-    private static final FilenameFilter m_jarFilter = new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-            return name.endsWith(".jar");
-        }
-    };
+    private static final FilenameFilter m_jarFilter = (File dir, String name) -> name.endsWith(".jar");
 
     /**
      * Create a ClassLoader with the JARs found in dirStr.
