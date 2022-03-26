@@ -86,8 +86,7 @@ public class LibLoader {
      * @throws java.net.MalformedURLException
      * @returns A new ClassLoader containing the found JARs
      */
-    public static ClassLoader loadClasses(File dir, boolean recursive)
-            throws MalformedURLException {
+    public static ClassLoader loadClasses(File dir, boolean recursive) throws MalformedURLException {
         LinkedList<URL> urls = new LinkedList<>();
         loadClasses(dir, recursive, urls);
         return newClassLoader(urls);
@@ -116,7 +115,7 @@ public class LibLoader {
      */
     public static void loadClasses(File dir, boolean recursive, LinkedList<URL> urls) throws MalformedURLException {
         // Add the directory
-        urls.add(dir.toURL());
+        urls.add(dir.toURI());
 //        System.out.println("parsing jar file:" + dir.toURL());
 //        System.out.println("Recursive:" + recursive);
         if (recursive) {

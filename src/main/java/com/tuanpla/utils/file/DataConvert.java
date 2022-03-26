@@ -240,7 +240,7 @@ public class DataConvert {
             }
             dataReturn = baos.toByteArray();
         } catch (IOException ex) {
-            LogUtils.debug( "Error DataConvert.InputStream2Bytes:" + ex.getMessage());
+            LogUtils.debug("Error DataConvert.InputStream2Bytes:" + ex.getMessage());
         } finally {
             try {
                 if (baos != null) {
@@ -278,7 +278,7 @@ public class DataConvert {
             }
             dataReturn = baos.toByteArray();
         } catch (IOException ex) {
-            LogUtils.debug( "Error DataConvert.InputStream2Bytes:" + ex.getMessage());
+            LogUtils.debug("Error DataConvert.InputStream2Bytes:" + ex.getMessage());
         } finally {
             try {
                 if (baos != null) {
@@ -513,11 +513,11 @@ public class DataConvert {
     public static byte[] getBytesFromFile(String filePath) throws IOException {
         File file = new File(filePath);
         InputStream is = new FileInputStream(file);
-        LogUtils.debug( "\nDEBUG: FileInputStream is " + file);
+        LogUtils.debug("\nDEBUG: FileInputStream is " + file);
 
         // Get the size of the file
         long length = file.length();
-        LogUtils.debug( "DEBUG: Length of " + file + " is " + length + "\n");
+        LogUtils.debug("DEBUG: Length of " + file + " is " + length + "\n");
 
         /*
          * You cannot create an array using a long type. It needs to be an int
@@ -525,7 +525,7 @@ public class DataConvert {
          * not loarger than Integer.MAX_VALUE;
          */
         if (length > Integer.MAX_VALUE) {
-            LogUtils.debug( "File is too large to process");
+            LogUtils.debug("File is too large to process");
             return null;
         }
 

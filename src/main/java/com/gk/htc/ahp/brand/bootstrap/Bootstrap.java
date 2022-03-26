@@ -7,7 +7,7 @@ import java.net.MalformedURLException;
 
 public class Bootstrap {
 
-    private final String classToExec = "com.gk.htc.ahp.brand.app.AppStart";
+    private final String CLASS_TO_EXEC = "com.gk.htc.ahp.brand.app.AppStart";
     private final String methodExec = "main";
     ClassLoader cl;
     Class<?> mainClass;
@@ -20,14 +20,13 @@ public class Bootstrap {
         bootstrap.start(args);
     }
 
-    public void start(String[] args) throws Exception {
+    public void start(final String[] argsExec) throws Exception {
         this.cl = this.loadLib();
         if (cl != null) {
-            final String[] argsExec = args;
             //-
             final Class<?>[] classes = new Class[]{argsExec.getClass()};
             final Object[] methodArgs = new Object[]{argsExec};
-            mainClass = cl.loadClass(classToExec);
+            mainClass = cl.loadClass(CLASS_TO_EXEC);
             final Method method = mainClass.getMethod(methodExec, classes);
             Runnable execer = new Runnable() {
                 @Override

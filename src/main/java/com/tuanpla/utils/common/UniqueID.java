@@ -5,7 +5,7 @@
  */
 package com.tuanpla.utils.common;
 
-import com.gk.htc.ahp.brand.common.Tool;
+import com.tuanpla.utils.string.MyString;
 import java.util.UUID;
 
 /**
@@ -16,10 +16,10 @@ public class UniqueID {
 
     public static String getId(String phone) {
         try {
-            if (!Tool.checkNull(phone)) {
+            if (!MyUtils.isNull(phone)) {
                 return phone + "-" + Long.toString(System.nanoTime(), 16);
             } else {
-                return Tool.generateRandomPassword(11) + "-" + Long.toString(System.nanoTime(), 16);
+                return MyString.generateRandomPassword(11) + "-" + Long.toString(System.nanoTime(), 16);
             }
         } catch (Exception e) {
             UUID idOne = UUID.randomUUID();

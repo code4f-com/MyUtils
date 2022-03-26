@@ -48,7 +48,7 @@ public class ListNets {
         try {   // print the sorted mail exhchange servers
             args[0] = "htcjsc.vn";
             for (String mailHost : lookupMailHosts(args[0])) {
-                LogUtils.debug( mailHost);
+                LogUtils.debug(mailHost);
             }
         } catch (NamingException e) {
             System.err.println("ERROR: No DNS record for '" + args[0] + "'");
@@ -105,7 +105,7 @@ public class ListNets {
             ipAdress = new URL("http://myexternalip.com/raw");
             BufferedReader in = new BufferedReader(new InputStreamReader(ipAdress.openStream()));
             String ip = in.readLine();
-            LogUtils.debug( ip);
+            LogUtils.debug(ip);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

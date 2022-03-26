@@ -4,7 +4,7 @@
  */
 package com.tuanpla.utils.encrypt;
 
-import com.tuanpla.utils.common.PublicConfig;
+import com.tuanpla.config.PublicConfig;
 import java.io.ByteArrayInputStream;
 import java.security.MessageDigest;
 

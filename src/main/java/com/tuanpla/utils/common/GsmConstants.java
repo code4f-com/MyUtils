@@ -14,7 +14,6 @@ public class GsmConstants {
     /**
      * Address Type of Number
      */
-
     /**
      * Type of Number - Unknown
      */

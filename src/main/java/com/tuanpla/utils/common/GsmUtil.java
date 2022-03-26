@@ -5,6 +5,8 @@
  */
 package com.tuanpla.utils.common;
 
+import com.tuanpla.utils.string.StringUtil;
+
 
 /*
  * #%L
@@ -25,25 +27,26 @@ package com.tuanpla.utils.common;
  * limitations under the License.
  * #L%
  */
-
 /**
  * Utility methods for working with GSM mobile technologies.
- * 
+ *
  * @author joelauer
  */
 public class GsmUtil {
-    
+
     /**
-     * Converts an address to a BCD-encoded byte array.  Any odd-length address
+     * Converts an address to a BCD-encoded byte array. Any odd-length address
      * such as "10950" will have an 0xF byte added as the most signification
-     * digit onto the end.  Used inside PDUs to encode addresses.  For example,
+     * digit onto the end. Used inside PDUs to encode addresses. For example,
      * "10950" will look like this byte[] afterwards [0x01 0x59 0xf0].
+     *
      * @param address The address to encode such as "10950" or "13135554272"
      * @return A BCD-encoded byte array such as [0x01 0x59 0xf0] for "10950" or
-     *      [0x31 0x31 0x55 0x45 0x72 0xf2] for "13135554272".  Will return a
-     *      zero-length byte[] for an empty address.
+     * [0x31 0x31 0x55 0x45 0x72 0xf2] for "13135554272". Will return a
+     * zero-length byte[] for an empty address.
      * @throws NullPointerException If the address is null
-     * @throws IllegalArgumentException If the address does not contain only digits
+     * @throws IllegalArgumentException If the address does not contain only
+     * digits
      */
     public static byte[] toBcd(String address) throws NullPointerException, IllegalArgumentException {
         if (address == null) {
@@ -135,13 +138,11 @@ public class GsmUtil {
         // 1 0 TP-Message -Type-Indicator type:SMS-SUBMIT (from phone to network), (bits 1 and 0)
         // 0 1 TP-Message -Type-Indicator type:SMS-SUBMIT (from phone to network), (bits 1 and 0)
         /**
-        0 0 SMS-DELIVER (in the direction SC to MS)
-        0 0 SMS-DELIVER REPORT (in the direction MS to SC)
-        1 0 SMS-STATUS-REPORT (in the direction SC to MS)
-        1 0 SMS-COMMAND (in the direction MS to SC)
-        0 1 SMS-SUBMIT (in the direction MS to SC)
-        0 1 SMS-SUBMIT-REPORT (in the direction SC to MS)
-        1 1 Reserved
+         * 0 0 SMS-DELIVER (in the direction SC to MS) 0 0 SMS-DELIVER REPORT
+         * (in the direction MS to SC) 1 0 SMS-STATUS-REPORT (in the direction
+         * SC to MS) 1 0 SMS-COMMAND (in the direction MS to SC) 0 1 SMS-SUBMIT
+         * (in the direction MS to SC) 0 1 SMS-SUBMIT-REPORT (in the direction
+         * SC to MS) 1 1 Reserved
          */
         // set to SMS-SUBMIT
         info |= (1 << 0);
@@ -151,8 +152,9 @@ public class GsmUtil {
 
     /**
      * NOTE: Use getShortMessageUserData
+     *
      * @deprecated
-     * @see #getShortMessageUserData(byte[]) 
+     * @see #getShortMessageUserData(byte[])
      */
     static public byte[] removeUserDataHeader(byte[] shortMessage) {
         return getShortMessageUserData(shortMessage);
@@ -161,16 +163,17 @@ public class GsmUtil {
     /**
      * Gets the "User Data" part of a short message byte array. Only call this
      * method if the short message contains a user data header. This method will
-     * take the value of the first byte ("N") as the length of the user
-     * data header, then remove ("N+1") bytes from the the short message and
-     * return the remaining bytes as the "User Data".
-     * @param shortMessage The byte array representing the entire message including
-     *      a user data header and user data.  A null will return null.  An
-     *      empty byte array will return an empty byte array.  A byte array
-     *      not containing enough data will throw an IllegalArgumentException.
+     * take the value of the first byte ("N") as the length of the user data
+     * header, then remove ("N+1") bytes from the the short message and return
+     * the remaining bytes as the "User Data".
+     *
+     * @param shortMessage The byte array representing the entire message
+     * including a user data header and user data. A null will return null. An
+     * empty byte array will return an empty byte array. A byte array not
+     * containing enough data will throw an IllegalArgumentException.
      * @return A byte array of the user data (minus the user data header)
      * @throws IllegalArgumentException If the byte array does not contain
-     *      enough data to fit both the user data header and user data.
+     * enough data to fit both the user data header and user data.
      */
     static public byte[] getShortMessageUserData(byte[] shortMessage) throws IllegalArgumentException {
         if (shortMessage == null) {
@@ -199,17 +202,19 @@ public class GsmUtil {
     }
 
     /**
-     * Gets the "User Data Header" part of a short message byte array. Only call this
-     * method if the short message contains a user data header. This method will
-     * take the value of the first byte ("N") as the length of the user
-     * data header and return the first ("N+1") bytes from the the short message.
-     * @param shortMessage The byte array representing the entire message including
-     *      a user data header and user data.  A null will return null.  An
-     *      empty byte array will return an empty byte array.  A byte array
-     *      not containing enough data will throw an IllegalArgumentException.
+     * Gets the "User Data Header" part of a short message byte array. Only call
+     * this method if the short message contains a user data header. This method
+     * will take the value of the first byte ("N") as the length of the user
+     * data header and return the first ("N+1") bytes from the the short
+     * message.
+     *
+     * @param shortMessage The byte array representing the entire message
+     * including a user data header and user data. A null will return null. An
+     * empty byte array will return an empty byte array. A byte array not
+     * containing enough data will throw an IllegalArgumentException.
      * @return A byte array of the user data header (minus the user data)
      * @throws IllegalArgumentException If the byte array does not contain
-     *      enough data to fit both the user data header and user data.
+     * enough data to fit both the user data header and user data.
      */
     static public byte[] getShortMessageUserDataHeader(byte[] shortMessage) throws IllegalArgumentException {
         if (shortMessage == null) {
@@ -242,30 +247,31 @@ public class GsmUtil {
 
     /**
      * Creates multiple short messages (that include a user data header) by
-     * splitting the binaryShortMessage data into 134 byte parts.  If the
+     * splitting the binaryShortMessage data into 134 byte parts. If the
      * binaryShortMessage does not need to be concatenated (less than or equal
      * to 140 bytes), this method will return NULL.
      * <br><br>
      * WARNING: This method only works on binary short messages that use 8-bit
-     * bytes.  Short messages using 7-bit data or packed 7-bit data will not
-     * be correctly handled by this method.
+     * bytes. Short messages using 7-bit data or packed 7-bit data will not be
+     * correctly handled by this method.
      * <br><br>
      * For example, will take a byte message (in hex, 138 bytes long)
      * <br>
-     *   01020304...85&lt;byte 134&gt;87888990
+     * 01020304...85&lt;byte 134&gt;87888990
      * <br><br>
-     * Would be split into 2 parts as follows (in hex, with user data header)<br>
-     *   050003CC020101020304...85&lt;byte 134&gt;<br>
-     *   050003CC020287888990<br>
+     * Would be split into 2 parts as follows (in hex, with user data
+     * header)<br>
+     * 050003CC020101020304...85&lt;byte 134&gt;<br>
+     * 050003CC020287888990<br>
      * <br>
      * http://en.wikipedia.org/wiki/Concatenated_SMS
      *
      * @param binaryShortMessage The 8-bit binary short message to create the
-     *      concatenated short messages from.
+     * concatenated short messages from.
      * @param referenceNum The CSMS reference number that will be used in the
-     *      user data header.
-     * @return NULL if the binaryShortMessage does not need concatenated or
-     *      an array of byte arrays representing each chunk (including UDH).
+     * user data header.
+     * @return NULL if the binaryShortMessage does not need concatenated or an
+     * array of byte arrays representing each chunk (including UDH).
      * @throws IllegalArgumentException
      */
     static public byte[][] createConcatenatedBinaryShortMessages(byte[] binaryShortMessage, byte referenceNum) throws IllegalArgumentException {
@@ -292,7 +298,6 @@ public class GsmUtil {
             }
 
             //logger.debug("part " + i + " len: " + shortMessagePartLength);
-
             // part will be UDH (6 bytes) + length of part
             byte[] shortMessagePart = new byte[6 + shortMessagePartLength];
             // Field 1 (1 octet): Length of User Data Header, in this case 05.

@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A HashMap which entries expires after the specified life time. The life-time
  * can be defined on a per-key basis, or using a default one, that is passed to
- * the constructor. 
+ * the constructor.
  *
  * @author Pierantonio Cangianiello
  * @param <K> the Key type
