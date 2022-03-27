@@ -19,21 +19,21 @@ public class DirFilterWatcher implements FileFilter {
         this.filter = filter;
     }
 
-    public File[] listFile(File dir) {
-        return dir.listFiles(this);
-    }
+//    public File[] listFiles(File dir) {
+//        return dir.listFiles(this);
+//    }
 
-    public File[] listFile(String path) {
-        if (path == null || path.equals("File dir")) {
-            return null;
-        }
-        File dir = new File(path);
-        if (dir.isDirectory()) {
-            return dir.listFiles(this);
-        } else {
-            return null;
-        }
-    }
+//    public File[] listFiles(String path) {
+//        if (path == null || path.equals("")) {
+//            return null;
+//        }
+//        File dir = new File(path);
+//        if (dir.isDirectory()) {
+//            return dir.listFiles(this);
+//        } else {
+//            return null;
+//        }
+//    }
 
     @Override
     public boolean accept(File file) {
