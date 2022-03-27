@@ -12,9 +12,6 @@ public class Bootstrap {
     ClassLoader cl;
     Class<?> mainClass;
 
-    public Bootstrap() {
-    }
-
     public static void main(String[] args) throws Exception {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.start(args);
@@ -23,7 +20,6 @@ public class Bootstrap {
     public void start(final String[] argsExec) throws Exception {
         this.cl = this.loadLib();
         if (cl != null) {
-            //-
             final Class<?>[] classes = new Class[]{argsExec.getClass()};
             final Object[] methodArgs = new Object[]{argsExec};
             mainClass = cl.loadClass(CLASS_TO_EXEC);
@@ -44,11 +40,12 @@ public class Bootstrap {
             bootstrapper.start();
         }
         File parent = LibLoader.findBootstrapHome();
+        System.out.println("parent:" + parent.getAbsolutePath());
         String bundle_dir = parent.getParentFile().getPath() + File.separator + "bundles";
         System.out.println("bundle_dir :" + bundle_dir);
     }
 
-    public ClassLoader loadLib() {
+    private ClassLoader loadLib() {
         File parent = LibLoader.findBootstrapHome();
         if (parent != null) {
             System.out.println("Parent Path:" + parent.getPath());

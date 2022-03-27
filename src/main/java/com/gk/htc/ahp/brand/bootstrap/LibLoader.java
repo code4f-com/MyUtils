@@ -100,7 +100,7 @@ public class LibLoader {
      * @returns A new ClassLoader with the specified search list
      */
     public static ClassLoader newClassLoader(LinkedList<URL> urls) {
-        URL[] urlsArray = urls.toArray(new URL[0]);
+        URL[] urlsArray = urls.toArray(URL[]::new);
         return URLClassLoader.newInstance(urlsArray);
     }
 
@@ -113,9 +113,9 @@ public class LibLoader {
      * @param urls LinkedList to append found JARs onto
      * @throws java.net.MalformedURLException
      */
-    public static void loadClasses(File dir, boolean recursive, LinkedList<URL> urls) throws MalformedURLException {
+    private static void loadClasses(File dir, boolean recursive, LinkedList<URL> urls) throws MalformedURLException {
         // Add the directory
-        urls.add(dir.toURL());
+        urls.add(dir.toURI().toURL());
 //        System.out.println("parsing jar file:" + dir.toURL());
 //        System.out.println("Recursive:" + recursive);
         if (recursive) {
@@ -127,7 +127,6 @@ public class LibLoader {
                 }
             }
         }
-
         // Add individual JAR files
         File[] children = dir.listFiles(matches_jarFilter);
         System.out.println("Dir:" + dir.getPath());
@@ -144,11 +143,10 @@ public class LibLoader {
         ClassLoader l = Thread.currentThread().getContextClassLoader();
         try {
             String classFile = LibLoader.class.getName().replace('.', '/') + ".class";
-            // System.out.println("Class File:" + classFile);
+            System.out.println("Class File=" + classFile);
             URL url = l.getResource(classFile);
-            /*
-             System.out.println(url);
-             System.out.println(url.getProtocol()); */
+            System.out.println("url=" + url);
+            System.out.println("url.getProtocol()=" + url.getProtocol());
             if (url.getProtocol().equals("jar")) {
                 URL subUrl = new URL(url.getFile());
                 if (subUrl.getProtocol().equals("file")) {
