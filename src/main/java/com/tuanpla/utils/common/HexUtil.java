@@ -5,15 +5,93 @@
  */
 package com.tuanpla.utils.common;
 
+import java.util.Arrays;
+
 /**
  *
  * @author TUANPLA
  */
 public class HexUtil {
 
-    public static char[] HEX_TABLE = {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-    };
+    public static char[] HEX_TABLE = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+
+    public static void main(String[] args) {
+        byte[] data = "áabcdef".getBytes();
+        String hexStr = toHexString(data, 1, data.length - 3);
+        System.out.println("hexStr:" + hexStr);
+        System.out.println("hex2Str:"+hexToString(hexStr));
+    }
+
+    /**
+     * Convert the hex string to bytes.
+     *
+     * @param hexString is the hex string.
+     * @return the bytes value that converted from the hex string.
+     */
+    public static byte[] hexToBytes(String hexString) {
+        return hexToBytes(hexString, 0, hexString.length());
+    }
+
+    /**
+     * Convert the hex string to bytes.
+     *
+     * @param hexString is the hex string.
+     * @param offset is the offset.
+     * @param endIndex is the end index.
+     * @return the bytes value that converted from the hex string.
+     */
+    public static byte[] hexToBytes(String hexString, int offset, int endIndex) {
+        byte[] data;
+        String realHexString = hexString.substring(offset, endIndex)
+                .toLowerCase();
+        if ((realHexString.length() % 2) == 0) {
+            data = new byte[realHexString.length() / 2];
+        } else {
+            data = new byte[(int) Math.ceil(realHexString.length() / 2d)];
+        }
+
+        int j = 0;
+        char[] tmp;
+        for (int i = 0; i < realHexString.length(); i += 2) {
+            try {
+                tmp = realHexString.substring(i, i + 2).toCharArray();
+            } catch (StringIndexOutOfBoundsException siob) {
+                // it only contains one character, so add "0" string
+                tmp = (realHexString.substring(i) + "0").toCharArray();
+            }
+            data[j] = (byte) ((Arrays.binarySearch(HEX_TABLE, tmp[0]) & 0xf) << 4);
+            data[j++] |= (byte) (Arrays.binarySearch(HEX_TABLE, tmp[1]) & 0xf);
+        }
+
+        for (int i = realHexString.length(); i > 0; i -= 2) {
+
+        }
+        return data;
+    }
+
+    /**
+     * Convert the hex string to string.
+     *
+     * @param hexString is the hex string.
+     * @return the string value that converted from hex string.
+     */
+    public static String hexToString(String hexString) {
+        String uHexString = hexString.toLowerCase();
+        StringBuilder sBuf = new StringBuilder();
+        for (int i = 0; i < uHexString.length(); i = i + 2) {
+            char c = (char) Integer.parseInt(uHexString.substring(i, i + 2), 16);
+            sBuf.append(c);
+        }
+        return sBuf.toString();
+    }
+
+    public static String toHexString(String data) {
+        if (data == null) {
+            return "";
+        }
+        byte[] bytes = data.getBytes();
+        return toHexString(bytes, 0, bytes.length);
+    }
 
     /**
      * Creates a String from a byte array with each byte in a "Big Endian"

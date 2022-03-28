@@ -10,5 +10,4 @@ package com.tuanpla.utils.http;
  */
 public class HttpConst {
 
-    
 }

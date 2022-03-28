@@ -1,7 +1,7 @@
 package com.gk.htc.ahp.brand.bootstrap;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public abstract class DirWatcher extends TimerTask {
 
@@ -18,12 +18,13 @@ public abstract class DirWatcher extends TimerTask {
         this.path = path;
         dfw = new DirFilterWatcher(filter);
         filesArray = new File(path).listFiles(dfw);
-
-        for (File oneFile : filesArray) {
-            dir.put(oneFile, oneFile.lastModified());
+        if (filesArray != null && filesArray.length > 0) {
+            for (File oneFile : filesArray) {
+                dir.put(oneFile, oneFile.lastModified());
+            }
         }
     }
-
+ Dang lam do
     @Override
     public final void run() {
         HashSet checkedFiles = new HashSet();

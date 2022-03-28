@@ -5,7 +5,6 @@
 package com.tuanpla.utils.http;
 
 import com.tuanpla.utils.logging.LogUtils;
-import org.springframework.util.MediaType;
 import com.tuanpla.utils.string.MyString;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +22,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.MediaType;
 
 /**
  *
@@ -92,7 +92,7 @@ public class HttpUtil {
     }
 
     public static void debugParam(HttpServletRequest request) {
-        LogUtils.debug( "--------debugParam--------");
+        LogUtils.debug("--------debugParam--------");
         boolean isMultipart = Boolean.FALSE;
         String contentType = request.getContentType();
         if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -100,14 +100,14 @@ public class HttpUtil {
             isMultipart = true;
         }
         if (isMultipart) {
-            LogUtils.debug( "form isMultipart");
+            LogUtils.debug("form isMultipart");
         }
         Enumeration<String> allParam = request.getParameterNames();
         while (allParam.hasMoreElements()) {
             String oneParam = allParam.nextElement();
-            LogUtils.debug( oneParam + ":" + request.getParameter(oneParam));
+            LogUtils.debug(oneParam + ":" + request.getParameter(oneParam));
         }
-        LogUtils.debug( "--------End debugParam--------");
+        LogUtils.debug("--------End debugParam--------");
     }
 
     public static String extractIndex(String param) {
@@ -137,7 +137,7 @@ public class HttpUtil {
             tem = Integer.parseInt(request.getParameter(param).trim());
         } catch (Exception e) {
             tem = 0;
-            LogUtils.debug( "getInt  [" + param + "] " + e.getMessage() + " | URI" + getURI(request));
+            LogUtils.debug("getInt  [" + param + "] " + e.getMessage() + " | URI" + getURI(request));
         }
         return tem;
     }
@@ -149,7 +149,7 @@ public class HttpUtil {
             tem = str != null && (str.equals("1") || str.equals("true") || str.equals("on"));
         } catch (Exception e) {
             tem = false;
-            LogUtils.debug( "getBoolean " + e.getMessage() + " | URI" + getURI(request));
+            LogUtils.debug("getBoolean " + e.getMessage() + " | URI" + getURI(request));
         }
         return tem;
     }
@@ -161,7 +161,7 @@ public class HttpUtil {
             tem = str != null && (str.equals("1") || str.equals("true") || str.equals("on"));
         } catch (Exception e) {
             tem = defaultVal;
-            LogUtils.debug( "getBoolean " + e.getMessage() + " | URI" + getURI(request));
+            LogUtils.debug("getBoolean " + e.getMessage() + " | URI" + getURI(request));
         }
         return tem;
     }
@@ -171,7 +171,7 @@ public class HttpUtil {
         try {
             tem = Integer.parseInt(request.getParameter(param).trim());
         } catch (Exception e) {
-            LogUtils.debug( "Exception:getInt  [" + param + "]- defaultVal:" + defaultVal + " | URI" + getURI(request));
+            LogUtils.debug("Exception:getInt  [" + param + "]- defaultVal:" + defaultVal + " | URI" + getURI(request));
             tem = defaultVal;
         }
         return tem;
@@ -182,7 +182,7 @@ public class HttpUtil {
         try {
             tem = Long.parseLong(request.getParameter(param).trim());
         } catch (Exception e) {
-            LogUtils.debug( "getLong  [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+            LogUtils.debug("getLong  [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             tem = 0;
         }
         return tem;
@@ -193,7 +193,7 @@ public class HttpUtil {
         try {
             tem = Double.parseDouble(request.getParameter(param).trim());
         } catch (Exception e) {
-            LogUtils.debug( "getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+            LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             tem = 0;
         }
         return tem;
@@ -205,7 +205,7 @@ public class HttpUtil {
             tem = Double.parseDouble(request.getParameter(param).trim());
         } catch (Exception e) {
             tem = defaultVal;
-            LogUtils.debug( "getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+            LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
         }
         return tem;
     }
@@ -215,7 +215,7 @@ public class HttpUtil {
         try {
             str = request.getParameter(param).trim();
         } catch (Exception e) {
-            LogUtils.debug( "getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+            LogUtils.debug("getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             str = "";
         }
         return str;
@@ -226,7 +226,7 @@ public class HttpUtil {
         try {
             data = request.getParameterValues(param);
         } catch (Exception e) {
-            LogUtils.debug( "getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+            LogUtils.debug("getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             data = new String[0];
         }
         return data;
@@ -251,7 +251,7 @@ public class HttpUtil {
         try {
             str = request.getParameter(param).trim();
         } catch (Exception e) {
-            LogUtils.debug( "getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+            LogUtils.debug("getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             str = defaultVal;
         }
         return str;
@@ -262,7 +262,7 @@ public class HttpUtil {
         try {
             tem = Float.parseFloat(request.getParameter(param).trim());
         } catch (Exception e) {
-            LogUtils.debug( "getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+            LogUtils.debug("getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             tem = 0;
         }
         return tem;
@@ -281,7 +281,7 @@ public class HttpUtil {
                 }
             }
         } catch (Exception e) {
-            LogUtils.debug( "Unable to get cookie using");
+            LogUtils.debug("Unable to get cookie using");
             e.printStackTrace();
         }
         return value;
@@ -341,7 +341,7 @@ public class HttpUtil {
         while (paraList.hasMoreElements()) {
             String paraName = String.valueOf(paraList.nextElement());
             if (!paraName.equalsIgnoreCase("page") && !paraName.equalsIgnoreCase("submit")) {
-                LogUtils.debug( "paraName:" + paraName + "=" + request.getParameter(paraName));
+                LogUtils.debug("paraName:" + paraName + "=" + request.getParameter(paraName));
                 data += paraName + "=" + request.getParameter(paraName) + "&amp;";
             }
         }

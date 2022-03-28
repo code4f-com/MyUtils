@@ -1,35 +1,28 @@
 package com.gk.htc.ahp.brand.bootstrap;
 
 import java.io.File;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 
 public class Bootstrap {
 
+    private final String CLASS_TO_EXEC = "com.gk.htc.ahp.brand.app.AppStart";
+    private final String methodExec = "main";
     ClassLoader cl;
     Class<?> mainClass;
-
-    public Bootstrap() {
-    }
 
     public static void main(String[] args) throws Exception {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.start(args);
     }
 
-    public void start(String[] args) throws Exception {
+    public void start(final String[] argsExec) throws Exception {
         this.cl = this.loadLib();
         if (cl != null) {
-            final String classToExec = "com.gk.htc.ahp.brand.app.AppStart";
-            final String methodExec = "main";
-            final String[] argsExec = args;
-            //-
-            final String className = classToExec;
             final Class<?>[] classes = new Class[]{argsExec.getClass()};
             final Object[] methodArgs = new Object[]{argsExec};
-            mainClass = cl.loadClass(className);
+            mainClass = cl.loadClass(CLASS_TO_EXEC);
             final Method method = mainClass.getMethod(methodExec, classes);
             Runnable execer = new Runnable() {
                 @Override
@@ -47,11 +40,12 @@ public class Bootstrap {
             bootstrapper.start();
         }
         File parent = LibLoader.findBootstrapHome();
+        System.out.println("parent:" + parent.getAbsolutePath());
         String bundle_dir = parent.getParentFile().getPath() + File.separator + "bundles";
         System.out.println("bundle_dir :" + bundle_dir);
     }
 
-    public ClassLoader loadLib() {
+    private ClassLoader loadLib() {
         File parent = LibLoader.findBootstrapHome();
         if (parent != null) {
             System.out.println("Parent Path:" + parent.getPath());

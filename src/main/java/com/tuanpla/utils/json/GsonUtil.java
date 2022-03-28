@@ -33,8 +33,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author tuanp 
- * https://www.mkyong.com/java/how-to-parse-json-with-GSON/
+ * @author tuanp https://www.mkyong.com/java/how-to-parse-json-with-GSON/
  */
 public class GsonUtil {
 

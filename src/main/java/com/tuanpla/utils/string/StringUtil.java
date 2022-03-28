@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tuanpla.utils.common;
+package com.tuanpla.utils.string;
 
+import com.tuanpla.utils.common.HexUtil;
+import com.tuanpla.utils.common.SubstitutionException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;

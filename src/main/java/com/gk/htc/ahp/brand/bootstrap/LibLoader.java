@@ -33,13 +33,10 @@ package com.gk.htc.ahp.brand.bootstrap;
 //
 import java.io.File;
 import java.io.FileFilter;
-
 import java.io.FilenameFilter;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -51,21 +48,11 @@ public class LibLoader {
     /**
      * Matches any file that is a directory.
      */
-    private static FileFilter m_dirFilter = new FileFilter() {
-        @Override
-        public boolean accept(File pathname) {
-            return pathname.isDirectory();
-        }
-    };
+    private static final FileFilter matches_dirFilter = (File pathname) -> pathname.isDirectory();
     /**
      * Matches any file that has a name ending in ".jar".
      */
-    private static final FilenameFilter m_jarFilter = new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-            return name.endsWith(".jar");
-        }
-    };
+    private static final FilenameFilter matches_jarFilter = (File dir, String name) -> name.endsWith(".jar");
 
     /**
      * Create a ClassLoader with the JARs found in dirStr.
@@ -99,8 +86,7 @@ public class LibLoader {
      * @throws java.net.MalformedURLException
      * @returns A new ClassLoader containing the found JARs
      */
-    public static ClassLoader loadClasses(File dir, boolean recursive)
-            throws MalformedURLException {
+    public static ClassLoader loadClasses(File dir, boolean recursive) throws MalformedURLException {
         LinkedList<URL> urls = new LinkedList<>();
         loadClasses(dir, recursive, urls);
         return newClassLoader(urls);
@@ -114,7 +100,7 @@ public class LibLoader {
      * @returns A new ClassLoader with the specified search list
      */
     public static ClassLoader newClassLoader(LinkedList<URL> urls) {
-        URL[] urlsArray = urls.toArray(new URL[0]);
+        URL[] urlsArray = urls.toArray(URL[]::new);
         return URLClassLoader.newInstance(urlsArray);
     }
 
@@ -127,23 +113,22 @@ public class LibLoader {
      * @param urls LinkedList to append found JARs onto
      * @throws java.net.MalformedURLException
      */
-    public static void loadClasses(File dir, boolean recursive, LinkedList<URL> urls) throws MalformedURLException {
+    private static void loadClasses(File dir, boolean recursive, LinkedList<URL> urls) throws MalformedURLException {
         // Add the directory
-        urls.add(dir.toURL());
+        urls.add(dir.toURI().toURL());
 //        System.out.println("parsing jar file:" + dir.toURL());
 //        System.out.println("Recursive:" + recursive);
         if (recursive) {
             // Descend into sub-directories
-            File[] dirlist = dir.listFiles(m_dirFilter);
+            File[] dirlist = dir.listFiles(matches_dirFilter);
             if (dirlist != null) {
                 for (File childDir : dirlist) {
                     loadClasses(childDir, recursive, urls);
                 }
             }
         }
-
         // Add individual JAR files
-        File[] children = dir.listFiles(m_jarFilter);
+        File[] children = dir.listFiles(matches_jarFilter);
         System.out.println("Dir:" + dir.getPath());
         if (children != null) {
             for (File childFile : children) {
@@ -158,11 +143,10 @@ public class LibLoader {
         ClassLoader l = Thread.currentThread().getContextClassLoader();
         try {
             String classFile = LibLoader.class.getName().replace('.', '/') + ".class";
-            // System.out.println("Class File:" + classFile);
+            System.out.println("Class File=" + classFile);
             URL url = l.getResource(classFile);
-            /*
-             System.out.println(url);
-             System.out.println(url.getProtocol()); */
+            System.out.println("url=" + url);
+            System.out.println("url.getProtocol()=" + url.getProtocol());
             if (url.getProtocol().equals("jar")) {
                 URL subUrl = new URL(url.getFile());
                 if (subUrl.getProtocol().equals("file")) {
