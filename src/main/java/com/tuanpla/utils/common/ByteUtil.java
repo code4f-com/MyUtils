@@ -12,7 +12,7 @@ package com.tuanpla.utils.common;
 public class ByteUtil {
 
     public static void main(String[] args) {
-        String str = "Phạm Lê Anh Tuấn";
+        String str = "12345678";
         byte[] result = encodeBcd(str, 0);
     }
 
