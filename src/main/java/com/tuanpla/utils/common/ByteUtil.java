@@ -11,8 +11,18 @@ package com.tuanpla.utils.common;
  */
 public class ByteUtil {
 
+    public static void main(String[] args) {
+        String str = "Phạm Lê Anh Tuấn";
+        byte[] result = encodeBcd(str, 0);
+    }
+
     /**
-     * BCD encodes a String into a byte array.
+     * BCD encodes a String into a byte array. BCD: Binary-coded decimal
+     * https://vi.wikipedia.org/wiki/S%E1%BB%91_th%E1%BA%ADp_ph%C3%A2n_%C4%91%C6%B0%E1%BB%A3c_m%C3%A3_h%C3%B3a_nh%E1%BB%8B_ph%C3%A2n
+     *
+     * @param data
+     * @param num_bytes
+     * @return byte[]
      */
     public static byte[] encodeBcd(String data, int num_bytes) {
         // allocate buffer
@@ -35,11 +45,16 @@ public class ByteUtil {
     }
 
     /**
-     * BCD decodes a byte array into a String. For example, addresses inside
-     * PDUs for SMS are usually BCD encoded. An address of "13134434272" will
-     * actually look like this inside the byte[] "31314443722F"
+     * BCD decodes a byte array into a String.For example, addresses inside PDUs
+     * for SMS are usually BCD encoded.An address of "13134434272" will actually
+     * look like this inside the byte[] "31314443722F"
      *
      * len is the number of bytes to read.
+     *
+     * @param data
+     * @param offset
+     * @param len
+     * @return
      */
     public static String decodeBcd(byte[] data, int offset, int len) {
         StringBuilder result = new StringBuilder();
@@ -63,7 +78,9 @@ public class ByteUtil {
     /**
      * Decodes the string data (in hex) into a byte array.
      *
+     * @param hexString
      * @param width The width of the hex encoding (2 or 4)
+     * @return
      * @deprecated Please see class HexUtil
      */
     @Deprecated

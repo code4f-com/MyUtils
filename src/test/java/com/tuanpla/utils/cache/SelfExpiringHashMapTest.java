@@ -4,16 +4,19 @@
  */
 package com.tuanpla.utils.cache;
 
+import com.tuanpla.config.PublicConfig;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -57,14 +60,10 @@ public class SelfExpiringHashMapTest {
     @Test
     public void testSize() {
         System.out.println("size");
-
         instance.put("testSize", "1");
-
         int expResult = 1;
         int result = instance.size();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
     }
 
     /**
@@ -73,14 +72,11 @@ public class SelfExpiringHashMapTest {
     @Test
     public void testIsEmpty() {
         System.out.println("isEmpty");
-
         instance.put("testIsEmpty", "testIsEmpty");
         // reuslt
         boolean expResult = false;
         boolean result = instance.isEmpty();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
     }
 
     /**
@@ -95,8 +91,6 @@ public class SelfExpiringHashMapTest {
         boolean expResult = false;
         boolean result = instance.containsKey(key);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
     }
 
     /**
@@ -105,13 +99,12 @@ public class SelfExpiringHashMapTest {
     @Test
     public void testContainsValue() {
         System.out.println("containsValue");
-        Object value = null;
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
-        boolean expResult = false;
+        Object value = "testContainsValue";
+        instance = new SelfExpiringHashMap();
+        instance.put("key", value);
+        boolean expResult = true;
         boolean result = instance.containsValue(value);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -120,46 +113,12 @@ public class SelfExpiringHashMapTest {
     @Test
     public void testGet() {
         System.out.println("get");
-        Object key = null;
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
-        Object expResult = null;
+        Object key = "key";
+        instance = new SelfExpiringHashMap();
+        instance.put(key, key);
+        Object expResult = key;
         Object result = instance.get(key);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of put method, of class SelfExpiringHashMap.
-     */
-    @Test
-    public void testPut_GenericType_GenericType() {
-        System.out.println("put");
-        Object key = null;
-        Object value = null;
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
-        Object expResult = null;
-        Object result = instance.put(key, value);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of put method, of class SelfExpiringHashMap.
-     */
-    @Test
-    public void testPut_3args() {
-        System.out.println("put");
-        Object key = null;
-        Object value = null;
-        long lifeTimeMillis = 0L;
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
-        Object expResult = null;
-        Object result = instance.put(key, value, lifeTimeMillis);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -168,13 +127,12 @@ public class SelfExpiringHashMapTest {
     @Test
     public void testRemove() {
         System.out.println("remove");
-        Object key = null;
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
-        Object expResult = null;
+        Object key = "remove";
+        instance = new SelfExpiringHashMap();
+        instance.put("remove", "value");
+        Object expResult = "value";
         Object result = instance.remove(key);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -183,26 +141,26 @@ public class SelfExpiringHashMapTest {
     @Test
     public void testPutAll() {
         System.out.println("putAll");
-        Map m = null;
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
+        Map m = new HashMap();
+        m.put("a", "b");
+        instance = new SelfExpiringHashMap();
         instance.putAll(m);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of renewKey method, of class SelfExpiringHashMap.
      */
     @Test
-    public void testRenewKey() {
+    public void testReNewKey() {
         System.out.println("renewKey");
-        Object key = null;
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
-        boolean expResult = false;
-        boolean result = instance.renewKey(key);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Object key = "renewKey";
+        instance = new SelfExpiringHashMap(PublicConfig.DEFAULT_EXPIRE_TIME);
+        instance.put(key, "valueRenewKey");
+        boolean _result = instance.reNewKey(key);
+        boolean expResult = true;
+        assertEquals(expResult, _result);
+        _result = instance.reNewKey(key);
+        assertEquals(expResult, _result);
     }
 
     /**
@@ -211,10 +169,13 @@ public class SelfExpiringHashMapTest {
     @Test
     public void testClear() {
         System.out.println("clear");
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
+        instance = new SelfExpiringHashMap();
+        instance.put("key", "key");
+        int size = instance.size();
         instance.clear();
+        assertEquals(1, size);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -223,12 +184,12 @@ public class SelfExpiringHashMapTest {
     @Test
     public void testKeySet() {
         System.out.println("keySet");
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
-        Set expResult = null;
+        instance = new SelfExpiringHashMap();
+        instance.put("key", "value");
+        Set expResult = new HashSet();
+        expResult.add("key");
         Set result = instance.keySet();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -237,25 +198,16 @@ public class SelfExpiringHashMapTest {
     @Test
     public void testValues() {
         System.out.println("values");
-        SelfExpiringHashMap instance = new SelfExpiringHashMap();
+        instance = new SelfExpiringHashMap();
+        instance.put("key1", "a");
+        instance.put("key2", "b");
         Collection expResult = null;
         Collection result = instance.values();
+        result.forEach(t -> System.out.println(t));
+        System.out.println(result);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of entrySet method, of class SelfExpiringHashMap.
-     */
-//    @Test
-//    public void testEntrySet() {
-//        System.out.println("entrySet");
-//        SelfExpiringHashMap instance = new SelfExpiringHashMap();
-//        Set<Map.Entry<K, V>> expResult = null;
-//        Set<Map.Entry<K, V>> result = instance.entrySet();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
 }

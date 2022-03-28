@@ -39,7 +39,7 @@ public interface SelfExpiringMap<K, V> extends Map<K, V> {
      * @param key
      * @return true if the key is found, false otherwise
      */
-    public boolean renewKey(K key);
+    public boolean reNewKey(K key);
 
     /**
      * Associates the given key to the given value in this map, with the

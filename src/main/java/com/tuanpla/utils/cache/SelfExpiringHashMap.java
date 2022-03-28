@@ -121,7 +121,7 @@ public class SelfExpiringHashMap<K, V> implements SelfExpiringMap<K, V> {
     @Override
     public V get(Object key) {
         cleanup();
-        renewKey((K) key);
+        reNewKey((K) key);
         return internalMap.get((K) key);
     }
 
@@ -164,14 +164,15 @@ public class SelfExpiringHashMap<K, V> implements SelfExpiringMap<K, V> {
      */
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
-        throw new UnsupportedOperationException();
+        internalMap.putAll(m);
+//        throw new UnsupportedOperationException();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean renewKey(K key) {
+    public boolean reNewKey(K key) {
         ExpiringKey<K> delayedKey = expiringKeys.get((K) key);
         if (delayedKey != null) {
             delayedKey.renew();
