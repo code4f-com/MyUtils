@@ -14,5 +14,5 @@ public class PublicConfig {
     public static boolean DE_BUG = true;
     public static String PROJECT_NAME = "Unknow Project Name";
     public static String AUTH_CUS = "Customize String for cusEncrypt MD5";
-
+    public static long AUTO_LOAD_LIB_TIME = 30 * 1000;
 }
