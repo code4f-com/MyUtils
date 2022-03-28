@@ -1,5 +1,6 @@
 package com.gk.htc.ahp.brand.bootstrap;
 
+import com.tuanpla.config.PublicConfig;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,6 +14,8 @@ public class Bootstrap {
     Class<?> mainClass;
 
     public static void main(String[] args) throws Exception {
+        System.out.println("File.pathSeparator:" + File.pathSeparator);
+        System.out.println("File.separator:" + File.separator);
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.start(args);
     }
@@ -40,29 +43,31 @@ public class Bootstrap {
             bootstrapper.start();
         }
         File parent = LibLoader.findBootstrapHome();
-        System.out.println("parent:" + parent.getAbsolutePath());
-        String bundle_dir = parent.getParentFile().getPath() + File.separator + "bundles";
-        System.out.println("bundle_dir :" + bundle_dir);
+        if (parent != null) {
+            String bundle_dir = parent.getParentFile().getPath() + File.separator + "bundles";
+            System.out.println("bundle_dir :" + bundle_dir);
+        }
     }
 
     private ClassLoader loadLib() {
         File parent = LibLoader.findBootstrapHome();
         if (parent != null) {
             System.out.println("Parent Path:" + parent.getPath());
-            String lib_dir = parent.getPath() + File.pathSeparator
-                    + parent.getParentFile().getPath() + File.separator + "bundles";
-//        lib_dir = lib_dir + File.pathSeparator + parent.getParentFile().getPath() + File.separator + "config";
+            System.out.println("parent getAbsolutePath:" + parent.getAbsolutePath());
+            String lib_dir = parent.getPath();
+            if (PublicConfig.BUNDLES_MODEL_APP) {
+                lib_dir += File.pathSeparator + parent.getParentFile().getPath() + File.separator + "bundles";
+            }
             System.out.println("lib Path:" + lib_dir);
-            System.out.println("************AAA*****************");
+
             try {
                 ClassLoader _cl = LibLoader.loadClasses(lib_dir, false);
                 return _cl;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                return null;
             }
-        } else {
-            return null;
         }
+        System.out.println("************End load Lib*****************");
+        return null;
     }
 }
