@@ -42,7 +42,13 @@ public class DoWork {
         return System.currentTimeMillis() - startTime;
     }
 
-    public long doneCycle() {
+    /**
+     * Done step working and return time execute a step after restart time for
+     * new step
+     *
+     * @return
+     */
+    public long doneStep() {
         long result = System.currentTimeMillis() - startTime;
         startTime = System.currentTimeMillis();
         return result;

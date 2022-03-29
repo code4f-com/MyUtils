@@ -5,7 +5,6 @@
 package com.tuanpla.utils.string;
 
 import com.tuanpla.utils.common.HexUtil;
-import com.tuanpla.utils.common.SubstitutionException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tuanpla.utils.common;
+package com.tuanpla.utils.string;
 
 /**
  *
