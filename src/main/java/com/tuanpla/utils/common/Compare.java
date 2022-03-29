@@ -5,20 +5,24 @@ import java.util.List;
 
 public class Compare {
 
-    public Compare() {
-    }
-
     public static boolean lessThan(Character character, Character character1) {
         return character < character1;
     }
 
     public static boolean lessThan(Number number, Number number1) {
-        if (number instanceof Integer) {
-            if (number.intValue() < number1.intValue()) {
+        if (number == null || number1 == null) {
+            throw new NullPointerException("number or number1 is null");
+        }
+        if (number instanceof Byte) {
+            if (number.byteValue() < number1.byteValue()) {
                 return true;
             }
         } else if (number instanceof Short) {
             if (number.shortValue() < number1.shortValue()) {
+                return true;
+            }
+        } else if (number instanceof Integer) {
+            if (number.intValue() < number1.intValue()) {
                 return true;
             }
         } else if (number instanceof Long) {
@@ -33,12 +37,6 @@ public class Compare {
             if (number.doubleValue() < number1.doubleValue()) {
                 return true;
             }
-        } else if (number instanceof Byte) {
-            if (number.byteValue() < number1.byteValue()) {
-                return true;
-            }
-        } else if (number.intValue() < number1.intValue()) {
-            return true;
         }
         return false;
     }
@@ -90,9 +88,16 @@ public class Compare {
         return date.before(date1);
     }
 
-    public static void swap(List vector, int i, int j) {
-        Object obj = vector.get(i);
-        vector.set(i, vector.get(j));
-        vector.set(j, obj);
+    public static void swap(List input, int posI, int posJ) {
+        if (input == null || input.isEmpty()) {
+            return;
+        }
+        if (posI > input.size() - 1 || posJ > input.size() - 1) {
+            return;
+        }
+        Object obj = input.get(posI);
+        input.set(posI, input.get(posJ));
+        input.set(posJ, obj);
     }
+
 }

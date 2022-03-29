@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ *  Copyright 2022 by Tuanpla
+ *  https://tuanpla.com
  */
 package com.tuanpla.utils.string;
 
@@ -24,6 +24,21 @@ import java.util.StringTokenizer;
 public class MyString {
 
     private static final Random RANDOM = new SecureRandom();
+
+    /**
+     * Return a String with n digit if value length &lt; digitLength
+     *
+     * @param value
+     * @param digitLength
+     * @return
+     */
+    public static String intToNDigit(int value, int digitLength) {
+        StringBuilder sBuf = new StringBuilder(String.valueOf(value));
+        while (sBuf.length() < digitLength) {
+            sBuf.insert(0, "0");
+        }
+        return sBuf.toString();
+    }
 
     public static String getStringURL(String input) {
         if (input == null || input.equals("")) {
@@ -136,6 +151,15 @@ public class MyString {
         }
         finalStr = finalStr.concat(strVar);
         return finalStr;
+    }
+
+    public static String validString(String input) {
+        if (input != null) {
+            input = input.trim();
+        } else {
+            input = "";
+        }
+        return input;
     }
 
     public static String stringToHTMLString(String string) {

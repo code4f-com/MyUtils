@@ -40,19 +40,6 @@ public class OctetUtil {
     }
 
     /**
-     * Convert integer (2 octets) value to bytes.
-     *
-     * @param value
-     * @return
-     */
-    public static byte[] shortToBytes(short value) {
-        byte[] result = new byte[2];
-        result[0] = (byte) (value >> 8 & 0xff);
-        result[1] = (byte) (value & 0xff);
-        return result;
-    }
-
-    /**
      * 32 bit.
      *
      * @param bytes
@@ -87,6 +74,19 @@ public class OctetUtil {
             // result |= bytes[end - i - 1] << (8 * i);
             result |= (bytes[end - i - 1] & 0xff) << (8 * i); // TODO uudashr: CHECK FOR IMPROVEMENT
         }
+        return result;
+    }
+
+    /**
+     * Convert integer (2 octets) value to bytes.
+     *
+     * @param value
+     * @return
+     */
+    public static byte[] shortToBytes(short value) {
+        byte[] result = new byte[2];
+        result[0] = (byte) (value >> 8 & 0xff);
+        result[1] = (byte) (value & 0xff);
         return result;
     }
 

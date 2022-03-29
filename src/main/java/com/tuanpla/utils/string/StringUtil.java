@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Copyright 2022 by Tuanpla
+ *  https://tuanpla.com
  */
 package com.tuanpla.utils.string;
 
@@ -205,7 +204,7 @@ public class StringUtil {
      * @param string0 The string to capitalize
      * @return A new string with the first character converted to upper case
      */
-    static public String capitalize(String string0) {
+    public static String capitalize(String string0) {
         if (string0 == null) {
             return null;
         }
@@ -233,7 +232,7 @@ public class StringUtil {
      * @param string0 The string to uncapitalize
      * @return A new string with the first character converted to lower case
      */
-    static public String uncapitalize(String string0) {
+    public static String uncapitalize(String string0) {
         if (string0 == null) {
             return null;
         }
@@ -261,7 +260,7 @@ public class StringUtil {
      * @return True if the string is contained within, otherwise false. Also
      * returns false if the strings array is null.
      */
-    static public boolean contains(String[] strings, String targetString) {
+    public static boolean contains(String[] strings, String targetString) {
         return (indexOf(strings, targetString) != -1);
     }
 
@@ -275,7 +274,7 @@ public class StringUtil {
      * @return The index of the first occurrence, or -1 if not found. If strings
      * array is null, will return -1;
      */
-    static public int indexOf(String[] strings, String targetString) {
+    public static int indexOf(String[] strings, String targetString) {
         if (strings == null) {
             return -1;
         }
@@ -298,7 +297,7 @@ public class StringUtil {
      * character in the string parameter. For example, "10958" will becomes just
      * 10958.
      */
-    static public String stripQuotes(String string0) {
+    public static String stripQuotes(String string0) {
         // if an empty string, return it
         if (string0.length() == 0) {
             return string0;
@@ -319,7 +318,7 @@ public class StringUtil {
      *
      * @return True if the string0 only contains digits, or false otherwise.
      */
-    static public boolean containsOnlyDigits(String string0) {
+    public static boolean containsOnlyDigits(String string0) {
         // are they all digits?
         for (int i = 0; i < string0.length(); i++) {
             if (!Character.isDigit(string0.charAt(i))) {
@@ -340,7 +339,7 @@ public class StringUtil {
      * @param delim the delimiter
      * @throws NullPointerException if str is null
      */
-    static public String[] split(String str, char delim) {
+    public static String[] split(String str, char delim) {
         if (str == null) {
             throw new NullPointerException("str can't be null");
         }
@@ -838,7 +837,7 @@ public class StringUtil {
      * @return The value from obj.toString() or "" if the object is null.
      * @see #toStringWithNullAsNull(java.lang.Object)
      */
-    static public String toStringWithNullAsEmpty(Object obj) {
+    public static String toStringWithNullAsEmpty(Object obj) {
         if (obj == null) {
             return "";
         } else {
@@ -856,7 +855,7 @@ public class StringUtil {
      * @return The value from obj.toString() or "<NULL>" if the object is null.
      * @see #toStringWithNullAsEmpty(java.lang.Object)
      */
-    static public String toStringWithNullAsReplaced(Object obj) {
+    public static String toStringWithNullAsReplaced(Object obj) {
         if (obj == null) {
             return "<NULL>";
         } else {
@@ -874,7 +873,7 @@ public class StringUtil {
      * @return The value from obj.toString() or null if the object is null.
      * @see #toStringWithNullAsEmpty(java.lang.Object)
      */
-    static public String toStringWithNullAsNull(Object obj) {
+    public static String toStringWithNullAsNull(Object obj) {
         if (obj == null) {
             return null;
         } else {
@@ -970,7 +969,7 @@ public class StringUtil {
      * @param str0 The string to clean up
      * @return A new String that has all characters except digits removed
      */
-    static public String removeAllCharsExceptDigits(String str0) {
+    public static String removeAllCharsExceptDigits(String str0) {
         if (str0 == null) {
             return null;
         }

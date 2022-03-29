@@ -15,13 +15,6 @@ public class HexUtil {
 
     public static char[] HEX_TABLE = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-//    public static void main(String[] args) {
-//        byte[] data = "áabcdef".getBytes();
-//        String hexStr = toHexString(data, 1, data.length - 3);
-//        System.out.println("hexStr:" + hexStr);
-//        System.out.println("hex2Str:"+hexToString(hexStr));
-//    }
-
     /**
      * Convert the hex string to bytes.
      *
@@ -42,8 +35,7 @@ public class HexUtil {
      */
     public static byte[] hexToBytes(String hexString, int offset, int endIndex) {
         byte[] data;
-        String realHexString = hexString.substring(offset, endIndex)
-                .toLowerCase();
+        String realHexString = hexString.substring(offset, endIndex).toLowerCase();
         if ((realHexString.length() % 2) == 0) {
             data = new byte[realHexString.length() / 2];
         } else {
@@ -70,6 +62,121 @@ public class HexUtil {
     }
 
     /**
+     * Creates a 2 character hex String from a byte with the byte in a "Big
+     * Endian" hexidecimal format.For example, a byte 0x34 will be returned as a
+     * String in format "34". A byte of value 0 will be returned as "00".
+     *
+     * @param value The byte value that will be converted to a hexidecimal
+     * String.
+     * @return
+     */
+    public static String toHexString(byte value) {
+        StringBuilder buffer = new StringBuilder(2);
+        appendHexString(buffer, value);
+        return buffer.toString();
+    }
+
+    /**
+     * Creates a String from a byte array with each byte in a "Big Endian"
+     * hexidecimal format.For example, a byte 0x34 will return a String "34".A
+     * byte array of { 0x34, 035 } would return "3435".
+     *
+     * @param bytes The byte array that will be converted to a hexidecimal
+     * String. If the byte array is null, this method will append nothing (a
+     * noop)
+     * @return
+     */
+    public static String toHexString(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+        return toHexString(bytes, 0, bytes.length);
+    }
+
+    /**
+     * Creates a String from a byte array with each byte in a "Big Endian"
+     * hexidecimal format.For example, a byte 0x34 will return a String "34".A
+     * byte array of { 0x34, 035 } would return "3435".
+     *
+     * @param bytes The byte array that will be converted to a hexidecimal
+     * String. If the byte array is null, this method will append nothing (a
+     * noop)
+     * @param offset The offset in the byte array to start from. If the offset
+     * or length combination is invalid, this method will throw an
+     * IllegalArgumentException.
+     * @param length The length (from the offset) to conver the bytes. If the
+     * offset or length combination is invalid, this method will throw an
+     * IllegalArgumentException.
+     * @return
+     */
+    public static String toHexString(byte[] bytes, int offset, int length) {
+        if (bytes == null) {
+            return "";
+        }
+        assertOffsetLengthValid(offset, length, bytes.length);
+        // each byte is 2 chars in string
+        StringBuilder buffer = new StringBuilder(length * 2);
+        appendHexString(buffer, bytes, offset, length);
+        return buffer.toString();
+    }
+
+    /**
+     * Creates a 4 character hex String from a short with the short in a "Big
+     * Endian" hexidecimal format.For example, a short 0x1234 will be returned
+     * as a String in format "1234". A short of value 0 will be returned as
+     * "0000".
+     *
+     * @param value The short value that will be converted to a hexidecimal
+     * String.
+     * @return
+     */
+    public static String toHexString(short value) {
+        StringBuilder buffer = new StringBuilder(4);
+        appendHexString(buffer, value);
+        return buffer.toString();
+    }
+
+    /**
+     * Creates an 8 character hex String from an int twith the int in a "Big
+     * Endian" hexidecimal format.For example, an int 0xFFAA1234 will be
+     * returned as a String in format "FFAA1234". A int of value 0 will be
+     * returned as "00000000".
+     *
+     * @param value The int value that will be converted to a hexidecimal
+     * String.
+     * @return
+     */
+    public static String toHexString(int value) {
+        StringBuilder buffer = new StringBuilder(8);
+        appendHexString(buffer, value);
+        return buffer.toString();
+    }
+
+    /**
+     * Creates a 16 character hex String from a long with the long in a "Big
+     * Endian" hexidecimal format.For example, a long 0xAABBCCDDEE123456 will be
+     * returned as a String in format "AABBCCDDEE123456". A long of value 0 will
+     * be returned as "0000000000000000".
+     *
+     * @param value The long value that will be converted to a hexidecimal
+     * String.
+     * @return
+     */
+    public static String toHexString(long value) {
+        StringBuilder buffer = new StringBuilder(16);
+        appendHexString(buffer, value);
+        return buffer.toString();
+    }
+
+    public static String toHexString(String data) {
+        if (data == null) {
+            return null;
+        }
+        byte[] bytes = data.getBytes();
+        return toHexString(bytes, 0, bytes.length);
+    }
+
+    /**
      * Convert the hex string to string.
      *
      * @param hexString is the hex string.
@@ -83,62 +190,6 @@ public class HexUtil {
             sBuf.append(c);
         }
         return sBuf.toString();
-    }
-
-    public static String toHexString(String data) {
-        if (data == null) {
-            return "";
-        }
-        byte[] bytes = data.getBytes();
-        return toHexString(bytes, 0, bytes.length);
-    }
-
-    /**
-     * Creates a String from a byte array with each byte in a "Big Endian"
-     * hexidecimal format. For example, a byte 0x34 will return a String "34". A
-     * byte array of { 0x34, 035 } would return "3435".
-     *
-     * @param buffer The StringBuilder the byte array in hexidecimal format will
-     * be appended to. If the buffer is null, this method will throw a
-     * NullPointerException.
-     * @param bytes The byte array that will be converted to a hexidecimal
-     * String. If the byte array is null, this method will append nothing (a
-     * noop)
-     */
-    public static String toHexString(byte[] bytes) {
-        if (bytes == null) {
-            return "";
-        }
-        return toHexString(bytes, 0, bytes.length);
-    }
-
-    /**
-     * Creates a String from a byte array with each byte in a "Big Endian"
-     * hexidecimal format. For example, a byte 0x34 will return a String "34". A
-     * byte array of { 0x34, 035 } would return "3435".
-     *
-     * @param buffer The StringBuilder the byte array in hexidecimal format will
-     * be appended to. If the buffer is null, this method will throw a
-     * NullPointerException.
-     * @param bytes The byte array that will be converted to a hexidecimal
-     * String. If the byte array is null, this method will append nothing (a
-     * noop)
-     * @param offset The offset in the byte array to start from. If the offset
-     * or length combination is invalid, this method will throw an
-     * IllegalArgumentException.
-     * @param length The length (from the offset) to conver the bytes. If the
-     * offset or length combination is invalid, this method will throw an
-     * IllegalArgumentException.
-     */
-    public static String toHexString(byte[] bytes, int offset, int length) {
-        if (bytes == null) {
-            return "";
-        }
-        assertOffsetLengthValid(offset, length, bytes.length);
-        // each byte is 2 chars in string
-        StringBuilder buffer = new StringBuilder(length * 2);
-        appendHexString(buffer, bytes, offset, length);
-        return buffer.toString();
     }
 
     /**
@@ -179,7 +230,7 @@ public class HexUtil {
      * offset or length combination is invalid, this method will throw an
      * IllegalArgumentException.
      */
-    static public void appendHexString(StringBuilder buffer, byte[] bytes, int offset, int length) {
+    public static void appendHexString(StringBuilder buffer, byte[] bytes, int offset, int length) {
         assertNotNull(buffer);
         if (bytes == null) {
             return;     // do nothing (a noop)
@@ -195,20 +246,6 @@ public class HexUtil {
     }
 
     /**
-     * Creates a 2 character hex String from a byte with the byte in a "Big
-     * Endian" hexidecimal format. For example, a byte 0x34 will be returned as
-     * a String in format "34". A byte of value 0 will be returned as "00".
-     *
-     * @param value The byte value that will be converted to a hexidecimal
-     * String.
-     */
-    static public String toHexString(byte value) {
-        StringBuilder buffer = new StringBuilder(2);
-        appendHexString(buffer, value);
-        return buffer.toString();
-    }
-
-    /**
      * Appends 2 characters to a StringBuilder with the byte in a "Big Endian"
      * hexidecimal format. For example, a byte 0x34 will be appended as a String
      * in format "34". A byte of value 0 will be appended as "00".
@@ -219,27 +256,12 @@ public class HexUtil {
      * @param value The byte value that will be converted to a hexidecimal
      * String.
      */
-    static public void appendHexString(StringBuilder buffer, byte value) {
+    public static void appendHexString(StringBuilder buffer, byte value) {
         assertNotNull(buffer);
         int nibble = (value & 0xF0) >>> 4;
         buffer.append(HEX_TABLE[nibble]);
         nibble = (value & 0x0F);
         buffer.append(HEX_TABLE[nibble]);
-    }
-
-    /**
-     * Creates a 4 character hex String from a short with the short in a "Big
-     * Endian" hexidecimal format. For example, a short 0x1234 will be returned
-     * as a String in format "1234". A short of value 0 will be returned as
-     * "0000".
-     *
-     * @param value The short value that will be converted to a hexidecimal
-     * String.
-     */
-    static public String toHexString(short value) {
-        StringBuilder buffer = new StringBuilder(4);
-        appendHexString(buffer, value);
-        return buffer.toString();
     }
 
     /**
@@ -253,7 +275,7 @@ public class HexUtil {
      * @param value The short value that will be converted to a hexidecimal
      * String.
      */
-    static public void appendHexString(StringBuilder buffer, short value) {
+    public static void appendHexString(StringBuilder buffer, short value) {
         assertNotNull(buffer);
         int nibble = (value & 0xF000) >>> 12;
         buffer.append(HEX_TABLE[nibble]);
@@ -263,21 +285,6 @@ public class HexUtil {
         buffer.append(HEX_TABLE[nibble]);
         nibble = (value & 0x000F);
         buffer.append(HEX_TABLE[nibble]);
-    }
-
-    /**
-     * Creates an 8 character hex String from an int twith the int in a "Big
-     * Endian" hexidecimal format. For example, an int 0xFFAA1234 will be
-     * returned as a String in format "FFAA1234". A int of value 0 will be
-     * returned as "00000000".
-     *
-     * @param value The int value that will be converted to a hexidecimal
-     * String.
-     */
-    static public String toHexString(int value) {
-        StringBuilder buffer = new StringBuilder(8);
-        appendHexString(buffer, value);
-        return buffer.toString();
     }
 
     /**
@@ -292,7 +299,7 @@ public class HexUtil {
      * @param value The int value that will be converted to a hexidecimal
      * String.
      */
-    static public void appendHexString(StringBuilder buffer, int value) {
+    public static void appendHexString(StringBuilder buffer, int value) {
         assertNotNull(buffer);
         int nibble = (value & 0xF0000000) >>> 28;
         buffer.append(HEX_TABLE[nibble]);
@@ -313,21 +320,6 @@ public class HexUtil {
     }
 
     /**
-     * Creates a 16 character hex String from a long with the long in a "Big
-     * Endian" hexidecimal format. For example, a long 0xAABBCCDDEE123456 will
-     * be returned as a String in format "AABBCCDDEE123456". A long of value 0
-     * will be returned as "0000000000000000".
-     *
-     * @param value The long value that will be converted to a hexidecimal
-     * String.
-     */
-    static public String toHexString(long value) {
-        StringBuilder buffer = new StringBuilder(16);
-        appendHexString(buffer, value);
-        return buffer.toString();
-    }
-
-    /**
      * Appends 16 characters to a StringBuilder with the long in a "Big Endian"
      * hexidecimal format. For example, a long 0xAABBCCDDEE123456 will be
      * appended as a String in format "AABBCCDDEE123456". A long of value 0 will
@@ -339,7 +331,7 @@ public class HexUtil {
      * @param value The long value that will be converted to a hexidecimal
      * String.
      */
-    static public void appendHexString(StringBuilder buffer, long value) {
+    public static void appendHexString(StringBuilder buffer, long value) {
         appendHexString(buffer, (int) ((value & 0xFFFFFFFF00000000L) >>> 32));
         appendHexString(buffer, (int) (value & 0x00000000FFFFFFFFL));
     }
@@ -372,42 +364,61 @@ public class HexUtil {
      * @throws IllegalArgumentException Thrown if a character that does not
      * represent a hexidecimal character is used.
      */
-    static public int hexCharToIntValue(char c) {
-        if (c == '0') {
-            return 0;
-        } else if (c == '1') {
-            return 1;
-        } else if (c == '2') {
-            return 2;
-        } else if (c == '3') {
-            return 3;
-        } else if (c == '4') {
-            return 4;
-        } else if (c == '5') {
-            return 5;
-        } else if (c == '6') {
-            return 6;
-        } else if (c == '7') {
-            return 7;
-        } else if (c == '8') {
-            return 8;
-        } else if (c == '9') {
-            return 9;
-        } else if (c == 'A' || c == 'a') {
-            return 10;
-        } else if (c == 'B' || c == 'b') {
-            return 11;
-        } else if (c == 'C' || c == 'c') {
-            return 12;
-        } else if (c == 'D' || c == 'd') {
-            return 13;
-        } else if (c == 'E' || c == 'e') {
-            return 14;
-        } else if (c == 'F' || c == 'f') {
-            return 15;
-        } else {
-            throw new IllegalArgumentException("The character [" + c + "] does not represent a valid hex digit");
+    public static int hexCharToIntValue(char c) {
+        switch (c) {
+            case '0':
+                return 0;
+            case '1':
+                return 1;
+            case '2':
+                return 2;
+            case '3':
+                return 3;
+            case '4':
+                return 4;
+            case '5':
+                return 5;
+            case '6':
+                return 6;
+            case '7':
+                return 7;
+            case '8':
+                return 8;
+            case '9':
+                return 9;
+            case 'A':
+            case 'a':
+                return 10;
+            case 'B':
+            case 'b':
+                return 11;
+            case 'C':
+            case 'c':
+                return 12;
+            case 'D':
+            case 'd':
+                return 13;
+            case 'E':
+            case 'e':
+                return 14;
+            case 'F':
+            case 'f':
+                return 15;
+            default:
+                throw new IllegalArgumentException("The character [" + c + "] does not represent a valid hex digit");
         }
+    }
+
+    public static int hexToDecimal(String hex) {
+        int result = 0;
+        String digits = "0123456789ABCDEF";
+        hex = hex.toUpperCase();
+        for (int i = 0; i < hex.length(); i++) {
+            char c = hex.charAt(i);
+            int d = digits.indexOf(c);
+            result = 16 * result + d;
+        }
+        return result;
     }
 
     /**
