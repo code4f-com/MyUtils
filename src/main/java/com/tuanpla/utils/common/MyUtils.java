@@ -5,8 +5,15 @@
 package com.tuanpla.utils.common;
 
 import com.tuanpla.utils.logging.LogUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.time.Duration;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  *
@@ -14,39 +21,55 @@ import org.slf4j.LoggerFactory;
  */
 public class MyUtils {
 
-    static Logger logger = LoggerFactory.getLogger(MyUtils.class);
-
     public static void main(String[] args) {
-
+        System.out.println(timeout);
     }
 
-    public static String decimalTo26(long input) {
-        String str26 = "";
-        System.out.println("input =" + input);
-        String digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        if (input <= 0) {
-            return "0";
+    // https://stackoverflow.com/questions/19456313/simple-timeout-in-java
+    static final Duration timeout = Duration.ofSeconds(30);
+    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+    final Future<String> handler = executor.submit(new Callable() {
+        @Override
+        public String call() throws Exception {
+            return requestDataFromModem();
         }
-        int base = 26;   // flexible to change in any base under 16
-        while (input > 0) {
-            int digit = (int) (input % base);              // rightmost digit
-            System.out.println("digit=" + input);
-            str26 = digits.charAt(digit) + str26;  // string concatenation
-            input = input / base;
+
+        private String requestDataFromModem() {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
-        return str26;
+    });
+
+    public void option_1() {
+        executor.schedule(() -> {
+            handler.cancel(true);
+        },
+                timeout.toMillis(),
+                TimeUnit.MILLISECONDS);
+
+        executor.shutdownNow();
     }
 
-    public static long getDecimalFrom26(String str26) {
-        String digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        str26 = str26.toUpperCase();
-        long val = 0;
-        for (int i = 0; i < str26.length(); i++) {
-            char c = str26.charAt(i);
-            int d = digits.indexOf(c);
-            val = 26 * val + d;
+    public void option_2() throws InterruptedException, ExecutionException {
+        ExecutorService _executor = Executors.newSingleThreadExecutor();
+        final Future<String> _handler = _executor.submit(new Callable() {
+            @Override
+            public String call() throws Exception {
+                return requestDataFromModem();
+            }
+
+            private String requestDataFromModem() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+
+        try {
+            _handler.get(timeout.toMillis(), TimeUnit.MILLISECONDS);
+        } catch (TimeoutException e) {
+            _handler.cancel(true);
         }
-        return val;
+
+        _executor.shutdownNow();
     }
 
     /**
@@ -74,8 +97,8 @@ public class MyUtils {
         }
     }
 
-    public static Double longToDouble(Long number) {
-        return Double.longBitsToDouble(number);
+    public static void sleepSecond(long delay) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(delay);
     }
 
     public static boolean isNull(String input) {

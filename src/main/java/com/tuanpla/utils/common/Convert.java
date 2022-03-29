@@ -83,4 +83,35 @@ public class Convert {
             return defaultVal;
         }
     }
+
+    public static Double longToDouble(Long number) {
+        return Double.longBitsToDouble(number);
+    }
+
+    public static String decimalTo26(long input) {
+        String str26 = "";
+        String digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        if (input <= 0) {
+            return "0";
+        }
+        int base = 26;   // flexible to change in any base under 16
+        while (input > 0) {
+            int digit = (int) (input % base);              // rightmost digit
+            str26 = digits.charAt(digit) + str26;  // string concatenation
+            input = input / base;
+        }
+        return str26;
+    }
+
+    public static long getDecimalFrom26(String str26) {
+        String digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        str26 = str26.toUpperCase();
+        long val = 0;
+        for (int i = 0; i < str26.length(); i++) {
+            char c = str26.charAt(i);
+            int d = digits.indexOf(c);
+            val = 26 * val + d;
+        }
+        return val;
+    }
 }
