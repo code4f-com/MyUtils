@@ -282,14 +282,6 @@ public class DateProc {
         }
     }
 
-    public static void main(String[] args) {
-        long t = 20220330163522L;
-//        System.out.println(long2Timestamp(t, "yyyyMMddHHmmss"));
-        Time t1 = new Time(System.currentTimeMillis());
-        System.out.println("t1=" + t1);
-        System.out.println(timeString(new Time(System.currentTimeMillis()), "HHmmss"));
-    }
-
     /**
      *
      * @param ts Timestapm to convert
@@ -360,66 +352,6 @@ public class DateProc {
         return tsNew;
     }
 
-    public static int getDayOfWeek(Timestamp ts) {
-        if (ts == null) {
-            return -1;
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ts);
-        int iDay = calendar.get(Calendar.DAY_OF_WEEK);
-        return iDay;
-    }
-
-    public static int getDay(Timestamp ts) {
-        if (ts == null) {
-            return -1;
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ts);
-        int iDay = calendar.get(Calendar.DAY_OF_MONTH);
-        return iDay;
-    }
-
-    public static int getMonth(Timestamp ts) {
-        if (ts == null) {
-            return -1;
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ts);
-        int iMonth = calendar.get(Calendar.MONTH);
-        return iMonth + 1;
-    }
-
-    public static int getYear(Timestamp ts) {
-        if (ts == null) {
-            return -1;
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ts);
-        int iYear = calendar.get(Calendar.YEAR);
-        return iYear;
-    }
-
-    public static int getHour(Timestamp ts) {
-        if (ts == null) {
-            return -1;
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ts);
-        int iHour = calendar.get(Calendar.HOUR);
-        return iHour;
-    }
-
-    public static int getMinute(Timestamp ts) {
-        if (ts == null) {
-            return -1;
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(ts);
-        int iMinute = calendar.get(Calendar.MINUTE);
-        return iMinute;
-    }
-
     public static boolean afTerCurrent(Timestamp timeComp) {
         if (timeComp == null) {
             return false;
@@ -434,13 +366,21 @@ public class DateProc {
         return timeComp.before(currentTimestamp());
     }
 
-    ////////////////////// ADDED ///////////////////////////////////////////
-    /**
-     * return the dd/mm/yyyy of current month eg: 05/2002 --> 31/05/2002
-     *
-     * @param strMonthYear : input string mm/yyyy
-     * @return
-     */
+    public static void main(String[] args) {
+        long t = 20220330163522L;
+//        System.out.println(long2Timestamp(t, "yyyyMMddHHmmss"));
+        Time t1 = new Time(System.currentTimeMillis());
+        System.out.println("t1=" + t1);
+        System.out.println(timeString(new Time(System.currentTimeMillis()), "HHmmss"));
+    }
+    Dang xu ly ////////////////////// ADDED ///////////////////////////////////////////
+            /**
+             * return the dd/mm/yyyy of current month eg: 05/2002 --> 31/05/2002
+             *
+             * @param strMonthYear : input string mm/yyyy
+             * @return
+             */
+
     public static String getLastestDateOfMonth(String strMonthYear) {
 
         Date d = string2Date(strMonthYear, "MM/yyyy");
@@ -519,11 +459,13 @@ public class DateProc {
         }
 
         Calendar calendar = Calendar.getInstance();
-        int iDoW = getDayOfWeek(ts);
+        Today td = new Today(ts);
+        int iDoW = td.getDay();
         if (iDoW == Calendar.SUNDAY) {
             iDoW = 8;
         }
         int k = Calendar.FRIDAY - iDoW;
+        //
         calendar.setTime(ts);
         int iDay = calendar.get(Calendar.DAY_OF_MONTH);
         calendar.set(Calendar.DAY_OF_MONTH, iDay + k);
@@ -535,10 +477,9 @@ public class DateProc {
         if (ts == null) {
             return false;
         }
-        if (getDayOfWeek(ts) == Calendar.FRIDAY) {
-            return true;
-        }
-        return false;
+        Calendar cl = Calendar.getInstance();
+        cl.setTime(ts);
+        return cl.get(Calendar.DAY_OF_MONTH) == Calendar.FRIDAY;
     }
 
     public static Timestamp getNextDateN(Timestamp ts, int n) {
