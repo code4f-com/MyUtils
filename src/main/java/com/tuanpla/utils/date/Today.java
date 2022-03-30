@@ -4,6 +4,7 @@
  */
 package com.tuanpla.utils.date;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
@@ -11,6 +12,34 @@ import java.util.Calendar;
  * @author tuanpla
  */
 public class Today {
+
+    private int dd;
+    private int mm;
+    private int yyyy;
+    private int yy;
+    private int hh;
+    private int mi;
+    private int sec;
+    private String dayOfWeek;
+
+    public Today() {
+        Calendar cal = Calendar.getInstance();
+        init(cal);
+    }
+
+    public Today(int day, int month, int year) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, day);
+        cal.set(Calendar.MONTH, month - 1);
+        cal.set(Calendar.YEAR, year);
+        init(cal);
+    }
+
+    public Today(Timestamp ts) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(ts);
+        init(cal);
+    }
 
     public String getDayOfWeek() {
         return dayOfWeek;
@@ -54,21 +83,8 @@ public class Today {
         return sec;
     }
 
-    public Today(int day, int month, int year) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(5, day);
-        cal.set(2, month - 1);
-        cal.set(1, year);
-        init(cal);
-    }
-
-    public Today() {
-        Calendar cal = Calendar.getInstance();
-        init(cal);
-    }
-
     private void init(Calendar cal) {
-        int d = cal.get(7);
+        int d = cal.get(Calendar.DAY_OF_WEEK);
         switch (d) {
             case 2: // '\002'
                 dayOfWeek = "Thu Hai";
@@ -111,15 +127,8 @@ public class Today {
         sec = cal.get(Calendar.SECOND);
     }
 
-    public static Today getInstance() {
+    public static final Today getInstance() {
         return new Today();
     }
-    private int dd;
-    private int mm;
-    private int yyyy;
-    private int yy;
-    private int hh;
-    private int mi;
-    private int sec;
-    private String dayOfWeek;
+
 }

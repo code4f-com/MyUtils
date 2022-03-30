@@ -4,6 +4,8 @@
  */
 package com.tuanpla.utils.date;
 
+import com.tuanpla.utils.common.Convert;
+import com.tuanpla.utils.exception.CustomerException;
 import com.tuanpla.utils.logging.LogUtils;
 import java.sql.Date;       // extends java.util.Date
 import java.sql.Time;
@@ -37,31 +39,51 @@ public class DateProc {
     }
 
     public static int currentYear() {
-        Today d = new Today();
-        return d.getYear();
+        Calendar cal = Calendar.getInstance();
+        return cal.get(Calendar.YEAR);
+    }
+
+    public static Date currentDate() {
+        return new Date(System.currentTimeMillis());
     }
 
     public static int backYear(int num) {
-        Today d = new Today();
-        return d.getYear() - num;
+        Calendar cal = Calendar.getInstance();
+        var yyyy = cal.get(Calendar.YEAR);
+        return yyyy - num;
     }
 
     public static double getTimer() {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
-        int h = c.get(Calendar.HOUR_OF_DAY);
-        int m = c.get(Calendar.MINUTE);
-        double realTime = (double) h + (double) m / 60;
+        double h = c.get(Calendar.HOUR_OF_DAY);
+        double m = c.get(Calendar.MINUTE);
+        double realTime = h + m / 60;
         return realTime;
     }
 
-    public static double string2Time(String time) {
+    /**
+     *
+     * @param time is for mat hh:mm or HH:mm
+     * @return timer is double from 0 to 23.99
+     * @throws CustomerException
+     */
+    public static double string2Timer(String time) throws CustomerException {
         String aTime[] = time.split(":");
-        return Double.parseDouble(aTime[0]) + Double.parseDouble(aTime[1]) / 60;
+        var h = Convert.string2Double(aTime[0], -1);
+        var m = Convert.string2Double(aTime[1], -1);
+        if (h < 0 || h > 23) {
+            throw new CustomerException("hour invalid");
+        }
+        if (m < 0 || m > 59) {
+            throw new CustomerException("minus invalid");
+        }
+        return h + m / 60;
     }
 
     /**
-     * Require format don't have time format
+     * Require format dd/MM/yyyy hh:mm:ss <br>
+     * If you want get only date used format: <b>dd/MM/yyyy</b>
      *
      * @param fmOut
      * @return
@@ -70,33 +92,22 @@ public class DateProc {
         return date2String(currentDate(), fmOut);
     }
 
-    public static String currentDateTime(String fmOut) {
-        return timestamp2String(currentTimestamp(), fmOut);
-    }
-
     public static String currentddMMyyyy_Start01() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-
-        String strTemp = "01";
-        if (calendar.get(Calendar.MONTH) + 1 < 10) {
-            return strTemp + "/0" + (calendar.get(Calendar.MONTH) + 1)
-                    + "/" + calendar.get(Calendar.YEAR);
+        var m = calendar.get(Calendar.MONTH);
+        var y = calendar.get(Calendar.YEAR);
+        if (m + 1 < 10) {
+            return "01/0" + (m + 1) + "/" + y;
         } else {
-            return strTemp + "/" + (calendar.get(Calendar.MONTH) + 1) + "/"
-                    + calendar.get(Calendar.YEAR);
+            return "01/" + (m + 1) + "/" + y;
         }
     }
 
-    public static Date currentDate() {
-        return new Date(System.currentTimeMillis());
-    }
-
-    public static Date string2Date(String strInputDate, String forMat) {
+    public static Date string2Date(String strDate, String forMat) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat(forMat);
-            Date d = new Date(dateFormat.parse(strInputDate).getTime());
-            return d;
+            return new Date(dateFormat.parse(strDate).getTime());
         } catch (ParseException ex) {
             LogUtils.debug("Error: " + ex.toString());
             return null;
@@ -113,45 +124,50 @@ public class DateProc {
         }
     }
 
-    public static Date int2Date(Integer input, String fminput) {
-        try {
-            String strInputDate = String.valueOf(input);
-            SimpleDateFormat dateFormat = new SimpleDateFormat(fminput);
-            Date d = new Date(dateFormat.parse(strInputDate).getTime());
-            return d;
-        } catch (Exception ex) {
-            LogUtils.debug("Error: " + ex.toString());
-            return null;
-        }
+    /**
+     *
+     * @param input is number date Ex: 22/03/2022 to Integer: 22032022 =>
+     * <b>fmIntDate</b> is ddMMyyyy
+     * @param fmIntDate
+     * @return
+     */
+    public static Date int2Date(Integer input, String fmIntDate) {
+        String strDate = String.valueOf(input);
+        return string2Date(strDate, fmIntDate);
     }
 
+    /**
+     *
+     * @param date is number date Ex: 2022-03-22 to Integer: 20220322 =>
+     * <b>fmOut</b> is yyyyMMdd
+     * @param fmOut
+     * @return
+     */
     public static Integer date2Int(Date date, String fmOut) {
         try {
             String strDate = date2String(date, fmOut);
             return Integer.parseInt(strDate);
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LogUtils.debug("Error: " + ex.toString());
             return null;
         }
     }
 
     public static Integer currentInt(String fmOut) {
-        Date d = DateProc.currentDate();
-        String crdStr = date2String(d, fmOut);
         try {
+            String crdStr = date2String(currentDate(), fmOut);
             return Integer.parseInt(crdStr);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LogUtils.debug("Error: " + e.toString());
             return null;
         }
     }
 
-    public static Integer stringDate2Int(String input, String fminput, String fmOut) {
+    public static Integer stringDate2Int(String input, String fmInput, String fmOut) {
         try {
-            Date d = string2Date(input, fminput);
-            String strDate = date2String(d, fmOut);
+            String strDate = date2String(string2Date(input, fmInput), fmOut);
             return Integer.parseInt(strDate);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LogUtils.debug("Error: " + e.toString());
             return null;
         }
@@ -178,11 +194,10 @@ public class DateProc {
         return new Timestamp(c.getTimeInMillis());
     }
 
-    public static Timestamp string2Timestamp(String strInputDate, String forMat) {
+    public static Timestamp string2Timestamp(String strDate, String inFormat) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(forMat);
-            Timestamp d = new Timestamp(dateFormat.parse(strInputDate).getTime());
-            return d;
+            SimpleDateFormat dateFormat = new SimpleDateFormat(inFormat);
+            return new Timestamp(dateFormat.parse(strDate).getTime());
         } catch (ParseException ex) {
             LogUtils.debug("Error: " + ex.toString());
             return null;
@@ -203,9 +218,8 @@ public class DateProc {
         try {
             String strInputDate = String.valueOf(input);
             SimpleDateFormat dateFormat = new SimpleDateFormat(forMat);
-            Timestamp d = new Timestamp(dateFormat.parse(strInputDate).getTime());
-            return d;
-        } catch (Exception ex) {
+            return new Timestamp(dateFormat.parse(strInputDate).getTime());
+        } catch (ParseException ex) {
             LogUtils.debug("Error: " + ex.toString());
             return null;
         }
@@ -215,18 +229,17 @@ public class DateProc {
         try {
             String strTimestamp = timestamp2String(ts, fmOut);
             return Long.parseLong(strTimestamp);
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LogUtils.debug("Error: " + ex.toString());
             return null;
         }
     }
 
-    public static Long currentLong(String fmOut) {
-        Timestamp ts = currentTimestamp();
-        String crdStr = timestamp2String(ts, fmOut);
+    public static Long current2Long(String fmOut) {
         try {
+            String crdStr = timestamp2String(currentTimestamp(), fmOut);
             return Long.parseLong(crdStr);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LogUtils.debug("Error: " + e.toString());
             return null;
         }
@@ -242,48 +255,39 @@ public class DateProc {
         }
     }
 
-    /**
-     * The same timestamp2String(Timestamp ts, String fmOut) use time format
-     *
-     * @param ts
-     * @param fmOut
-     * @return
-     */
-    public static String extractTime(Timestamp ts, String fmOut) {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(fmOut);
-            return dateFormat.format(ts);
-        } catch (Exception ex) {
-            LogUtils.debug("Error: " + ex.toString());
-            return "";
-        }
-    }
-
-    public static String getDisplayTimeNews(Timestamp newsTime) {
+    public static String getTimeNews(Timestamp newsTime) {
         try {
             Calendar current = Calendar.getInstance();
-            Calendar input = Calendar.getInstance();
+            //
             if (newsTime == null) {
-                newsTime = DateProc.currentTimestamp();
+                newsTime = currentTimestamp();
             }
-            input.setTime(newsTime);
-            if (input.get(Calendar.YEAR) < current.get(Calendar.YEAR)) {
+            //
+            Calendar cl = Calendar.getInstance();
+            cl.setTime(newsTime);
+            if (cl.get(Calendar.YEAR) < current.get(Calendar.YEAR)
+                    || cl.get(Calendar.MONTH) < current.get(Calendar.MONTH)
+                    || cl.get(Calendar.DAY_OF_MONTH) < current.get(Calendar.DAY_OF_MONTH)
+                    || current.get(Calendar.HOUR_OF_DAY) - cl.get(Calendar.HOUR_OF_DAY) >= 5) {
                 return DateProc.timestamp2String(newsTime, "dd/MM/yyyy HH:mm");
-            } else if (input.get(Calendar.MONTH) < current.get(Calendar.MONTH)) {
-                return DateProc.timestamp2String(newsTime, "dd/MM/yyyy HH:mm");
-            } else if (input.get(Calendar.DAY_OF_MONTH) < current.get(Calendar.DAY_OF_MONTH)) {
-                return DateProc.timestamp2String(newsTime, "dd/MM/yyyy HH:mm");
-            } else if (current.get(Calendar.HOUR_OF_DAY) - input.get(Calendar.HOUR_OF_DAY) >= 5) {
-                return DateProc.timestamp2String(newsTime, "dd/MM/yyyy HH:mm");
-            } else if (current.get(Calendar.HOUR_OF_DAY) - input.get(Calendar.HOUR_OF_DAY) > 0 && current.get(Calendar.HOUR_OF_DAY) - input.get(Calendar.HOUR_OF_DAY) < 5) {
-                return (current.get(Calendar.HOUR_OF_DAY) - input.get(Calendar.HOUR_OF_DAY)) + " giờ trước";
+            } else if (current.get(Calendar.HOUR_OF_DAY) - cl.get(Calendar.HOUR_OF_DAY) > 0
+                    && current.get(Calendar.HOUR_OF_DAY) - cl.get(Calendar.HOUR_OF_DAY) < 5) {
+                return (current.get(Calendar.HOUR_OF_DAY) - cl.get(Calendar.HOUR_OF_DAY)) + " giờ trước";
             } else {
-                return (current.get(Calendar.MINUTE) - input.get(Calendar.MINUTE)) + " phút trước";
+                return (current.get(Calendar.MINUTE) - cl.get(Calendar.MINUTE)) + " phút trước";
             }
         } catch (Exception e) {
             LogUtils.debug("Error: " + e.toString());
             return "";
         }
+    }
+
+    public static void main(String[] args) {
+        long t = 20220330163522L;
+//        System.out.println(long2Timestamp(t, "yyyyMMddHHmmss"));
+        Time t1 = new Time(System.currentTimeMillis());
+        System.out.println("t1=" + t1);
+        System.out.println(timeString(new Time(System.currentTimeMillis()), "HHmmss"));
     }
 
     /**

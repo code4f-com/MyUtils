@@ -16,6 +16,7 @@ import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 /**
  *
@@ -38,6 +39,19 @@ public class MyString {
             sBuf.insert(0, "0");
         }
         return sBuf.toString();
+    }
+
+    public static String getId(String phone) {
+        try {
+            if (!MyUtils.isNull(phone)) {
+                return phone + "-" + Long.toString(System.nanoTime(), 16);
+            } else {
+                return MyString.generateRandomPassword(11) + "-" + Long.toString(System.nanoTime(), 16);
+            }
+        } catch (Exception e) {
+            UUID idOne = UUID.randomUUID();
+            return idOne.toString();
+        }
     }
 
     public static String getStringURL(String input) {
