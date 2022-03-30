@@ -4,8 +4,8 @@
  */
 package com.tuanpla.utils.encrypt;
 
+import com.tuanpla.utils.common.HexUtil;
 import com.tuanpla.utils.logging.LogUtils;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -122,18 +122,18 @@ public class RSA {
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             byte[] x = cipher.doFinal(input.getBytes());
-            str = toHexadecimal(x);
+            str = HexUtil.toHexString(x);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
             logger.error(LogUtils.getLogMessage(ex));
         }
         return str;
     }
 
-    public static String deEncript(PrivateKey privateKey, String input) {
+    public static String deEncript(PrivateKey privateKey, String hexStr) {
         String str = "";
         try {
             Cipher cipher = Cipher.getInstance("RSA");
-            byte[] temByte = hexStringToByteArray(input);
+            byte[] temByte = HexUtil.hexToBytes(hexStr);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             byte[] y = cipher.doFinal(temByte);
             str = new String(y);
@@ -143,75 +143,29 @@ public class RSA {
         return str;
     }
 
-//    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-//
-//        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-//        keyGen.initialize(1024);
-//        KeyPair kp = keyGen.genKeyPair();
-//
-//
-//        PublicKey publicKey = kp.getPublic();
-//        PrivateKey privateKey = kp.getPrivate();
-//        Tool.debug("PublicKey-getAlgorithm:" + publicKey.getAlgorithm());
-//        Tool.debug("PublicKey-getFormat:" + publicKey.getFormat());
-//        Tool.debug("PublicKey-getFormat:" + publicKey.toString());
-//        String text = "Tuan PLA";
-//        Cipher cipher = Cipher.getInstance("RSA");
-//        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-//        byte[] x = cipher.doFinal(text.getBytes());
-//
-//        String tem = toHexadecimal(x);
-//        byte[] temByte = hexStringToByteArray(tem);
-//
-//        cipher.init(Cipher.DECRYPT_MODE, privateKey);
-//        byte[] y = cipher.doFinal(temByte);
-//
-//        Tool.debug(new String(y));
-//    }
-    private static String toHex(byte[] buf) {
-        StringBuilder strbuf = new StringBuilder(buf.length * 2);
-        int i;
-        for (i = 0; i < buf.length; i++) {
-            if (((int) buf[i] & 0xff) < 0x10) {
-                strbuf.append("0");
-            }
-            strbuf.append(Long.toString((int) buf[i] & 0xff, 16));
-        }
-        return strbuf.toString();
+    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+        keyGen.initialize(1024);
+        KeyPair kp = keyGen.genKeyPair();
+
+        PublicKey publicKey = kp.getPublic();
+        PrivateKey privateKey = kp.getPrivate();
+        LogUtils.debug("PublicKey-getAlgorithm:" + publicKey.getAlgorithm());
+        LogUtils.debug("PublicKey-getFormat:" + publicKey.getFormat());
+        LogUtils.debug("PublicKey-getFormat:" + publicKey.toString());
+        String text = "Tuan PLA";
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+        byte[] x = cipher.doFinal(text.getBytes());
+
+        String tempHex = HexUtil.toHexString(x);
+        byte[] tempByte = HexUtil.hexToBytes(tempHex);
+
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        byte[] y = cipher.doFinal(tempByte);
+
+        LogUtils.debug(new String(y));
     }
 
-    private static String toHexadecimal(byte[] data) {
-        String result = "";
-        ByteArrayInputStream input = new ByteArrayInputStream(data);
-        String cadAux;
-        boolean ult0 = false;
-        int leido = input.read();
-        while (leido != -1) {
-            cadAux = Integer.toHexString(leido);
-            if (cadAux.length() < 2) {
-                result += "0";
-                if (cadAux.length() == 0) {
-                    ult0 = true;
-                }
-            } else {
-                ult0 = false;
-            }
-            result += cadAux;
-            leido = input.read();
-        }
-        if (ult0) {
-            result = result.substring(0, result.length() - 2) + result.charAt(result.length() - 1);
-        }
-        return result;
-    }
-
-    private static byte[] hexStringToByteArray(String s) {
-        int len = s.length();
-        byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i + 1), 16));
-        }
-        return data;
-    }
 }

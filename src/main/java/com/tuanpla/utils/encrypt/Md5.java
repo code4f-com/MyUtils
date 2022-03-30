@@ -7,6 +7,7 @@ package com.tuanpla.utils.encrypt;
 import com.tuanpla.config.PublicConfig;
 import java.io.ByteArrayInputStream;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -28,24 +29,31 @@ public class Md5 {
     int[] inint;
     private Fcore F1 = new Fcore() {
 
+        @Override
         int f(int x, int y, int z) {
             return (z ^ (x & (y ^ z)));
         }
     };
+
     private Fcore F2 = new Fcore() {
 
+        @Override
         int f(int x, int y, int z) {
             return (y ^ (z & (x ^ y)));
         }
     };
+
     private Fcore F3 = new Fcore() {
 
+        @Override
         int f(int x, int y, int z) {
             return (x ^ y ^ z);
         }
     };
-    private Fcore F4 = new Fcore() {
 
+    private final Fcore F4 = new Fcore() {
+
+        @Override
         int f(int x, int y, int z) {
             return (y ^ (x | ~z));
         }
@@ -397,16 +405,13 @@ public class Md5 {
     }
 
     public static String encryptMD5(String code) {
-        String str = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] input = code.getBytes(); //”UTF8″);
             input = md.digest(input);
-            str = toHexadecimal(input); //new String(input,”UTF8″);
-            return str;
-        } catch (Exception e) {
-
-            return str;
+            return toHexadecimal(input); //new String(input,”UTF8″);
+        } catch (NoSuchAlgorithmException e) {
+            return null;
         }
     }
 
@@ -414,22 +419,8 @@ public class Md5 {
         String str = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            val += PublicConfig.AUTH_CUS;
+            val += PublicConfig.AUTH_CUS_MD5;
             byte[] input = val.getBytes(); //”UTF8″);
-            input = md.digest(input);
-            str = toHexadecimal(input); //new String(input,”UTF8″);
-            return str;
-        } catch (Exception e) {
-            return str;
-        }
-    }
-
-    public static String encryptMD5ForDownLoad(String code) {
-        String str = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            code += "megasolidDownLoadContent";
-            byte[] input = code.getBytes(); //”UTF8″);
             input = md.digest(input);
             str = toHexadecimal(input); //new String(input,”UTF8″);
             return str;
@@ -474,13 +465,5 @@ public class Md5 {
 
         abstract int f(int x, int y, int z);
     }
-//    public static final String getStringMD5(String str) {
-//        try {
-//            MessageDigest md5 = MessageDigest.getInstance("MD5");
-//            md5.update(str.getBytes());
-//            return new String(md5.digest());
-//        } catch (Exception e) {
-//            return null;
-//        }
-//    }
+
 }

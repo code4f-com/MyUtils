@@ -366,111 +366,23 @@ public class DateProc {
         return timeComp.before(currentTimestamp());
     }
 
-    public static void main(String[] args) {
-        long t = 20220330163522L;
-//        System.out.println(long2Timestamp(t, "yyyyMMddHHmmss"));
-        Time t1 = new Time(System.currentTimeMillis());
-        System.out.println("t1=" + t1);
-        System.out.println(timeString(new Time(System.currentTimeMillis()), "HHmmss"));
-    }
-    Dang xu ly ////////////////////// ADDED ///////////////////////////////////////////
-            /**
-             * return the dd/mm/yyyy of current month eg: 05/2002 --> 31/05/2002
-             *
-             * @param strMonthYear : input string mm/yyyy
-             * @return
-             */
-
+    ////////////////////// ADDED ///////////////////////////////////////////
+    /**
+     * return the dd/mm/yyyy of current month eg: 05/2002 --> 31/05/2002
+     *
+     * @param strMonthYear : input string mm/yyyy
+     * @return
+     */
     public static String getLastestDateOfMonth(String strMonthYear) {
-
         Date d = string2Date(strMonthYear, "MM/yyyy");
-
-        LogUtils.debug("d:" + d);
-        String strDate = strMonthYear;
-        int i, nYear, nMonth, nDay;
-        String strSub = null;
-
-        i = strDate.indexOf("/");
-        if (i < 0) {
+        int index = strMonthYear.indexOf("/");
+        if (index < 0) {
             return "";
         }
-        strSub = strDate.substring(0, i);
-        nMonth = (new Integer(strSub)); // Month begin from 0 value
-        strDate = strDate.substring(i + 1);
-        nYear = (new Integer(strDate));
-        LogUtils.debug("nYear:" + nYear);
-        boolean leapyear = false;
-        if (nYear % 100 == 0) {
-            if (nYear % 400 == 0) {
-                leapyear = true;
-            }
-        } else if ((nYear % 4) == 0) {
-            leapyear = true;
-        }
-
-        if (nMonth == 2) {
-            if (leapyear) {
-                return "29/" + nMonth + "/" + strDate;
-            } else {
-                return "28/" + nMonth + "/" + strDate;
-            }
-        } else {
-            if ((nMonth == 1) || (nMonth == 3) || (nMonth == 5) || (nMonth == 7)
-                    || (nMonth == 8) || (nMonth == 10) || (nMonth == 12)) {
-                return "31/" + nMonth + "/" + strDate;
-            } else if ((nMonth == 4) || (nMonth == 6) || (nMonth == 9)
-                    || (nMonth == 11)) {
-                return "30/" + nMonth + "/" + strDate;
-            }
-        }
-        return "";
-    }
-
-    public static int distanceDate(Date start, Date end) {
-        int result = 0;
-        try {
-            long longStart = start.getTime();
-            long longEnd = end.getTime();
-            long distance = longEnd - longStart;
-            result = (int) distance / (24 * 60 * 60 * 1000);
-        } catch (Exception e) {
-        }
-        return result;
-    }
-
-    public static int distanceDate(Date start) {
-        int result = 0;
-        try {
-            long longStart = start.getTime();
-//            LogUtils.debug( start + ":" + longStart);
-            long longEnd = currentDate().getTime();
-//            LogUtils.debug( currentDate() + ":" + longEnd);
-            long distance = longEnd - longStart;
-//            LogUtils.debug( distance);
-            result = (int) (distance / (24 * 60 * 60 * 1000));
-        } catch (Exception e) {
-        }
-        return result;
-    }
-
-    public static Timestamp getFriday(Timestamp ts) {
-        if (ts == null) {
-            return null;
-        }
-
-        Calendar calendar = Calendar.getInstance();
-        Today td = new Today(ts);
-        int iDoW = td.getDay();
-        if (iDoW == Calendar.SUNDAY) {
-            iDoW = 8;
-        }
-        int k = Calendar.FRIDAY - iDoW;
-        //
-        calendar.setTime(ts);
-        int iDay = calendar.get(Calendar.DAY_OF_MONTH);
-        calendar.set(Calendar.DAY_OF_MONTH, iDay + k);
-        Timestamp tsNew = new Timestamp((calendar.getTime()).getTime());
-        return tsNew;
+        Calendar cl = Calendar.getInstance();
+        cl.setTime(d);
+        var maxDate = cl.getActualMaximum(Calendar.DATE);
+        return maxDate + "/" + strMonthYear;
     }
 
     public static boolean isFriday(Timestamp ts) {
@@ -479,7 +391,7 @@ public class DateProc {
         }
         Calendar cl = Calendar.getInstance();
         cl.setTime(ts);
-        return cl.get(Calendar.DAY_OF_MONTH) == Calendar.FRIDAY;
+        return cl.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY;
     }
 
     public static Timestamp getNextDateN(Timestamp ts, int n) {
@@ -493,11 +405,49 @@ public class DateProc {
         return tsNew;
     }
 
+    /**
+     * long format yyyyMMddHHmmssSSS
+     *
+     * @return
+     */
     public static long nowToLong() {
-        String str = getDateTimeForName();
         try {
+            String str = timestamp2String(currentTimestamp(), "yyyyMMddHHmmssSSS");
             return Long.parseLong(str);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /**
+     * long format yyyyMMddHHmmssSSS
+     *
+     * @param d
+     * @return
+     */
+    public static long dateToLong(Date d) {
+        try {
+            Timestamp ts = new Timestamp(d.getTime());
+            String str = timestamp2String(ts, "yyyyMMddHHmmssSSS");
+            return Long.parseLong(str);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /**
+     *
+     * @param d
+     * @param fmOut example format: yyyyMMddHHmmssSSS
+     * <br> => long = 20220304143044321
+     * @return
+     */
+    public static long dateToLong(Date d, String fmOut) {
+        try {
+            Timestamp ts = new Timestamp(d.getTime());
+            String str = timestamp2String(ts, fmOut);
+            return Long.parseLong(str);
+        } catch (NumberFormatException e) {
             return 0;
         }
     }
@@ -513,7 +463,7 @@ public class DateProc {
         return str;
     }
 
-    public static String extractInfo(Date date) {
+    public static String extractDayOfWeek(Date date) {
         String dayOfWeek;
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -551,13 +501,6 @@ public class DateProc {
                 break;
         }
         return dayOfWeek;
-    }
-
-    public static String getCurrentTimestampString() {
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR);
-        String a = (hour < 12) ? " AM" : " PM";
-        return (new Timestamp(calendar.getTimeInMillis())).toString() + a;
     }
 
 }
