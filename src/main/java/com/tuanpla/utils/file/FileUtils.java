@@ -4,8 +4,8 @@
  */
 package com.tuanpla.utils.file;
 
-import com.tuanpla.utils.common.MyUtils;
 import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.string.StringUtil;
 import java.awt.image.BufferedImage;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -123,7 +123,7 @@ public class FileUtils {
     public static boolean writeFileText(String content, String path) {
         boolean flag = false;
         try {
-            try (Writer outw2 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "UTF-8"))) {
+            try ( Writer outw2 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "UTF-8"))) {
                 outw2.write(content);
                 flag = true;
             } catch (Exception e) {
@@ -141,7 +141,7 @@ public class FileUtils {
         String sContent = "";
         try {
             FileInputStream fstream = new FileInputStream(path);
-            try (DataInputStream in = new DataInputStream(fstream)) {
+            try ( DataInputStream in = new DataInputStream(fstream)) {
                 BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
                 while ((Content = br.readLine()) != null) {
                     sContent += Content + "\n";
@@ -582,7 +582,7 @@ public class FileUtils {
     public static String getExtension(String fileName) {
         String ext = "";
         try {
-            if (MyUtils.isNull(fileName)) {
+            if (StringUtil.isEmpty(fileName)) {
                 return ext;
             }
             int index = fileName.lastIndexOf(".");

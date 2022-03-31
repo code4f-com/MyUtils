@@ -66,12 +66,12 @@ public class HttpUtil {
             URL url = new URL(urlStr);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setConnectTimeout(20000);
-            try (InputStream in = http.getInputStream()) {
+            try ( InputStream in = http.getInputStream()) {
                 t = MyString.convertStreamToString(in);
             }
             http.disconnect();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(LogUtils.getLogMessage(e));
         }
         return t;
     }
@@ -85,8 +85,8 @@ public class HttpUtil {
             con.setInstanceFollowRedirects(false);
             con.setRequestMethod("HEAD");
             return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
-        } catch (Exception e) {
-//            e.printStackTrace();
+        } catch (IOException e) {
+            logger.error(LogUtils.getLogMessage(e));
             return false;
         }
     }
@@ -96,7 +96,7 @@ public class HttpUtil {
         boolean isMultipart = Boolean.FALSE;
         String contentType = request.getContentType();
         if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)
-                && contentType.indexOf("boundary=") != -1) {
+                && contentType.contains("boundary=")) {
             isMultipart = true;
         }
         if (isMultipart) {
@@ -117,6 +117,7 @@ public class HttpUtil {
             int lastIdex = param.lastIndexOf("]");
             str = param.substring(fisrtIdex + 1, lastIdex);
         } catch (Exception e) {
+            logger.error(LogUtils.getLogMessage(e));
         }
         return str;
     }
@@ -127,6 +128,7 @@ public class HttpUtil {
             String[] arr = param.split(reg);
             index = arr[1];
         } catch (Exception e) {
+            logger.error(LogUtils.getLogMessage(e));
         }
         return index;
     }
@@ -170,7 +172,7 @@ public class HttpUtil {
         int tem;
         try {
             tem = Integer.parseInt(request.getParameter(param).trim());
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LogUtils.debug("Exception:getInt  [" + param + "]- defaultVal:" + defaultVal + " | URI" + getURI(request));
             tem = defaultVal;
         }
@@ -181,7 +183,7 @@ public class HttpUtil {
         long tem;
         try {
             tem = Long.parseLong(request.getParameter(param).trim());
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LogUtils.debug("getLong  [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             tem = 0;
         }
@@ -192,7 +194,7 @@ public class HttpUtil {
         double tem;
         try {
             tem = Double.parseDouble(request.getParameter(param).trim());
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             tem = 0;
         }
@@ -203,7 +205,7 @@ public class HttpUtil {
         double tem;
         try {
             tem = Double.parseDouble(request.getParameter(param).trim());
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             tem = defaultVal;
             LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
         }
@@ -222,7 +224,7 @@ public class HttpUtil {
     }
 
     public static String[] getArrValue(HttpServletRequest request, String param) {
-        String[] data = {};
+        String[] data;
         try {
             data = request.getParameterValues(param);
         } catch (Exception e) {
@@ -261,7 +263,7 @@ public class HttpUtil {
         float tem;
         try {
             tem = Float.parseFloat(request.getParameter(param).trim());
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LogUtils.debug("getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             tem = 0;
         }
@@ -281,8 +283,7 @@ public class HttpUtil {
                 }
             }
         } catch (Exception e) {
-            LogUtils.debug("Unable to get cookie using");
-            e.printStackTrace();
+            logger.error(LogUtils.getLogMessage(e));
         }
         return value;
     }
@@ -308,7 +309,7 @@ public class HttpUtil {
     }
 
     public static String getURI(HttpServletRequest request) {
-        String currentURL = null;
+        String currentURL;
         if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
             currentURL = (String) request.getAttribute("javax.servlet.forward.request_uri");
         } else {
@@ -321,7 +322,7 @@ public class HttpUtil {
     }
 
     public static String getFullURL(HttpServletRequest request) {
-        String currentURL = null;
+        String currentURL;
         String domain = request.getScheme() + "://" + request.getHeader("host");
         if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
             currentURL = (String) request.getAttribute("javax.servlet.forward.request_uri");
@@ -372,7 +373,7 @@ public class HttpUtil {
             Matcher mc = pc.matcher(uri);
             result = m.matches() || mc.matches();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LogUtils.getLogMessage(e));
         }
         return result;
     }

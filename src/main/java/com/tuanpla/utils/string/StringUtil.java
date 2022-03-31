@@ -4,11 +4,13 @@
  */
 package com.tuanpla.utils.string;
 
-import com.tuanpla.utils.common.HexUtil;
+import com.tuanpla.utils.exception.CustomerException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -54,12 +56,19 @@ public class StringUtil {
      * @see #substituteWithProperties(java.lang.String, java.lang.String,
      * java.lang.String, java.util.Properties)
      */
-    public static String substituteWithEnvironment(String string0) throws SubstitutionException {
+    public static String substituteWithEnvironment(String string0) throws CustomerException {
         // turn environment into properties
         Properties envProps = new Properties();
         // add all system environment vars to the properties
         envProps.putAll(System.getenv());
         // delegate to other method using the default syntax $ENV{<key>}
+        Set keySets = envProps.keySet();
+        Iterator keys = keySets.iterator();
+        while (keys.hasNext()) {
+            String next = (String) keys.next();
+            System.out.println("key=" + next);
+            System.out.println("value =" + envProps.getProperty(next));
+        }
         return substituteWithProperties(string0, "$ENV{", "}", envProps);
     }
 
@@ -90,12 +99,11 @@ public class StringUtil {
      * properties object (could not be replaced).
      * @see #substituteWithEnvironment(java.lang.String)
      */
-    public static String substituteWithProperties(String string0, String startStr, String endStr, Properties properties) throws SubstitutionException {
+    public static String substituteWithProperties(String string0, String startStr, String endStr, Properties properties) throws CustomerException {
         // a null source string will always return the same -- a null result
         if (string0 == null) {
             return null;
         }
-
         // create a builder for the resulting string
         StringBuilder result = new StringBuilder(string0.length());
 
@@ -115,7 +123,7 @@ public class StringUtil {
 
             // was the end found?
             if (end < 0) {
-                throw new SubstitutionException("End of substitution pattern '" + endStr + "' not found [@position=" + pos + "]");
+                throw new CustomerException("End of substitution pattern '" + endStr + "' not found [@position=" + pos + "]");
             }
 
             // extract the part in the middle of the start and end strings
@@ -124,14 +132,14 @@ public class StringUtil {
 
             // was there anything left?
             if (key == null || key.equals("")) {
-                throw new SubstitutionException("Property key was empty in string with an occurrence of '" + startStr + endStr + "' [@position=" + pos + "]");
+                throw new CustomerException("Property key was empty in string with an occurrence of '" + startStr + endStr + "' [@position=" + pos + "]");
             }
 
             // attempt to get this property
             String value = properties.getProperty(key);
             // was the property found
             if (value == null) {
-                throw new SubstitutionException("A property value for '" + startStr + key + endStr + "' was not found (property missing?)");
+                throw new CustomerException("A property value for '" + startStr + key + endStr + "' was not found (property missing?)");
             }
 
             // append this value to our result
@@ -152,16 +160,19 @@ public class StringUtil {
 
     /**
      * Returns true if the String is considered a "safe" string where only
-     * specific characters are allowed to be used. Useful for checking passwords
+     * specific characters are allowed to be used.Useful for checking passwords
      * or other information you don't want a user to be able to type just
-     * anything in. This method does not allow any whitespace characters,
+     * anything in.This method does not allow any whitespace characters,
      * newlines, carriage returns. Primarily allows [a-z] [A-Z] [0-9] and a few
      * other useful ASCII characters such as ":~!@#$%^*()-_+=/\\,.[]{}|?<>" (but
      * not the quote chars)
+     *
+     * @param input
+     * @return
      */
-    public static boolean isSafeString(String string0) {
-        for (int i = 0; i < string0.length(); i++) {
-            if (!isSafeChar(string0.charAt(i))) {
+    public static boolean isSafeString(String input) {
+        for (int i = 0; i < input.length(); i++) {
+            if (!isSafeChar(input.charAt(i))) {
                 return false;
             }
         }
@@ -169,9 +180,11 @@ public class StringUtil {
     }
 
     /**
-     * Returns true if the char is considered a "safe" char. Please see
+     * Returns true if the char is considered a "safe" char.Please see
      * documentation for isSafeString().
      *
+     * @param ch
+     * @return
      * @see #isSafeString(java.lang.String)
      */
     public static boolean isSafeChar(char ch) {
@@ -200,24 +213,25 @@ public class StringUtil {
      * will return null. If the string is empty such as "", then it'll just
      * return an empty string such as "".
      *
-     * @param string0 The string to capitalize
+     * @param input The string to capitalize
      * @return A new string with the first character converted to upper case
      */
-    public static String capitalize(String string0) {
-        if (string0 == null) {
+    public static String capitalize(String input) {
+        if (input == null) {
             return null;
         }
-        int length = string0.length();
+        int length = input.length();
         // if empty string, just return it
-        if (length == 0) {
-            return string0;
-        } else if (length == 1) {
-            return string0.toUpperCase();
-        } else {
-            StringBuilder buf = new StringBuilder(length);
-            buf.append(string0.substring(0, 1).toUpperCase());
-            buf.append(string0.substring(1));
-            return buf.toString();
+        switch (length) {
+            case 0:
+                return input;
+            case 1:
+                return input.toUpperCase();
+            default:
+                StringBuilder buf = new StringBuilder(length);
+                buf.append(input.substring(0, 1).toUpperCase());
+                buf.append(input.substring(1));
+                return buf.toString();
         }
     }
 
@@ -237,15 +251,16 @@ public class StringUtil {
         }
         int length = string0.length();
         // if empty string, just return it
-        if (length == 0) {
-            return string0;
-        } else if (length == 1) {
-            return string0.toLowerCase();
-        } else {
-            StringBuilder buf = new StringBuilder(length);
-            buf.append(string0.substring(0, 1).toLowerCase());
-            buf.append(string0.substring(1));
-            return buf.toString();
+        switch (length) {
+            case 0:
+                return string0;
+            case 1:
+                return string0.toLowerCase();
+            default:
+                StringBuilder buf = new StringBuilder(length);
+                buf.append(string0.substring(0, 1).toLowerCase());
+                buf.append(string0.substring(1));
+                return buf.toString();
         }
     }
 
@@ -293,34 +308,38 @@ public class StringUtil {
 
     /**
      * If present, this method will strip off the leading and trailing "
-     * character in the string parameter. For example, "10958" will becomes just
+     * character in the string parameter.For example, "10958" will becomes just
      * 10958.
+     *
+     * @param input
+     * @return
      */
-    public static String stripQuotes(String string0) {
+    public static String stripQuotes(String input) {
         // if an empty string, return it
-        if (string0.length() == 0) {
-            return string0;
+        if (input.length() == 0) {
+            return input;
         }
         // if the first and last characters are quotes, just do 1 substring
-        if (string0.length() > 1 && string0.charAt(0) == '"' && string0.charAt(string0.length() - 1) == '"') {
-            return string0.substring(1, string0.length() - 1);
-        } else if (string0.charAt(0) == '"') {
-            string0 = string0.substring(1);
-        } else if (string0.charAt(string0.length() - 1) == '"') {
-            string0 = string0.substring(0, string0.length() - 1);
+        if (input.length() > 1 && input.charAt(0) == '"' && input.charAt(input.length() - 1) == '"') {
+            return input.substring(1, input.length() - 1);
+        } else if (input.charAt(0) == '"') {
+            input = input.substring(1);
+        } else if (input.charAt(input.length() - 1) == '"') {
+            input = input.substring(0, input.length() - 1);
         }
-        return string0;
+        return input;
     }
 
     /**
      * Checks if a string contains only digits.
      *
+     * @param input
      * @return True if the string0 only contains digits, or false otherwise.
      */
-    public static boolean containsOnlyDigits(String string0) {
+    public static boolean containsOnlyDigits(String input) {
         // are they all digits?
-        for (int i = 0; i < string0.length(); i++) {
-            if (!Character.isDigit(string0.charAt(i))) {
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isDigit(input.charAt(i))) {
                 return false;
             }
         }
@@ -328,14 +347,15 @@ public class StringUtil {
     }
 
     /**
-     * Splits a string around matches of the given delimiter character.
-     *
-     * Where applicable, this method can be used as a substitute for
+     * Splits a string around matches of the given delimiter character.Where
+     * applicable, this method can be used as a substitute for
      * <code>String.split(String regex)</code>, which is not available on a
      * JSR169/Java ME platform.
      *
+     *
      * @param str the string to be split
      * @param delim the delimiter
+     * @return
      * @throws NullPointerException if str is null
      */
     public static String[] split(String str, char delim) {
@@ -362,10 +382,13 @@ public class StringUtil {
     /**
      * Used to print out a string for error messages, chops is off at 60 chars
      * for historical reasons.
+     *
+     * @param input
+     * @return
      */
     public final static String formatForPrint(String input) {
         if (input.length() > 60) {
-            StringBuffer tmp = new StringBuffer(input.substring(0, 60));
+            StringBuilder tmp = new StringBuilder(input.substring(0, 60));
             tmp.append("&");
             input = tmp.toString();
         }
@@ -389,9 +412,9 @@ public class StringUtil {
     }
 
     /**
-     * Get 7-bit ASCII character array from input String. The lower 7 bits of
+     * Get 7-bit ASCII character array from input String.The lower 7 bits of
      * each character in the input string is assumed to be the ASCII character
-     * value. Hexadecimal - Character | 00 NUL| 01 SOH| 02 STX| 03 ETX| 04 EOT|
+     * value.Hexadecimal - Character | 00 NUL| 01 SOH| 02 STX| 03 ETX| 04 EOT|
      * 05 ENQ| 06 ACK| 07 BEL| | 08 BS | 09 HT | 0A NL | 0B VT | 0C NP | 0D CR |
      * 0E SO | 0F SI | | 10 DLE| 11 DC1| 12 DC2| 13 DC3| 14 DC4| 15 NAK| 16 SYN|
      * 17 ETB| | 18 CAN| 19 EM | 1A SUB| 1B ESC| 1C FS | 1D GS | 1E RS | 1F US |
@@ -405,6 +428,9 @@ public class StringUtil {
      * 67 g | | 68 h | 69 i | 6A j | 6B k | 6C l | 6D m | 6E n | 6F o | | 70 p |
      * 71 q | 72 r | 73 s | 74 t | 75 u | 76 v | 77 w | | 78 x | 79 y | 7A z |
      * 7B { | 7C | | 7D } | 7E ~ | 7F DEL|
+     *
+     * @param input
+     * @return
      */
     public static byte[] getAsciiBytes(String input) {
         char[] c = input.toCharArray();
@@ -417,7 +443,7 @@ public class StringUtil {
     }
 
     public static String getAsciiString(byte[] input) {
-        StringBuffer buf = new StringBuffer(input.length);
+        StringBuilder buf = new StringBuilder(input.length);
         for (byte b : input) {
             buf.append((char) b);
         }
@@ -489,65 +515,11 @@ public class StringUtil {
     };
 
     /**
-     * @deprecated Please use new utility class HexUtil
-     * @see HexUtil#toHexString(byte[])
-     */
-    @Deprecated
-    public static String toHexString(byte[] bytes) {
-        return HexUtil.toHexString(bytes);
-    }
-
-    /**
-     * @deprecated Please use new utility class HexUtil
-     * @see HexUtil#toHexString(byte[], int, int)
-     */
-    @Deprecated
-    public static String toHexString(byte[] bytes, int offset, int length) {
-        return HexUtil.toHexString(bytes, offset, length);
-    }
-
-    /**
-     * @deprecated Please use new utility class HexUtil
-     * @see HexUtil#toByteArray(java.lang.CharSequence, int, int)
-     */
-    @Deprecated
-    public static byte[] toHexByte(String hexString, int offset, int length) {
-        return HexUtil.toByteArray(hexString, offset, length);
-    }
-
-    /**
-     * Converts from a hex string like "FF" to a byte[].
-     *
-     * @param string0 The string containing the hex-encoded data.
-     * @return
-     * @deprecated Please use new utility class HexUtil
-     * @see HexUtil#toByteArray(java.lang.CharSequence)
-     */
-    @Deprecated
-    public static byte[] fromHexString(String hexString) {
-        return HexUtil.toByteArray(hexString);
-    }
-
-    /**
-     * Convert a hexidecimal string generated by toHexString() back into a byte
-     * array.
-     *
-     * @param s String to convert
-     * @param offset starting character (zero based) to convert.
-     * @param length number of characters to convert.
-     * @return the converted byte array. Returns null if the length is not a
-     * multiple of 2.
-     * @deprecated Please use new utility class HexUtil
-     * @see HexUtil#toByteArray(java.lang.CharSequence, int, int)
-     */
-    @Deprecated
-    public static byte[] fromHexString(String hexString, int offset, int length) {
-        return HexUtil.toByteArray(hexString, offset, length);
-    }
-
-    /**
-     * Return true if the character is printable in ASCII. Not using
+     * Return true if the character is printable in ASCII.Not using
      * Character.isLetterOrDigit(); applies to all unicode ranges.
+     *
+     * @param ch
+     * @return
      */
     public static boolean isPrintableChar(char ch) {
         if (ch >= 'a' && ch <= 'z') {
@@ -572,11 +544,15 @@ public class StringUtil {
 
     /**
      * Convert a byte array to a human-readable String for debugging purposes.
+     *
+     * @param prefix
+     * @param data
+     * @return
      */
     public static String hexDump(String prefix, byte[] data) {
         byte byte_value;
 
-        StringBuffer str = new StringBuffer(data.length * 3);
+        StringBuilder str = new StringBuilder(data.length * 3);
 
         str.append(prefix);
 
@@ -688,10 +664,11 @@ public class StringUtil {
 
     /**
      * Normalize a SQL identifer, up-casing if <regular identifer>, and handling
-     * of <delimited identifer> (SQL 2003, section 5.2). The normal form is used
+     * of <delimited identifer> (SQL 2003, section 5.2).The normal form is used
      * internally in Derby.
      *
      * @param id syntacically correct SQL identifier
+     * @return
      */
     public static String normalizeSQLIdentifier(String id) {
         if (id.length() == 0) {
@@ -757,7 +734,7 @@ public class StringUtil {
     static String quoteString(String source, char quote) {
         // Normally, the quoted string is two characters longer than the source
         // string (because of start quote and end quote).
-        StringBuffer quoted = new StringBuffer(source.length() + 2);
+        StringBuilder quoted = new StringBuilder(source.length() + 2);
         quoted.append(quote);
         for (int i = 0; i < source.length(); i++) {
             char c = source.charAt(i);
@@ -784,15 +761,18 @@ public class StringUtil {
     }
 
     /**
-     * Turn an array of ints into a printable string. Returns what's returned in
+     * Turn an array of ints into a printable string.Returns what's returned in
      * Java 5 by java.util.Arrays.toString(int[]).
+     *
+     * @param raw
+     * @return
      */
     public static String stringify(int[] raw) {
         if (raw == null) {
             return "null";
         }
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         int count = raw.length;
 
         buffer.append("[ ");
@@ -812,15 +792,11 @@ public class StringUtil {
      * null or if the string represents an empty string of "". Please note that
      * a string with just a space " " would not be considered empty.
      *
-     * @param string0 The string to check
+     * @param input The string to check
      * @return True if null or "", otherwise false.
      */
-    public static boolean isEmpty(String string0) {
-        if (string0 == null || string0.length() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+    public static boolean isEmpty(String input) {
+        return input == null || input.length() == 0 || input.equalsIgnoreCase("null");
     }
 
     public static boolean isEqual(String string0, String string1) {
@@ -946,11 +922,11 @@ public class StringUtil {
             char c = value.charAt(i);
             boolean entityFound = false;
             // is this a matching entity?
-            for (int j = 0; j < XML_CHARS.length; j++) {
+            for (String[] XML_CHARS1 : XML_CHARS) {
                 // is this the matching character?
-                if (c == XML_CHARS[j][0].charAt(0)) {
+                if (c == XML_CHARS1[0].charAt(0)) {
                     // append the entity
-                    buf.append(XML_CHARS[j][1]);
+                    buf.append(XML_CHARS1[1]);
                     entityFound = true;
                 }
             }

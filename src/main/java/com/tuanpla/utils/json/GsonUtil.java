@@ -14,8 +14,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.tuanpla.utils.common.MyUtils;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +77,7 @@ public class GsonUtil {
 //        }
         @Override
         public Timestamp deserialize(JsonElement json, Type type, JsonDeserializationContext jdc) throws JsonParseException {
-            if (!MyUtils.isNull(json) && json.isJsonObject()) {
+            if (!Objects.isNull(json) && json.isJsonObject()) {
                 JsonObject jobj = json.getAsJsonObject();
                 long time = 0;
                 if (jobj.has("time")) {
@@ -129,7 +130,7 @@ public class GsonUtil {
     public static String toJsonArr(Object obj) {
         if (obj != null) {
             String str = gson.toJson(obj);
-            return MyUtils.isNull(str) ? "[]" : str;
+            return Objects.isNull(str) ? "[]" : str;
         } else {
             return "[]";
         }
@@ -153,10 +154,9 @@ public class GsonUtil {
     // Java objects to File
     public static void toFileJson(Object obj, String path) {
         Gson _gson = new GsonBuilder().setPrettyPrinting().create();
-        try (FileWriter writer = new FileWriter(path)) {
+        try ( FileWriter writer = new FileWriter(path)) {
             _gson.toJson(obj, writer);
         } catch (IOException e) {
-            e.printStackTrace();
             logger.error(LogUtils.getLogMessage(e));
         }
     }
@@ -165,8 +165,7 @@ public class GsonUtil {
         T result = null;
         try {
             result = gson.fromJson(content, clazz);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (JsonSyntaxException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
         return result;
@@ -174,10 +173,9 @@ public class GsonUtil {
 
     public static <T> T jsonFileToObject(String path, Class<T> clazz) {
         T result = null;
-        try (Reader reader = new FileReader(path)) {
+        try ( Reader reader = new FileReader(path)) {
             result = gson.fromJson(reader, clazz);
         } catch (IOException e) {
-            e.printStackTrace();
             logger.error(LogUtils.getLogMessage(e));
         }
         return result;
@@ -188,8 +186,7 @@ public class GsonUtil {
         try {
             result = gson.fromJson(content, new TypeToken<T>() {
             }.getType());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (JsonSyntaxException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
         return result;
@@ -205,8 +202,7 @@ public class GsonUtil {
                     result.add(tmp);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (JsonSyntaxException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
         return result;
@@ -220,8 +216,7 @@ public class GsonUtil {
             tmp.forEach((one) -> {
                 result.add(one);
             });
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (JsonSyntaxException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
         return result;
@@ -232,8 +227,7 @@ public class GsonUtil {
         try {
             map = gson.fromJson(content, new TypeToken<Map<String, Object>>() {
             }.getType());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (JsonSyntaxException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
         return map;

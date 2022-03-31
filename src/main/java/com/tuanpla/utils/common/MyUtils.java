@@ -101,12 +101,4 @@ public class MyUtils {
         TimeUnit.SECONDS.sleep(delay);
     }
 
-    public static boolean isNull(String input) {
-        return input == null || input.equalsIgnoreCase("null") || input.equalsIgnoreCase("");
-    }
-
-    public static boolean isNull(Object input) {
-        return input == null || input.equals("null") || input.equals("");
-    }
-
 }

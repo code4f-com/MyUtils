@@ -79,7 +79,7 @@ public class MonitorWorker extends Thread {
         }
         MonitorWorker.removeDemonName(this.getName());
         LogUtils.debug("==> MyMonitorThread is die...[DemonThread size:" + DEMON_THREAD_LIST.size() + "]");
-        if (DEMON_THREAD_LIST.size() > 0) {
+        if (!DEMON_THREAD_LIST.isEmpty()) {
             showDemon();
         }
         LogUtils.debug("=========> Xong roi Quit di....");

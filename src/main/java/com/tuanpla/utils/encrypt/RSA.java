@@ -122,7 +122,7 @@ public class RSA {
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             byte[] x = cipher.doFinal(input.getBytes());
-            str = HexUtil.toHexString(x);
+            str = HexUtil.byteToHex(x);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
             logger.error(LogUtils.getLogMessage(ex));
         }
@@ -159,7 +159,7 @@ public class RSA {
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] x = cipher.doFinal(text.getBytes());
 
-        String tempHex = HexUtil.toHexString(x);
+        String tempHex = HexUtil.byteToHex(x);
         byte[] tempByte = HexUtil.hexToBytes(tempHex);
 
         cipher.init(Cipher.DECRYPT_MODE, privateKey);

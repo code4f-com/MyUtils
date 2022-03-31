@@ -4,7 +4,6 @@
  */
 package com.tuanpla.utils.string;
 
-import com.tuanpla.utils.common.MyUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +15,6 @@ import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Random;
 import java.util.StringTokenizer;
-import java.util.UUID;
 
 /**
  *
@@ -53,19 +51,6 @@ public class MyString {
             sBuf.insert(0, "0");
         }
         return sBuf.toString();
-    }
-
-    public static String getId(String phone) {
-        try {
-            if (!MyUtils.isNull(phone)) {
-                return phone + "-" + Long.toString(System.nanoTime(), 16);
-            } else {
-                return MyString.generateRandomPassword(11) + "-" + Long.toString(System.nanoTime(), 16);
-            }
-        } catch (Exception e) {
-            UUID idOne = UUID.randomUUID();
-            return idOne.toString();
-        }
     }
 
     public static String getStringURL(String input) {
@@ -543,7 +528,7 @@ public class MyString {
     }
 
     public static String removeEndCharactor(String str, String charactor) {
-        if (!MyUtils.isNull(charactor) && !MyUtils.isNull(str)) {
+        if (!StringUtil.isEmpty(charactor) && !StringUtil.isEmpty(str)) {
             if (str.endsWith(charactor)) {
                 str = str.substring(0, str.length() - 1);
             }

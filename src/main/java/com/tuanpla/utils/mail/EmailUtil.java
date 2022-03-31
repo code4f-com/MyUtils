@@ -7,8 +7,6 @@ package com.tuanpla.utils.mail;
 import com.tuanpla.utils.http.ListNets;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -37,7 +35,6 @@ public class EmailUtil {
 
     static Logger logger = LoggerFactory.getLogger(EmailUtil.class);
 
-    private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss sss");
 
     /*
     Bạn chỉ có thể sử dụng hoặc fixedDelay hoặc fixedRate trong @Schedule annotation, bạn không thể sử dụng đồng thời cả hai.
@@ -223,8 +220,8 @@ public class EmailUtil {
             Transport.send(msg);
             sended = true;
             LogUtils.debug("EMail Sent Successfully!!");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            logger.error(LogUtils.getLogMessage(e));
         }
         return sended;
     }
@@ -358,11 +355,10 @@ public class EmailUtil {
             // Send message
             Transport.send(msg);
             LogUtils.debug("EMail Sent Successfully with image!!");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            logger.error(LogUtils.getLogMessage(e));
         }
+
     }
 
     /**
@@ -404,10 +400,8 @@ public class EmailUtil {
             // Send message
             Transport.send(msg);
             LogUtils.debug("EMail Sent Successfully with attachment!!");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            logger.error(LogUtils.getLogMessage(e));
         }
     }
 

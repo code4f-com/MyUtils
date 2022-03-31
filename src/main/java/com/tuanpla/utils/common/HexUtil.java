@@ -70,7 +70,7 @@ public class HexUtil {
      * String.
      * @return
      */
-    public static String toHexString(byte value) {
+    public static String byteToHex(byte value) {
         StringBuilder buffer = new StringBuilder(2);
         appendHexString(buffer, value);
         return buffer.toString();
@@ -86,11 +86,11 @@ public class HexUtil {
      * noop)
      * @return
      */
-    public static String toHexString(byte[] bytes) {
+    public static String byteToHex(byte[] bytes) {
         if (bytes == null) {
             return null;
         }
-        return toHexString(bytes, 0, bytes.length);
+        return byteToHex(bytes, 0, bytes.length);
     }
 
     /**
@@ -109,7 +109,7 @@ public class HexUtil {
      * IllegalArgumentException.
      * @return
      */
-    public static String toHexString(byte[] bytes, int offset, int length) {
+    public static String byteToHex(byte[] bytes, int offset, int length) {
         if (bytes == null) {
             return "";
         }
@@ -130,7 +130,7 @@ public class HexUtil {
      * String.
      * @return
      */
-    public static String toHexString(short value) {
+    public static String shortToHex(short value) {
         StringBuilder buffer = new StringBuilder(4);
         appendHexString(buffer, value);
         return buffer.toString();
@@ -146,7 +146,7 @@ public class HexUtil {
      * String.
      * @return
      */
-    public static String toHexString(int value) {
+    public static String intToHex(int value) {
         StringBuilder buffer = new StringBuilder(8);
         appendHexString(buffer, value);
         return buffer.toString();
@@ -162,18 +162,18 @@ public class HexUtil {
      * String.
      * @return
      */
-    public static String toHexString(long value) {
+    public static String longToHex(long value) {
         StringBuilder buffer = new StringBuilder(16);
         appendHexString(buffer, value);
         return buffer.toString();
     }
 
-    public static String toHexString(String data) {
+    public static String stringToHex(String data) {
         if (data == null) {
             return null;
         }
         byte[] bytes = data.getBytes();
-        return toHexString(bytes, 0, bytes.length);
+        return byteToHex(bytes, 0, bytes.length);
     }
 
     /**
@@ -205,8 +205,7 @@ public class HexUtil {
      * noop)
      */
     public static void appendHexString(StringBuilder buffer, byte[] bytes) {
-        assertNotNull(buffer);
-        if (bytes == null) {
+        if (buffer == null || bytes == null) {
             return;     // do nothing (a noop)
         }
         appendHexString(buffer, bytes, 0, bytes.length);
@@ -231,8 +230,7 @@ public class HexUtil {
      * IllegalArgumentException.
      */
     public static void appendHexString(StringBuilder buffer, byte[] bytes, int offset, int length) {
-        assertNotNull(buffer);
-        if (bytes == null) {
+        if (buffer == null || bytes == null) {
             return;     // do nothing (a noop)
         }
         assertOffsetLengthValid(offset, length, bytes.length);
@@ -257,7 +255,9 @@ public class HexUtil {
      * String.
      */
     public static void appendHexString(StringBuilder buffer, byte value) {
-        assertNotNull(buffer);
+        if (buffer == null) {
+            return;
+        }
         int nibble = (value & 0xF0) >>> 4;
         buffer.append(HEX_TABLE[nibble]);
         nibble = (value & 0x0F);
@@ -276,7 +276,9 @@ public class HexUtil {
      * String.
      */
     public static void appendHexString(StringBuilder buffer, short value) {
-        assertNotNull(buffer);
+        if (buffer == null) {
+            return;
+        }
         int nibble = (value & 0xF000) >>> 12;
         buffer.append(HEX_TABLE[nibble]);
         nibble = (value & 0x0F00) >>> 8;
@@ -300,7 +302,9 @@ public class HexUtil {
      * String.
      */
     public static void appendHexString(StringBuilder buffer, int value) {
-        assertNotNull(buffer);
+        if (buffer == null) {
+            return;
+        }
         int nibble = (value & 0xF0000000) >>> 28;
         buffer.append(HEX_TABLE[nibble]);
         nibble = (value & 0x0F000000) >>> 24;
@@ -334,12 +338,6 @@ public class HexUtil {
     public static void appendHexString(StringBuilder buffer, long value) {
         appendHexString(buffer, (int) ((value & 0xFFFFFFFF00000000L) >>> 32));
         appendHexString(buffer, (int) (value & 0x00000000FFFFFFFFL));
-    }
-
-    static private void assertNotNull(StringBuilder buffer) {
-        if (buffer == null) {
-            throw new NullPointerException("The buffer cannot be null");
-        }
     }
 
     static private void assertOffsetLengthValid(int offset, int length, int arrayLength) {

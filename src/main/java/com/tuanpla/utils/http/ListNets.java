@@ -9,6 +9,8 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.InitialDirContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,12 +23,8 @@ import javax.naming.directory.InitialDirContext;
  */
 public class ListNets {
 
-//    public static void main(String args[]) throws SocketException {
-//        Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
-//        for (NetworkInterface netint : Collections.list(nets)) {
-//            displayInterfaceInformation(netint);
-//        }
-//    }
+    static final Logger logger = LoggerFactory.getLogger(ListNets.class);
+
     static void displayInterfaceInformation(NetworkInterface netint) throws SocketException {
         out.printf("Display name: %s\n", netint.getDisplayName());
         out.printf("Name: %s\n", netint.getName());
@@ -35,25 +33,6 @@ public class ListNets {
             out.printf("InetAddress: %s\n", inetAddress);
         }
         out.printf("\n");
-    }
-
-    public static void main(String args[]) {
-        // explain what program does and how to use it 
-        if (args.length != 1) {
-            System.err.println("Print out a sorted list of mail exchange servers ");
-            System.err.println("    for a network domain name");
-            System.err.println("USAGE: java MailHostsLookup domainName");
-            System.exit(-1);
-        }
-        try {   // print the sorted mail exhchange servers
-            args[0] = "htcjsc.vn";
-            for (String mailHost : lookupMailHosts(args[0])) {
-                LogUtils.debug(mailHost);
-            }
-        } catch (NamingException e) {
-            System.err.println("ERROR: No DNS record for '" + args[0] + "'");
-            System.exit(-2);
-        }
     }
 
     // returns a String array of mail exchange servers (mail hosts) 
@@ -84,11 +63,7 @@ public class ListNets {
         }
 
         // sort the MX RRs by RR value (lower is preferred)
-        Arrays.sort(pvhn, new Comparator<String[]>() {
-            public int compare(String[] o1, String[] o2) {
-                return (Integer.parseInt(o1[0]) - Integer.parseInt(o2[0]));
-            }
-        });
+        Arrays.sort(pvhn, (String[] o1, String[] o2) -> (Integer.parseInt(o1[0]) - Integer.parseInt(o2[0])));
 
         // put sorted host names in an array, get rid of any trailing '.' 
         String[] sortedHostNames = new String[pvhn.length];
@@ -106,18 +81,17 @@ public class ListNets {
             BufferedReader in = new BufferedReader(new InputStreamReader(ipAdress.openStream()));
             String ip = in.readLine();
             LogUtils.debug(ip);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(LogUtils.getLogMessage(e));
         }
     }
 
     public static String getIpAddress() {
         try {
             InetAddress thisIp = InetAddress.getLocalHost();
-            return thisIp.getHostAddress().toString();
-        } catch (Exception e) {
+            return thisIp.getHostAddress();
+        } catch (UnknownHostException e) {
+            logger.error(LogUtils.getLogMessage(e));
             return "Unknow";
         }
     }
@@ -126,7 +100,8 @@ public class ListNets {
         try {
             InetAddress thisIp = InetAddress.getLocalHost();
             return thisIp.getHostName();
-        } catch (Exception e) {
+        } catch (UnknownHostException e) {
+            logger.error(LogUtils.getLogMessage(e));
             return "Unknow";
         }
     }
@@ -134,53 +109,16 @@ public class ListNets {
     public static String getExternalIp() {
         try {
             URL whatismyip = new URL("http://checkip.amazonaws.com");
-            BufferedReader in = null;
-            try {
-                in = new BufferedReader(new InputStreamReader(
-                        whatismyip.openStream()));
-                String ip = in.readLine();
-                return ip;
-            } finally {
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+            String ip;
+            try ( BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()))) {
+                ip = in.readLine();
             }
-        } catch (Exception e) {
+            return ip;
+        } catch (IOException e) {
+            logger.error(LogUtils.getLogMessage(e));
             return getIpAddress();
         }
 
     }
-//    public String getMXRecordsForEmailAddress(String eMailAddress) {
-//        String returnValue = new String();
-//
-//        try {
-//            String parts[] = eMailAddress.split("@");
-//            String hostName = parts[1];
-//
-//            Record[] records = new Lookup(hostName, Type.MX).run();
-//            if (records == null) {
-//                throw new RuntimeException("No MX records found for domain " + hostName + ".");
-//            }
-//
-//            if (records.length > 0) {
-//                MXRecord mxr = (MXRecord) records[0];
-//                for (int i = 0; i < records.length; i++) {
-//                    MXRecord tocompare = (MXRecord) records[i];
-//                    if (mxr.getPriority() > tocompare.getPriority()) {
-//                        mxr = tocompare;
-//                    }
-//                }
-//                returnValue = mxr.getTarget().toString();
-//            }
-//
-//        } catch (TextParseException e) {
-//            return new String("NULL");
-//
-//        }
-//        return returnValue;
-//    }
+
 }
