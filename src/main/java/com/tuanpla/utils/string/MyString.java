@@ -26,6 +26,20 @@ public class MyString {
 
     private static final Random RANDOM = new SecureRandom();
 
+    public static String getNumber(String input) {
+        if (input == null) {
+            return null;
+        }
+        StringBuilder buffer = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char ch = input.charAt(i);
+            if ((ch >= '0' && ch <= '9')) {
+                buffer.append(ch);
+            }
+        }
+        return buffer.toString();
+    }
+
     /**
      * Return a String with n digit if value length &lt; digitLength
      *

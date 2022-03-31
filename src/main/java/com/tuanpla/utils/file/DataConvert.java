@@ -4,6 +4,7 @@
  */
 package com.tuanpla.utils.file;
 
+import com.tuanpla.utils.common.Convert;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collection;
 import javax.imageio.stream.ImageInputStream;
 import org.apache.commons.codec.binary.Base64;
@@ -22,75 +24,33 @@ import org.apache.commons.codec.binary.Base64;
  * @author tuanpla
  */
 public class DataConvert {
-continute
-    public DataConvert() {
-        super();
-    }
 
-    public static byte[] shortToByteArray(short value) {
-        byte[] b = new byte[2];
-        for (int i = 0; i < 2; i++) {
-            int offset = (b.length - 1 - i) * 8;
-            b[i] = (byte) ((value >>> offset) & 0xFF);
-        }
-        return b;
-    }
-
-    public static byte[] charToByteArray(char c) {
-        byte[] twoBytes = {(byte) (c & 0xff), (byte) (c >> 8 & 0xff)};
-        return twoBytes;
-    }
-
-    public static byte[] intToByteArray(int value) {
-        byte[] b = new byte[4];
-        for (int i = 0; i < 4; i++) {
-            int offset = (b.length - 1 - i) * 8;
-            b[i] = (byte) ((value >>> offset) & 0xFF);
-        }
-        return b;
-    }
-
-    private byte[] intToByteArray2(final int integer) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(bos);
-        dos.writeInt(integer);
-        dos.flush();
-        return bos.toByteArray();
-    }
-
-    public static byte[] longToByteArray(long value) {
-        long temp;
-        byte[] rv = new byte[8];
-        for (int x = 7; x >= 0; x--) {// big endian
-            //for (int x = 0; x < 8; x++){// little endian
-            temp = value & 0xFF;
-            if (temp > 127) {
-                temp -= 256;
-            }
-            rv[x] = (byte) temp;
-            value >>= 8;
-        }
-        return rv;
-    }
-
-    // returns a byte array of length 4
-    private static byte[] intToDWord(int i) {
-        byte[] dword = new byte[4];
-        dword[0] = (byte) (i & 0x00FF);
-        dword[1] = (byte) ((i >> 8) & 0x000000FF);
-        dword[2] = (byte) ((i >> 16) & 0x000000FF);
-        dword[3] = (byte) ((i >> 24) & 0x000000FF);
-        return dword;
-    }
-
-    // returns a byte array of length 4
-    private static byte[] intToDWord2(int i) {
-        byte[] dword = new byte[4];
-        dword[0] = (byte) ((i >> 24) & 0x000000FF);
-        dword[1] = (byte) ((i >> 16) & 0x000000FF);
-        dword[2] = (byte) ((i >> 8) & 0x000000FF);
-        dword[3] = (byte) (i & 0x00FF);
-        return dword;
+    /**
+     * Primitive Data Types
+     * <p>
+     * byte	1 byte	Stores whole numbers from -128 to 127
+     * <p>
+     * short	2 bytes	Stores whole numbers from -32,768 to 32,767
+     * <p>
+     * int	4 bytes Stores whole numbers from -2,147,483,648 to 2,147,483,647
+     * <p>
+     * long	8 bytes Stores whole numbers from -9,223,372,036,854,775,808 to
+     * 9,223,372,036,854,775,807
+     * <p>
+     * float	4 bytes Stores fractional numbers. Sufficient for storing 6 to 7
+     * decimal digits
+     * <p>
+     * double	8 bytes Stores fractional numbers. Sufficient for storing 15
+     * decimal digits
+     * <p>
+     * Boolean	1 bit	Stores true or false values
+     * <p>
+     * char	2 bytes Stores a single character/letter or ASCII values
+     *
+     * @param args
+     */
+    public static void main(String[] args) throws IOException {
+        int l = 127;
     }
 
     /*
@@ -102,8 +62,7 @@ continute
         return byteToShort(inBytes, 0, inBytes.length);
     }
 
-    public static short byteToShort(byte[] inBytes, int startIndex,
-            int endIndex) {
+    public static short byteToShort(byte[] inBytes, int startIndex, int endIndex) {
         String hexString;
         short outputShort;
         hexString = byteToHex(inBytes, startIndex, endIndex);
