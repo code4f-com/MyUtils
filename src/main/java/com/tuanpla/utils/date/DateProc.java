@@ -503,4 +503,33 @@ public class DateProc {
         return dayOfWeek;
     }
 
+    public static void main(String[] args) {
+        Date start = string2Date("05042022", "ddMMyyyy");
+        Date endDate = string2Date("06042022", "ddMMyyyy");
+        System.out.println(distanceDate(start));
+    }
+
+    public static int distanceDate(Date start, Date end) {
+        int result = 0;
+        try {
+            long longStart = start.getTime();
+            long longEnd = end.getTime();
+            long distance = longEnd - longStart;
+            result = (int) distance / (24 * 60 * 60 * 1000);
+        } catch (Exception e) {
+        }
+        return result;
+    }
+
+    public static int distanceDate(Date start) {
+        int result = 0;
+        try {
+            long longStart = start.getTime();
+            long longEnd = currentDate().getTime();
+            long distance = longEnd - longStart;
+            result = (int) (distance / (24 * 60 * 60 * 1000));
+        } catch (Exception e) {
+        }
+        return result;
+    }
 }
