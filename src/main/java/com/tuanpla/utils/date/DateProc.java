@@ -503,12 +503,6 @@ public class DateProc {
         return dayOfWeek;
     }
 
-    public static void main(String[] args) {
-        Date start = string2Date("05042022", "ddMMyyyy");
-        Date endDate = string2Date("06042022", "ddMMyyyy");
-        System.out.println(distanceDate(start));
-    }
-
     public static int distanceDate(Date start, Date end) {
         int result = 0;
         try {
