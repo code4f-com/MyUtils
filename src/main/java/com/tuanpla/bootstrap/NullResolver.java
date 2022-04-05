@@ -1,4 +1,4 @@
-package com.gk.htc.ahp.brand.bootstrap;
+package com.tuanpla.bootstrap;
 
 import java.io.IOException;
 import java.io.StringReader;

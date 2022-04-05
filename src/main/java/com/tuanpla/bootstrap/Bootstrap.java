@@ -1,4 +1,4 @@
-package com.gk.htc.ahp.brand.bootstrap;
+package com.tuanpla.bootstrap;
 
 import com.tuanpla.config.PublicConfig;
 import java.io.File;

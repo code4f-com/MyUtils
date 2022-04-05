@@ -1,4 +1,4 @@
-package com.gk.htc.ahp.brand.bootstrap;
+package com.tuanpla.bootstrap;
 
 //
 //This file is part of the OpenNMS(R) Application.
