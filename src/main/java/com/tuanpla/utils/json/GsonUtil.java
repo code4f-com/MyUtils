@@ -79,7 +79,7 @@ public class GsonUtil {
         public Timestamp deserialize(JsonElement json, Type type, JsonDeserializationContext jdc) throws JsonParseException {
             if (!Objects.isNull(json) && json.isJsonObject()) {
                 JsonObject jobj = json.getAsJsonObject();
-                long time = 0;
+                long time;
                 if (jobj.has("time")) {
                     time = jobj.get("time").getAsLong();
                 } else {
@@ -90,6 +90,50 @@ public class GsonUtil {
             } else {
                 return null;
             }
+        }
+    }
+
+    public static String getValue(String jsonStr, String key) {
+        try {
+            JsonObject obj = gson.fromJson(jsonStr, JsonObject.class);
+            return obj.get(key).getAsString();
+        } catch (JsonSyntaxException e) {
+            throw new JsonSyntaxException(String.format("[JSONParser] Failed to get \"%s\"  from JSON object", key));
+        }
+    }
+
+    public static int getValueInt(String jsonStr, String key) {
+        try {
+            JsonObject obj = gson.fromJson(jsonStr, JsonObject.class);
+            return obj.get(key).getAsInt();
+        } catch (JsonSyntaxException e) {
+            throw new JsonSyntaxException(String.format("[JSONParser] Failed to get \"%s\"  from JSON object", key));
+        }
+    }
+
+    public static double getValueDouble(String jsonStr, String key) {
+        try {
+            JsonObject obj = gson.fromJson(jsonStr, JsonObject.class);
+            return obj.get(key).getAsDouble();
+        } catch (JsonSyntaxException e) {
+            throw new JsonSyntaxException(String.format("[JSONParser] Failed to get \"%s\"  from JSON object", key));
+        }
+    }
+
+    public static float getValueFloat(String jsonStr, String key) {
+        try {
+            JsonObject obj = gson.fromJson(jsonStr, JsonObject.class);
+            return obj.get(key).getAsFloat();
+        } catch (JsonSyntaxException e) {
+            throw new JsonSyntaxException(String.format("[JSONParser] Failed to get \"%s\"  from JSON object", key));
+        }
+    }
+
+    public static String toJson(ArrayList<?> obj, String key) {
+        try {
+            return gson.toJson(obj);
+        } catch (JsonSyntaxException e) {
+            throw new JsonSyntaxException(String.format("[JSONParser] Failed to convert \"%s\" to JSON array", key));
         }
     }
 
