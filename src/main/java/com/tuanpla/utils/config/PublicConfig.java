@@ -2,7 +2,7 @@
  *  Copyright 2022 by Tuanpla
  *  https://tuanpla.com
  */
-package com.tuanpla.config;
+package com.tuanpla.utils.config;
 
 /**
  *

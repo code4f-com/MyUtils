@@ -1,6 +1,6 @@
 package com.tuanpla.bootstrap;
 
-import com.tuanpla.config.PublicConfig;
+import com.tuanpla.utils.config.PublicConfig;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

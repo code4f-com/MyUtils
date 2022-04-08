@@ -4,7 +4,7 @@
  */
 package com.tuanpla.utils.http;
 
-import com.tuanpla.config.MyConstants;
+import com.tuanpla.utils.config.MyConstants;
 import com.tuanpla.utils.logging.LogUtils;
 import com.tuanpla.utils.string.MyString;
 import java.io.InputStream;

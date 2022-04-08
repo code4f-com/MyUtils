@@ -1,6 +1,6 @@
 package com.tuanpla.utils.thread;
 
-import com.tuanpla.config.PublicConfig;
+import com.tuanpla.utils.config.PublicConfig;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

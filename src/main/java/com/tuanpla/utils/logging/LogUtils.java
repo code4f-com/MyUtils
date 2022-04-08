@@ -4,8 +4,8 @@
  */
 package com.tuanpla.utils.logging;
 
-import com.tuanpla.config.PublicConfig;
-import static com.tuanpla.config.PublicConfig.PROJECT_NAME;
+import com.tuanpla.utils.config.PublicConfig;
+import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
 import com.tuanpla.utils.date.DateProc;
 
 /**
