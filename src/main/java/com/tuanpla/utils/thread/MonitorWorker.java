@@ -22,7 +22,7 @@ public class MonitorWorker extends Thread {
 
     public MonitorWorker(int delaySecond) {
         this.delay = delaySecond;
-        this.setName("MonitorWorker [" + DateProc.currentTimestamp()+ "]");
+        this.setName("MonitorWorker [" + DateProc.currentTimestamp() + "]");
         MonitorWorker.addDemonName(this.getName());
     }
 

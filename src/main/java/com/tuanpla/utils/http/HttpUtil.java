@@ -4,6 +4,7 @@
  */
 package com.tuanpla.utils.http;
 
+import com.tuanpla.config.MyConstants;
 import com.tuanpla.utils.logging.LogUtils;
 import com.tuanpla.utils.string.MyString;
 import java.io.InputStream;
@@ -21,7 +22,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.MediaType;
 
 /**
  *
@@ -94,7 +94,8 @@ public class HttpUtil {
         LogUtils.debug("--------debugParam--------");
         boolean isMultipart = Boolean.FALSE;
         String contentType = request.getContentType();
-        if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)
+        if (contentType != null && contentType.startsWith(MyConstants.MULTIPART_FORM_DATA_VALUE)
+                //        if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)
                 && contentType.contains("boundary=")) {
             isMultipart = true;
         }

@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.util;
+package com.tuanpla.utils.file;
 
+import com.tuanpla.utils.common.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FilterInputStream;
@@ -27,6 +28,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import com.tuanpla.utils.common.Assert;
 
 /**
  * Simple utility methods for dealing with streams. The copy methods of this

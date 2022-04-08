@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.util;
+package com.tuanpla.utils.common;
 
+import org.springframework.util.*;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;

@@ -84,11 +84,11 @@ public class RSA {
                 publicKeyFile.getParentFile().mkdirs();
             }
             publicKeyFile.createNewFile();
-            try (ObjectOutputStream publicKeyOS = new ObjectOutputStream(
+            try ( ObjectOutputStream publicKeyOS = new ObjectOutputStream(
                     new FileOutputStream(publicKeyFile))) {
                 publicKeyOS.writeObject(key.getPublic());
             }
-            try (ObjectOutputStream privateKeyOS = new ObjectOutputStream(
+            try ( ObjectOutputStream privateKeyOS = new ObjectOutputStream(
                     new FileOutputStream(privateKeyFile))) {
                 privateKeyOS.writeObject(key.getPrivate());
             }
@@ -167,5 +167,4 @@ public class RSA {
 //
 //        LogUtils.debug(new String(y));
 //    }
-
 }
