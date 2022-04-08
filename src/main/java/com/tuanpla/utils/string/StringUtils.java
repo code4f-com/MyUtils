@@ -63,9 +63,9 @@ public class StringUtils {
     /**
      * Searches the string for occurrences of the pattern $ENV{key} and attempts
      * to replace this pattern with a value from the System environment obtained
-     * using the 'key'. For example, including "$ENV{USERNAME}" in a string and
+     * using the 'key'.For example, including "$ENV{USERNAME}" in a string and
      * calling this method would then attempt to replace the entire pattern with
-     * the value of the environment variable "USERNAME". The System environment
+     * the value of the environment variable "USERNAME".The System environment
      * is obtained in Java with a call to System.getenv(). An environment
      * variable is typically defined in the Linux shell or Windows property
      * tabs. NOTE: A Java System property is not the same as an environment
@@ -77,10 +77,7 @@ public class StringUtils {
      * @return A string with all occurrences of keys substituted with their
      * values obtained from the System environment. Can be null if the original
      * string was null.
-     * @throws SubstitutionException Thrown if a starting string was found, but
-     * the ending string was not. Also, thrown if a key value was empty such as
-     * using "$ENV{}". Finally, thrown if the property key was not found in the
-     * properties object (could not be replaced).
+     * @throws com.tuanpla.utils.exception.CustomerException
      * @see #substituteWithProperties(java.lang.String, java.lang.String,
      * java.lang.String, java.util.Properties)
      */
@@ -103,10 +100,10 @@ public class StringUtils {
     /**
      * Searches string for occurrences of a pattern, extracts out a key name
      * between the startStr and endStr tokens, then attempts to replace the
-     * property value into the string. This method is useful for merging
-     * property values into configuration strings/settings. For examle, the
-     * system environment Map could be converted into a Properties object then
-     * have its values merged into a String so that users can access environment
+     * property value into the string.This method is useful for merging property
+     * values into configuration strings/settings.For examle, the system
+     * environment Map could be converted into a Properties object then have its
+     * values merged into a String so that users can access environment
      * variables.
      *
      * @param string0 The string to perform substitution on such as "Hello
@@ -121,10 +118,7 @@ public class StringUtils {
      * @return A string with all occurrences of keys substituted with their
      * values obtained from the properties object. Can be null if the original
      * string was null.
-     * @throws SubstitutionException Thrown if a starting string was found, but
-     * the ending string was not. Also, thrown if a key value was empty such as
-     * using "$ENV{}". Finally, thrown if the property key was not found in the
-     * properties object (could not be replaced).
+     * @throws com.tuanpla.utils.exception.CustomerException
      * @see #substituteWithEnvironment(java.lang.String)
      */
     public static String substituteWithProperties(String string0, String startStr, String endStr, Properties properties) throws CustomerException {
@@ -844,10 +838,7 @@ public class StringUtils {
         if (string0 == null && string1 == null) {
             return true;
         }
-        if (string0 == null && string1 != null) {
-            return false;
-        }
-        if (string0 != null && string1 == null) {
+        if (string0 == null || string1 == null) {
             return false;
         }
         if (caseSensitive) {
@@ -1220,6 +1211,7 @@ public class StringUtils {
      *
      * @param str the {@code String} to check
      * @param singleCharacter the character to compare to
+     * @return
      * @since 5.2.9
      */
     public static boolean matchesCharacter(@Nullable String str, char singleCharacter) {
@@ -1232,6 +1224,7 @@ public class StringUtils {
      *
      * @param str the {@code String} to check
      * @param prefix the prefix to look for
+     * @return
      * @see java.lang.String#startsWith
      */
     public static boolean startsWithIgnoreCase(@Nullable String str, @Nullable String prefix) {
@@ -1245,6 +1238,7 @@ public class StringUtils {
      *
      * @param str the {@code String} to check
      * @param suffix the suffix to look for
+     * @return
      * @see java.lang.String#endsWith
      */
     public static boolean endsWithIgnoreCase(@Nullable String str, @Nullable String suffix) {
@@ -1259,6 +1253,7 @@ public class StringUtils {
      * @param str the original string (or StringBuilder)
      * @param index the index in the original string to start matching against
      * @param substring the substring to match at the given index
+     * @return
      */
     public static boolean substringMatch(CharSequence str, int index, CharSequence substring) {
         if (index + substring.length() > str.length()) {
@@ -1277,6 +1272,7 @@ public class StringUtils {
      *
      * @param str string to search in
      * @param sub string to search for
+     * @return
      */
     public static int countOccurrencesOf(String str, String sub) {
         if (!hasLength(str) || !hasLength(sub)) {
