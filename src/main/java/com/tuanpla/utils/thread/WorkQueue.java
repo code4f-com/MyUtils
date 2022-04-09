@@ -1,6 +1,6 @@
 package com.tuanpla.utils.thread;
 
-import com.tuanpla.config.PublicConfig;
+import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.util.*;
 import org.slf4j.Logger;

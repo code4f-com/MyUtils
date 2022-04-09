@@ -2,8 +2,12 @@
  *  Copyright 2022 by Tuanpla
  *  https://tuanpla.com
  */
-package org.springframework.util;
+package com.tuanpla.utils.common;
 
+import com.tuanpla.utils.common.CollectionUtils;
+import com.tuanpla.utils.common.Nullable;
+import com.tuanpla.utils.common.ObjectUtils;
+import com.tuanpla.utils.string.StringUtils;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;

@@ -72,15 +72,15 @@ public abstract class DirWatcher extends TimerTask {
 
     protected abstract void onChange(File file, String action);
 
-    public static void main(String[] args) {
-        DirWatcher dw = new DirWatcher("D:\\DevDirWatch", "") {
-            @Override
-            protected void onChange(File file, String action) {
-                System.out.println("File name: [" + file.getName() + "] is " + action);
-            }
-        };
-        long period = 5000L;
-        Timer timer = new Timer("Timer");
-        timer.schedule(dw, 0, period);
-    }
+//    public static void main(String[] args) {
+//        DirWatcher dw = new DirWatcher("D:\\DevDirWatch", "") {
+//            @Override
+//            protected void onChange(File file, String action) {
+//                System.out.println("File name: [" + file.getName() + "] is " + action);
+//            }
+//        };
+//        long period = 5000L;
+//        Timer timer = new Timer("Timer");
+//        timer.schedule(dw, 0, period);
+//    }
 }
