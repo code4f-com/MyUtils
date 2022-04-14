@@ -528,7 +528,7 @@ public class MyString {
     }
 
     public static String removeEndCharactor(String str, String charactor) {
-        if (!StringUtil.isEmpty(charactor) && !StringUtil.isEmpty(str)) {
+        if (!StringUtils.isEmpty(charactor) && !StringUtils.isEmpty(str)) {
             if (str.endsWith(charactor)) {
                 str = str.substring(0, str.length() - 1);
             }

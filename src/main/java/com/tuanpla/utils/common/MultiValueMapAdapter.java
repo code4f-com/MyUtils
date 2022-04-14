@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.util;
+package com.tuanpla.utils.common;
 
+import com.tuanpla.utils.common.CollectionUtils;
+import com.tuanpla.utils.common.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;

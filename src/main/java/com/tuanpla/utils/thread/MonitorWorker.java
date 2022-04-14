@@ -5,7 +5,7 @@
  */
 package com.tuanpla.utils.thread;
 
-import com.tuanpla.config.PublicConfig;
+import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.date.DateProc;
 import com.tuanpla.utils.logging.LogUtils;
 import java.util.LinkedList;
@@ -22,7 +22,7 @@ public class MonitorWorker extends Thread {
 
     public MonitorWorker(int delaySecond) {
         this.delay = delaySecond;
-        this.setName("MonitorWorker [" + DateProc.currentTimestamp()+ "]");
+        this.setName("MonitorWorker [" + DateProc.currentTimestamp() + "]");
         MonitorWorker.addDemonName(this.getName());
     }
 

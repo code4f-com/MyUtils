@@ -4,8 +4,8 @@
  */
 package com.tuanpla.utils.logging;
 
-import com.tuanpla.config.PublicConfig;
-import static com.tuanpla.config.PublicConfig.PROJECT_NAME;
+import com.tuanpla.utils.config.PublicConfig;
+import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
 import com.tuanpla.utils.date.DateProc;
 
 /**
@@ -41,8 +41,8 @@ public class LogUtils {
     }
 
     public static String getLogMessage(Exception ex) {
-        StackTraceElement[] trace = ex.getStackTrace();
         String str = DateProc.currentTimestamp() + "||" + ex.getMessage() + "||";
+        StackTraceElement[] trace = ex.getStackTrace();
         for (StackTraceElement trace1 : trace) {
             str += trace1 + "\t\n";
         }

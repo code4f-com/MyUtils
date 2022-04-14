@@ -199,7 +199,7 @@ public class FCKUtils {
             } else {
                 byte[] imgCache = DataConvert.InputStream2Bytes(ipstimg);
                 if (imgCache != null && imgCache.length > 0) {
-                    try (FileOutputStream file = new FileOutputStream(realPath)) {
+                    try ( FileOutputStream file = new FileOutputStream(realPath)) {
                         file.write(imgCache);
                         file.flush();
                     }

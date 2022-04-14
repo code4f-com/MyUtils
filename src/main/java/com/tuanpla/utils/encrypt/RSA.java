@@ -84,11 +84,11 @@ public class RSA {
                 publicKeyFile.getParentFile().mkdirs();
             }
             publicKeyFile.createNewFile();
-            try (ObjectOutputStream publicKeyOS = new ObjectOutputStream(
+            try ( ObjectOutputStream publicKeyOS = new ObjectOutputStream(
                     new FileOutputStream(publicKeyFile))) {
                 publicKeyOS.writeObject(key.getPublic());
             }
-            try (ObjectOutputStream privateKeyOS = new ObjectOutputStream(
+            try ( ObjectOutputStream privateKeyOS = new ObjectOutputStream(
                     new FileOutputStream(privateKeyFile))) {
                 privateKeyOS.writeObject(key.getPrivate());
             }
@@ -143,29 +143,28 @@ public class RSA {
         return str;
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-        keyGen.initialize(1024);
-        KeyPair kp = keyGen.genKeyPair();
-
-        PublicKey publicKey = kp.getPublic();
-        PrivateKey privateKey = kp.getPrivate();
-        LogUtils.debug("PublicKey-getAlgorithm:" + publicKey.getAlgorithm());
-        LogUtils.debug("PublicKey-getFormat:" + publicKey.getFormat());
-        LogUtils.debug("PublicKey-getFormat:" + publicKey.toString());
-        String text = "Tuan PLA";
-        Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte[] x = cipher.doFinal(text.getBytes());
-
-        String tempHex = HexUtil.byteToHex(x);
-        byte[] tempByte = HexUtil.hexToBytes(tempHex);
-
-        cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        byte[] y = cipher.doFinal(tempByte);
-
-        LogUtils.debug(new String(y));
-    }
-
+//    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+//
+//        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+//        keyGen.initialize(1024);
+//        KeyPair kp = keyGen.genKeyPair();
+//
+//        PublicKey publicKey = kp.getPublic();
+//        PrivateKey privateKey = kp.getPrivate();
+//        LogUtils.debug("PublicKey-getAlgorithm:" + publicKey.getAlgorithm());
+//        LogUtils.debug("PublicKey-getFormat:" + publicKey.getFormat());
+//        LogUtils.debug("PublicKey-getFormat:" + publicKey.toString());
+//        String text = "Tuan PLA";
+//        Cipher cipher = Cipher.getInstance("RSA");
+//        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+//        byte[] x = cipher.doFinal(text.getBytes());
+//
+//        String tempHex = HexUtil.byteToHex(x);
+//        byte[] tempByte = HexUtil.hexToBytes(tempHex);
+//
+//        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+//        byte[] y = cipher.doFinal(tempByte);
+//
+//        LogUtils.debug(new String(y));
+//    }
 }

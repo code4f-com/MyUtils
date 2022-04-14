@@ -21,10 +21,6 @@ import java.util.concurrent.TimeoutException;
  */
 public class MyUtils {
 
-    public static void main(String[] args) {
-        System.out.println(timeout);
-    }
-
     // https://stackoverflow.com/questions/19456313/simple-timeout-in-java
     static final Duration timeout = Duration.ofSeconds(30);
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);

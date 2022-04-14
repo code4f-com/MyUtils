@@ -23,6 +23,7 @@ package com.tuanpla.utils.cache;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -42,8 +43,9 @@ import java.util.concurrent.TimeUnit;
  * @param <K> the Key type
  * @param <V> the Value type
  */
-public class SelfExpiringHashMap<K, V> implements SelfExpiringMap<K, V> {
+public class SelfExpiringHashMap<K, V> implements SelfExpiringMap<K, V>, Serializable, Cloneable {
 
+    private static final long serialVersionUID = 7777984872572413382L;
     private final Map<K, V> internalMap;
 
     private final Map<K, ExpiringKey<K>> expiringKeys;
@@ -231,6 +233,11 @@ public class SelfExpiringHashMap<K, V> implements SelfExpiringMap<K, V> {
             expiringKeys.remove(delayedKey.getKey());
             delayedKey = delayQueue.poll();
         }
+    }
+
+    @Override
+    public SelfExpiringHashMap clone() throws CloneNotSupportedException {
+        return (SelfExpiringHashMap) super.clone();
     }
 
     private class ExpiringKey<K> implements Delayed {

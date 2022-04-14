@@ -2,7 +2,7 @@
  *  Copyright 2022 by Tuanpla
  *  https://tuanpla.com
  */
-package org.springframework.util;
+package com.tuanpla.utils.common;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

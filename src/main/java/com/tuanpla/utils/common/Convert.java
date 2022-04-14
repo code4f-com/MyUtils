@@ -222,14 +222,6 @@ public class Convert {
         return rv;
     }
 
-    public static void main(String[] args) {
-        long s = 123345;
-        byte[] inBytes = longToByte(s);
-        System.out.println(Arrays.toString(inBytes));
-        System.out.println(byteToLong(inBytes));
-        System.out.println(byteArrayToLong(inBytes, 0, inBytes.length));
-    }
-
     /**
      * char	2 bytes Stores a single character/letter or ASCII values
      *
