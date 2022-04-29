@@ -16,9 +16,11 @@
 package com.tuanpla.utils.common;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -956,8 +958,17 @@ public abstract class ObjectUtils {
         return stringJoiner.toString();
     }
 
-    public static List enum2ListString(Enumeration<String> input) {
-        return Arrays.asList(input.asIterator());
+    public static List<String> enum2ListString(Enumeration<String> input) {
+        if (!isEmpty(input)) {
+            List<String> l = new ArrayList<>();
+            for (Iterator<String> ite = input.asIterator(); ite.hasNext();) {
+                l.add(ite.next());
+            }
+            return l;
+        } else {
+            return null;
+        }
+
     }
 
     public static List<Object> enum2List(Enumeration<Object> input) {
