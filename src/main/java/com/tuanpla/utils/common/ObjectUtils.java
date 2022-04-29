@@ -968,7 +968,6 @@ public abstract class ObjectUtils {
         } else {
             return null;
         }
-
     }
 
     public static List<Object> enum2List(Enumeration<Object> input) {
