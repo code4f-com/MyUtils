@@ -18,6 +18,8 @@ package com.tuanpla.utils.common;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.StringJoiner;
@@ -97,16 +99,18 @@ public abstract class ObjectUtils {
      * a primitive array.
      *
      * @param obj the object to check
+     * @return
      */
     public static boolean isArray(@Nullable Object obj) {
         return (obj != null && obj.getClass().isArray());
     }
 
     /**
-     * Determine whether the given array is empty: i.e. {@code null} or of zero
+     * Determine whether the given array is empty: i.e.{@code null} or of zero
      * length.
      *
      * @param array the array to check
+     * @return
      * @see #isEmpty(Object)
      */
     public static boolean isEmpty(@Nullable Object[] array) {
@@ -248,6 +252,7 @@ public abstract class ObjectUtils {
      * @param enumValues the array of all Enum constants in question, usually
      * per {@code Enum.values()}
      * @param constant the constant to get the enum value of
+     * @return
      * @throws IllegalArgumentException if the given constant is not found in
      * the given array of enum values. Use
      * {@link #containsConstant(Enum[], String)} as a guard to avoid this
@@ -267,6 +272,8 @@ public abstract class ObjectUtils {
      * Append the given object to the given array, returning a new array
      * consisting of the input array contents plus the given object.
      *
+     * @param <A>
+     * @param <O>
      * @param array the array to append to (can be {@code null})
      * @param obj the object to append
      * @return the new array (of the same component type; never {@code null})
@@ -396,10 +403,12 @@ public abstract class ObjectUtils {
 
     /**
      * Return as hash code for the given object; typically the value of
-     * {@code Object#hashCode()}}. If the object is an array, this method will
+     * {@code Object#hashCode()}}.If the object is an array, this method will
      * delegate to any of the {@code nullSafeHashCode} methods for arrays in
-     * this class. If the object is {@code null}, this method returns 0.
+     * this class.If the object is {@code null}, this method returns 0.
      *
+     * @param obj
+     * @return
      * @see Object#hashCode()
      * @see #nullSafeHashCode(Object[])
      * @see #nullSafeHashCode(boolean[])
@@ -448,8 +457,11 @@ public abstract class ObjectUtils {
     }
 
     /**
-     * Return a hash code based on the contents of the specified array. If
+     * Return a hash code based on the contents of the specified array.If
      * {@code array} is {@code null}, this method returns 0.
+     *
+     * @param array
+     * @return
      */
     public static int nullSafeHashCode(@Nullable Object[] array) {
         if (array == null) {
@@ -463,8 +475,11 @@ public abstract class ObjectUtils {
     }
 
     /**
-     * Return a hash code based on the contents of the specified array. If
+     * Return a hash code based on the contents of the specified array.If
      * {@code array} is {@code null}, this method returns 0.
+     *
+     * @param array
+     * @return
      */
     public static int nullSafeHashCode(@Nullable boolean[] array) {
         if (array == null) {
@@ -478,8 +493,11 @@ public abstract class ObjectUtils {
     }
 
     /**
-     * Return a hash code based on the contents of the specified array. If
+     * Return a hash code based on the contents of the specified array.If
      * {@code array} is {@code null}, this method returns 0.
+     *
+     * @param array
+     * @return
      */
     public static int nullSafeHashCode(@Nullable byte[] array) {
         if (array == null) {
@@ -493,8 +511,11 @@ public abstract class ObjectUtils {
     }
 
     /**
-     * Return a hash code based on the contents of the specified array. If
+     * Return a hash code based on the contents of the specified array.If
      * {@code array} is {@code null}, this method returns 0.
+     *
+     * @param array
+     * @return
      */
     public static int nullSafeHashCode(@Nullable char[] array) {
         if (array == null) {
@@ -508,8 +529,11 @@ public abstract class ObjectUtils {
     }
 
     /**
-     * Return a hash code based on the contents of the specified array. If
+     * Return a hash code based on the contents of the specified array.If
      * {@code array} is {@code null}, this method returns 0.
+     *
+     * @param array
+     * @return
      */
     public static int nullSafeHashCode(@Nullable double[] array) {
         if (array == null) {
@@ -523,8 +547,11 @@ public abstract class ObjectUtils {
     }
 
     /**
-     * Return a hash code based on the contents of the specified array. If
+     * Return a hash code based on the contents of the specified array.If
      * {@code array} is {@code null}, this method returns 0.
+     *
+     * @param array
+     * @return
      */
     public static int nullSafeHashCode(@Nullable float[] array) {
         if (array == null) {
@@ -538,8 +565,11 @@ public abstract class ObjectUtils {
     }
 
     /**
-     * Return a hash code based on the contents of the specified array. If
+     * Return a hash code based on the contents of the specified array.If
      * {@code array} is {@code null}, this method returns 0.
+     *
+     * @param array
+     * @return
      */
     public static int nullSafeHashCode(@Nullable int[] array) {
         if (array == null) {
@@ -553,8 +583,11 @@ public abstract class ObjectUtils {
     }
 
     /**
-     * Return a hash code based on the contents of the specified array. If
+     * Return a hash code based on the contents of the specified array.If
      * {@code array} is {@code null}, this method returns 0.
+     *
+     * @param array
+     * @return
      */
     public static int nullSafeHashCode(@Nullable long[] array) {
         if (array == null) {
@@ -568,8 +601,11 @@ public abstract class ObjectUtils {
     }
 
     /**
-     * Return a hash code based on the contents of the specified array. If
+     * Return a hash code based on the contents of the specified array.If
      * {@code array} is {@code null}, this method returns 0.
+     *
+     * @param array
+     * @return
      */
     public static int nullSafeHashCode(@Nullable short[] array) {
         if (array == null) {
@@ -580,50 +616,6 @@ public abstract class ObjectUtils {
             hash = MULTIPLIER * hash + element;
         }
         return hash;
-    }
-
-    /**
-     * Return the same value as {@link Boolean#hashCode(boolean)}}.
-     *
-     * @deprecated as of Spring Framework 5.0, in favor of the native JDK 8
-     * variant
-     */
-    @Deprecated
-    public static int hashCode(boolean bool) {
-        return Boolean.hashCode(bool);
-    }
-
-    /**
-     * Return the same value as {@link Double#hashCode(double)}}.
-     *
-     * @deprecated as of Spring Framework 5.0, in favor of the native JDK 8
-     * variant
-     */
-    @Deprecated
-    public static int hashCode(double dbl) {
-        return Double.hashCode(dbl);
-    }
-
-    /**
-     * Return the same value as {@link Float#hashCode(float)}}.
-     *
-     * @deprecated as of Spring Framework 5.0, in favor of the native JDK 8
-     * variant
-     */
-    @Deprecated
-    public static int hashCode(float flt) {
-        return Float.hashCode(flt);
-    }
-
-    /**
-     * Return the same value as {@link Long#hashCode(long)}}.
-     *
-     * @deprecated as of Spring Framework 5.0, in favor of the native JDK 8
-     * variant
-     */
-    @Deprecated
-    public static int hashCode(long lng) {
-        return Long.hashCode(lng);
     }
 
     //---------------------------------------------------------------------
@@ -964,4 +956,11 @@ public abstract class ObjectUtils {
         return stringJoiner.toString();
     }
 
+    public static List enum2ListString(Enumeration<String> input) {
+        return Arrays.asList(input.asIterator());
+    }
+
+    public static List<Object> enum2List(Enumeration<Object> input) {
+        return Arrays.asList(input.asIterator());
+    }
 }
