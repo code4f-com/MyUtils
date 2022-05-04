@@ -215,6 +215,16 @@ public class GsonUtil {
         return result;
     }
 
+    public static JsonObject toObject(String content) {
+        JsonObject result = null;
+        try {
+            result = JsonParser.parseString(content).getAsJsonObject();
+        } catch (JsonSyntaxException e) {
+            logger.error(LogUtils.getLogMessage(e));
+        }
+        return result;
+    }
+
     public static <T> T jsonFileToObject(String path, Class<T> clazz) {
         T result = null;
         try ( Reader reader = new FileReader(path)) {
@@ -239,7 +249,7 @@ public class GsonUtil {
     public static <T> ArrayList<T> toObjectArray(String content, Class<T> clazz) {
         ArrayList<T> result = new ArrayList<>();
         try {
-            JsonArray arrs = new JsonParser().parse(content).getAsJsonArray();
+            JsonArray arrs = JsonParser.parseString(content).getAsJsonArray();
             for (JsonElement jsonElement : arrs) {
                 T tmp = gson.fromJson(jsonElement, clazz);
                 if (tmp != null) {
