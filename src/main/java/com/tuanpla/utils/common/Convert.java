@@ -4,7 +4,6 @@
  */
 package com.tuanpla.utils.common;
 
-import java.util.Arrays;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -68,6 +67,18 @@ public class Convert {
     public static String byte2Base64(byte[] data) {
         try {
             return Base64.encodeBase64String(data);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+    public static void main(String[] args) {
+        String input = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZjYmQ3ZjQ4MWE4MjVkMTEzZTBkMDNkZDk0ZTYwYjY5ZmYxNjY1YTIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJuYmYiOjE2NTE4Mjc3MjQsImF1ZCI6IjIyMzQzMDYxNTM3MS1mYnJ1a204YTVnbGxmZjFzczhkczd0bDN1MGtkZzBpNy5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjEwNzU0NDg1MDE3ODMyNjM3MTc5MyIsIm5vbmNlIjoiMTQwMTUiLCJlbWFpbCI6ImhvbWxpbmh0aW5oQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhenAiOiIyMjM0MzA2MTUzNzEtZmJydWttOGE1Z2xsZmYxc3M4ZHM3dGwzdTBrZGcwaTcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJuYW1lIjoiTG9uZyBOZ-G7jWMgS2nhu4F1IiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdqRUlaMVR2bkdtZmJlMnM3WHQ2dWRrcklKX3RBTEp0RDhSUktTWFZ3PXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkxvbmciLCJmYW1pbHlfbmFtZSI6Ik5n4buNYyBLaeG7gXUiLCJpYXQiOjE2NTE4MjgwMjQsImV4cCI6MTY1MTgzMTYyNCwianRpIjoiNzdmMjZkMWRiMWU0YjM0NTU4NmU4OGJlOGNlN2FhYTllMGQ4YmIwYiJ9.Cs0FRmZF92d8oFcqaerHXuYzYUo_I2H5lLLSHtnnhgFygb6ywSAiBiUqI7dvUOLqdEzbe-5AIXts-ma29fPk3tALaKu9XcXEteSpUg7SJ9J_h2ZVhoQKYpTW3_1Xqll5Gv8-PrbYSmTWLkPSHzDljvDtXkTWYwu6Vh8e36nhQlO1lSanykmxeiPI6Gim_XHJZNFBGPi7u7h9FFb1FZAGXDhT7PcDVCa5qWQayrOUiimNqX3jT2poDFx6qZ_D-r0B2g8lvQM4FzkTrJLxF-fKY2q6efDqzjdFeHBu1hh8ybOEistPkE7-YPuB8g3sB-WPRRYXzFB7cu4S4YBQxUYxyA";
+        System.out.println(base64Decode(input));
+    }
+    public static String base64Decode(String input) {
+        try {
+            byte[] data = Base64.decodeBase64(input);
+            return new String(data);
         } catch (Exception e) {
             return "";
         }
