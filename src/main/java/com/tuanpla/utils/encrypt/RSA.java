@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 public class RSA {
 
     static Logger logger = LoggerFactory.getLogger(RSA.class);
+    public static final int KEY_SIZE = 2048;
     /**
      * String to hold name of the encryption algorithm.
      */
@@ -69,6 +70,22 @@ public class RSA {
         } catch (IOException | ClassNotFoundException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
+    }
+
+    public static KeyPair generateRSAKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "BC");
+        generator.initialize(KEY_SIZE);
+        KeyPair keyPair = generator.generateKeyPair();
+        logger.info("RSA key pair generated.");
+        return keyPair;
+    }
+
+    public static void writePemFile(Key key, String description, String filename)
+            throws FileNotFoundException, IOException {
+        PemFile pemFile = new PemFile(key, description);
+        pemFile.write(filename);
+
+        logger.info(String.format("%s successfully writen in file %s.", description, filename));
     }
 
     private static void generateKey() throws IOException {
@@ -212,5 +229,18 @@ public class RSA {
 //        byte[] y = cipher.doFinal(tempByte);
 //
 //        LogUtils.debug(new String(y));
+    
+    
+//        Security.addProvider(new BouncyCastleProvider());
+//        logger.info("BouncyCastle provider added.");
+//
+//        KeyPair keyPair = generateRSAKeyPair();
+//        RSAPrivateKey priv = (RSAPrivateKey) keyPair.getPrivate();
+//        RSAPublicKey pub = (RSAPublicKey) keyPair.getPublic();
+//
+//        writePemFile(priv, "RSA PRIVATE KEY", "Private.pem");
+//        writePemFile(pub, "RSA PUBLIC KEY", "Public.pem");
+    
+    
 //    }
 }

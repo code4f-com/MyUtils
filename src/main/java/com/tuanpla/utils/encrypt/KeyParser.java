@@ -9,7 +9,6 @@ package com.tuanpla.utils.encrypt;
  *
  * @author TUANPLA
  */
-import com.tuanpla.utils.file.FileUtils;
 import java.io.StringReader;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -37,23 +36,34 @@ public class KeyParser {
     static final String BEGIN_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----";
     static final String END_PRIVATE_KEY = "-----END PRIVATE KEY-----";
 
-    // private KeyPair tryParsePrivateKey(String data) {
-    // PEMReader pemReader = new PEMReader(new StringReader(data), new PasswordFinder() {
-    //
-    // @Override
-    // public char[] getPassword() {
-    // return "notasecret".toCharArray();
-    // }
-    // });
-    // try {
-    // return (KeyPair) pemReader.readObject();
-    // } catch (IOException e) {
-    // log.debug("Unable to parse pem data", e);
-    // return null;
-    // } finally {
-    // Io.safeClose(pemReader);
-    // }
-    // }
+//    private KeyPair tryParsePrivateKey(String data) {
+//        PEMReader pemReader = new PEMReader(new StringReader(data), new PasswordFinder() {
+//
+//            @Override
+//            public char[] getPassword() {
+//                return "notasecret".toCharArray();
+//            }
+//        });
+//        try {
+//            return (KeyPair) pemReader.readObject();
+//        } catch (IOException e) {
+//            log.debug("Unable to parse pem data", e);
+//            return null;
+//        } finally {
+//            Io.safeClose(pemReader);
+//        }
+//    }
+
+//    public static void main(String[] args) {
+//        String pubStr = FileUtils.readFileText("D:\\WORK\\_Project_GW\\6x88\\ScanXsAHP\\config\\Public.pem");
+//        System.out.println(pubStr);
+//        Object result = parse(pubStr);
+//        if (result instanceof PublicKey) {
+//            PublicKey key = (PublicKey) result;
+//            System.out.println("Success");
+//        }
+//    }
+
     public static Object parse(byte[] data) {
         Object key = null;
 
@@ -65,17 +75,6 @@ public class KeyParser {
         }
 
         return null;
-    }
-
-    public static void main(String[] args) {
-        String pubStr = FileUtils.readFileText("D:\\WORK\\_Project_GW\\6x88\\ScanXsAHP\\config\\Public.pem");
-        System.out.println(pubStr);
-        Object result = parse(pubStr);
-        if (result instanceof PublicKey) {
-            PublicKey key = (PublicKey) result;
-            System.out.println("Success");
-        }
-
     }
 
     public static Object parse(String s) {
@@ -153,7 +152,6 @@ public class KeyParser {
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
             KeyFactory kf = KeyFactory.getInstance("RSA");
             PrivateKey privKey = kf.generatePrivate(keySpec);
-
             return privKey;
         } catch (Exception e) {
             e.printStackTrace();
