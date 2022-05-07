@@ -4,6 +4,7 @@
  */
 package com.tuanpla.utils.common;
 
+import java.nio.charset.StandardCharsets;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -79,6 +80,18 @@ public class Convert {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public static String encodeb64(String str) {
+        return encodeb64(str.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static String encodeb64(byte[] bytes) {
+        return java.util.Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+    }
+
+    public static String decodeb64(String encodedString) {
+        return new String(java.util.Base64.getUrlDecoder().decode(encodedString));
     }
 
     /**
