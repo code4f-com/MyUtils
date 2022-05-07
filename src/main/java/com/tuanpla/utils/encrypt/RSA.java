@@ -8,15 +8,21 @@ import com.tuanpla.utils.common.HexUtil;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,8 +120,8 @@ public class RSA {
         }
         return false;
     }
-    /// *********** OLD CODE
 
+/// *********** OLD CODE
     public static String encript(PublicKey publicKey, String input) {
         String str = "";
         try {
@@ -141,6 +147,46 @@ public class RSA {
             logger.error(LogUtils.getLogMessage(e));
         }
         return str;
+    }
+
+    public static PrivateKey generatePrivateKey(KeyFactory factory, String filename) throws InvalidKeySpecException, FileNotFoundException, IOException {
+        PemFile pemFile = new PemFile(filename);
+        byte[] content = pemFile.getPemObject().getContent();
+        PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(content);
+        return factory.generatePrivate(privKeySpec);
+    }
+
+    public static PublicKey generatePublicKey(KeyFactory factory, String filename) throws InvalidKeySpecException, FileNotFoundException, IOException {
+        PemFile pemFile = new PemFile(filename);
+        byte[] content = pemFile.getPemObject().getContent();
+        X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(content);
+        return factory.generatePublic(pubKeySpec);
+    }
+
+    public static String sign(PrivateKey privateKey, String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+        Signature sign = Signature.getInstance("SHA1withRSA");
+        sign.initSign(privateKey);
+        sign.update(message.getBytes("UTF-8"));
+        return new String(Base64.encodeBase64(sign.sign()), "UTF-8");
+    }
+
+    public static boolean verify(PublicKey publicKey, String message, String signature) throws SignatureException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
+        Signature sign = Signature.getInstance("SHA1withRSA");
+        sign.initVerify(publicKey);
+        sign.update(message.getBytes("UTF-8"));
+        return sign.verify(Base64.decodeBase64(signature.getBytes("UTF-8")));
+    }
+
+    public static String encrypt(String rawText, PublicKey publicKey) throws IOException, GeneralSecurityException {
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+        return Base64.encodeBase64String(cipher.doFinal(rawText.getBytes("UTF-8")));
+    }
+
+    public static String decrypt(String cipherText, PrivateKey privateKey) throws IOException, GeneralSecurityException {
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        return new String(cipher.doFinal(Base64.decodeBase64(cipherText)), "UTF-8");
     }
 
 //    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
