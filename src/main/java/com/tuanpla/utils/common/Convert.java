@@ -65,7 +65,13 @@ public class Convert {
         }
     }
 
-    public static String byte2Base64(byte[] data) {
+    /**
+     * Encode by org.apache.commons.codec.binary.Base64
+     *
+     * @param data
+     * @return
+     */
+    public static String encodeBase64(byte[] data) {
         try {
             return Base64.encodeBase64String(data);
         } catch (Exception e) {
@@ -73,23 +79,61 @@ public class Convert {
         }
     }
 
-    public static String base64Decode(String input) {
+    /**
+     * Encode by java.util.Base64
+     *
+     * @param bytes
+     * @return
+     */
+    public static String encodeB64(byte[] bytes) {
+        return java.util.Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+    }
+
+    /**
+     * Encode by java.util.Base64
+     *
+     * @param str
+     * @return
+     */
+    public static String encodeB64(String str) {
+        return encodeB64(str.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Decode by by org.apache.commons.codec.binary.Base64
+     *
+     * @param input
+     * @return
+     */
+    public static String decodeBase64(String input) {
         try {
-            byte[] data = Base64.decodeBase64(input);
+            byte[] data = decodeB64(input);
             return new String(data);
         } catch (Exception e) {
             return "";
         }
     }
 
-    public static String encodeb64(String str) {
-        return encodeb64(str.getBytes(StandardCharsets.UTF_8));
+    /**
+     * Decode by by org.apache.commons.codec.binary.Base64
+     *
+     * @param input
+     * @return
+     */
+    public static byte[] decodeB64(String input) {
+        try {
+            return Base64.decodeBase64(input);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    public static String encodeb64(byte[] bytes) {
-        return java.util.Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
-    }
-
+    /**
+     * decode by by java.util.Base64
+     *
+     * @param encodedString
+     * @return
+     */
     public static String decodeb64(String encodedString) {
         return new String(java.util.Base64.getUrlDecoder().decode(encodedString));
     }
