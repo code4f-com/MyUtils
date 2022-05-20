@@ -14,6 +14,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.tuanpla.utils.logging.LogUtils;
@@ -39,9 +42,13 @@ import org.slf4j.LoggerFactory;
 public class GsonUtil {
 
     static Logger logger = LoggerFactory.getLogger(GsonUtil.class);
+//    https://www.baeldung.com/gson-json-to-map
 //    GsonBuilder gsonBuilder = new GsonBuilder().serializeNulls ();
 //    Gson GSON = gsonBuilder.create();
-    private static final Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
+    private static final Gson gson = new GsonBuilder()
+            .setDateFormat("dd/MM/yyyy")
+            .registerTypeAdapter(Double.class, new DoubleJsonSerializer())
+            .create();
 
 //    static final Gson GSON = new GsonBuilder().excludeFieldsWithModifiers(Modifier.STATIC, Modifier.PROTECTED)
 //            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -51,6 +58,20 @@ public class GsonUtil {
 //            .setDateFormat(DateFormat.TIMEZONE_FIELD)
 //            .registerTypeAdapter(Timestamp.class, new MyDateTypeAdapter())
 //            .create();
+    public static class DoubleJsonSerializer implements JsonSerializer<Double> {
+
+        @Override
+        public JsonElement serialize(final Double src, final Type typeOfSrc, final JsonSerializationContext context) {
+            String text = String.format("%.0f", src);
+            System.out.println("context=" + context.toString());
+            System.out.println("src=" + src);
+            Long l = Long.valueOf(text);
+            return new JsonPrimitive(l);
+//            BigDecimal bigValue = BigDecimal.valueOf(src);
+//            return new JsonPrimitive(bigValue.toPlainString());
+        }
+    }
+
     public class MyDateTypeAdapter implements JsonDeserializer<Timestamp> {
 
 //        @Override
