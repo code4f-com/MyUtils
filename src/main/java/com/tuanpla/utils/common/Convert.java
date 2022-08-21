@@ -35,6 +35,8 @@ public class Convert {
      * <p>
      * char	2 bytes Stores a single character/letter or ASCII values
      *
+     * @param value
+     * @return 
      */
     //======//
     public static int unsignedByte(byte value) {
@@ -259,7 +261,7 @@ public class Convert {
         String hexString = HexUtil.byteToHex(inBytes, offset, length);
         try {
             outputLong = Long.parseLong(hexString, 16);
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             outputLong = Long.MIN_VALUE;
         }
         return outputLong;
