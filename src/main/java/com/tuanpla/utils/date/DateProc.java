@@ -5,6 +5,7 @@
 package com.tuanpla.utils.date;
 
 import com.tuanpla.utils.common.Convert;
+import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.exception.CustomerException;
 import com.tuanpla.utils.logging.LogUtils;
 import java.sql.Date;       // extends java.util.Date
@@ -146,7 +147,7 @@ public class DateProc {
     public static Integer date2Int(Date date, String fmOut) {
         try {
             String strDate = date2String(date, fmOut);
-            return Integer.parseInt(strDate);
+            return Integer.valueOf(strDate);
         } catch (NumberFormatException ex) {
             LogUtils.debug("Error: " + ex.toString());
             return null;
@@ -156,7 +157,7 @@ public class DateProc {
     public static Integer currentInt(String fmOut) {
         try {
             String crdStr = date2String(currentDate(), fmOut);
-            return Integer.parseInt(crdStr);
+            return Integer.valueOf(crdStr);
         } catch (NumberFormatException e) {
             LogUtils.debug("Error: " + e.toString());
             return null;
@@ -166,7 +167,7 @@ public class DateProc {
     public static Integer stringDate2Int(String input, String fmInput, String fmOut) {
         try {
             String strDate = date2String(string2Date(input, fmInput), fmOut);
-            return Integer.parseInt(strDate);
+            return Integer.valueOf(strDate);
         } catch (NumberFormatException e) {
             LogUtils.debug("Error: " + e.toString());
             return null;
@@ -228,7 +229,7 @@ public class DateProc {
     public static Long timestamp2Long(Timestamp ts, String fmOut) {
         try {
             String strTimestamp = timestamp2String(ts, fmOut);
-            return Long.parseLong(strTimestamp);
+            return Long.valueOf(strTimestamp);
         } catch (NumberFormatException ex) {
             LogUtils.debug("Error: " + ex.toString());
             return null;
@@ -238,7 +239,7 @@ public class DateProc {
     public static Long current2Long(String fmOut) {
         try {
             String crdStr = timestamp2String(currentTimestamp(), fmOut);
-            return Long.parseLong(crdStr);
+            return Long.valueOf(crdStr);
         } catch (NumberFormatException e) {
             LogUtils.debug("Error: " + e.toString());
             return null;
@@ -450,6 +451,18 @@ public class DateProc {
         } catch (NumberFormatException e) {
             return 0;
         }
+    }
+
+    public static String long2Date_ddMM4Y(@Nullable long input) {
+        String result = "";
+        try {
+            Timestamp ts = new Timestamp(input);
+            result = timestamp2String(ts, "dd/MM/yyyy");
+        } catch (Exception e) {
+            LogUtils.debug(e.getMessage());
+        }
+
+        return result;
     }
 
     public static String getDateTimeForName() {
