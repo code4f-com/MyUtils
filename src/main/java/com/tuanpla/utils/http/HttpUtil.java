@@ -7,7 +7,6 @@ package com.tuanpla.utils.http;
 import com.tuanpla.utils.config.MyConstants;
 import com.tuanpla.utils.logging.LogUtils;
 import com.tuanpla.utils.string.MyString;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -54,7 +53,7 @@ public class HttpUtil {
             if (host.startsWith("www")) {
                 host = host.substring("www".length() + 1);
             }
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             logger.error("[ERROR getDomainName] ==> " + url);
         }
         return host;
@@ -70,7 +69,7 @@ public class HttpUtil {
                 t = MyString.convertStreamToString(in);
             }
             http.disconnect();
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(LogUtils.getLogMessage(e));
         }
         return t;
@@ -85,7 +84,7 @@ public class HttpUtil {
             con.setInstanceFollowRedirects(false);
             con.setRequestMethod("HEAD");
             return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(LogUtils.getLogMessage(e));
             return false;
         }
@@ -138,7 +137,7 @@ public class HttpUtil {
         int tem;
         try {
             tem = Integer.parseInt(request.getParameter(param).trim());
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             tem = 0;
             LogUtils.debug("getInt  [" + param + "] " + e.getMessage() + " | URI" + getURI(request));
         }
@@ -170,12 +169,12 @@ public class HttpUtil {
     }
 
     public static int getInt(HttpServletRequest request, String param, int defaultVal) {
-        System.out.println("getInt:"+request);
+        System.out.println("getInt - request:"+request);
         System.out.println("param:"+param);
         int tem;
         try {
             tem = Integer.parseInt(request.getParameter(param).trim());
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             LogUtils.debug("Exception:getInt  [" + param + "]- defaultVal:" + defaultVal + " | URI" + getURI(request));
             tem = defaultVal;
         }
@@ -186,7 +185,7 @@ public class HttpUtil {
         long tem;
         try {
             tem = Long.parseLong(request.getParameter(param).trim());
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             LogUtils.debug("getLong  [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             tem = 0;
         }
@@ -197,7 +196,7 @@ public class HttpUtil {
         double tem;
         try {
             tem = Double.parseDouble(request.getParameter(param).trim());
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             tem = 0;
         }
@@ -208,7 +207,7 @@ public class HttpUtil {
         double tem;
         try {
             tem = Double.parseDouble(request.getParameter(param).trim());
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             tem = defaultVal;
             LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
         }
@@ -266,7 +265,7 @@ public class HttpUtil {
         float tem;
         try {
             tem = Float.parseFloat(request.getParameter(param).trim());
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             LogUtils.debug("getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             tem = 0;
         }
