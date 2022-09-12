@@ -4,7 +4,6 @@
  */
 package com.tuanpla.utils.http;
 
-import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.config.MyConstants;
 import com.tuanpla.utils.logging.LogUtils;
 import com.tuanpla.utils.string.MyString;
@@ -170,7 +169,9 @@ public class HttpUtil {
         return tem;
     }
 
-    public static int getInt(HttpServletRequest request, @Nullable String param, int defaultVal) {
+    public static int getInt(HttpServletRequest request, String param, int defaultVal) {
+        System.out.println("getInt:"+request);
+        System.out.println("param:"+param);
         int tem;
         try {
             tem = Integer.parseInt(request.getParameter(param).trim());

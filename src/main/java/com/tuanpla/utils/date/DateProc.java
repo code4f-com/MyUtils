@@ -5,7 +5,6 @@
 package com.tuanpla.utils.date;
 
 import com.tuanpla.utils.common.Convert;
-import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.exception.CustomerException;
 import com.tuanpla.utils.logging.LogUtils;
 import java.sql.Date;       // extends java.util.Date
@@ -453,7 +452,7 @@ public class DateProc {
         }
     }
 
-    public static String long2Date_ddMM4Y(@Nullable Long input) {
+    public static String long2Date_ddMM4Y(Long input) {
         String result = "";
         try {
             Timestamp ts = new Timestamp(input);
