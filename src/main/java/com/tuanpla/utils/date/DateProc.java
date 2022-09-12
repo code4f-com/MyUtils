@@ -453,7 +453,7 @@ public class DateProc {
         }
     }
 
-    public static String long2Date_ddMM4Y(@Nullable long input) {
+    public static String long2Date_ddMM4Y(@Nullable Long input) {
         String result = "";
         try {
             Timestamp ts = new Timestamp(input);
