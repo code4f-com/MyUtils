@@ -169,7 +169,6 @@ public class HttpUtil {
     }
 
     public static int getInt(HttpServletRequest request, String param, int defaultVal) {
-        System.out.println("getInt - request:"+request);
         System.out.println("param:"+param);
         int tem;
         try {
