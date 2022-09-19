@@ -90,6 +90,17 @@ public class HttpUtil {
         }
     }
 
+    public static boolean isMultipart(HttpServletRequest request) {
+        boolean isMultipart = Boolean.FALSE;
+        String contentType = request.getContentType();
+        if (contentType != null && contentType.startsWith(MyConstants.MULTIPART_FORM_DATA_VALUE)
+                //        if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)
+                && contentType.contains("boundary=")) {
+            isMultipart = true;
+        }
+        return isMultipart;
+    }
+
     public static void debugParam(HttpServletRequest request) {
         LogUtils.debug("--------debugParam--------");
         boolean isMultipart = Boolean.FALSE;
