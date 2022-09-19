@@ -102,10 +102,12 @@ public class HttpUtil {
         if (isMultipart) {
             LogUtils.debug("form isMultipart");
         }
-        Enumeration<String> allParam = request.getParameterNames();
-        while (allParam.hasMoreElements()) {
-            String oneParam = allParam.nextElement();
-            LogUtils.debug(oneParam + ":" + request.getParameter(oneParam));
+        if (!isMultipart) {
+            Enumeration<String> allParam = request.getParameterNames();
+            while (allParam.hasMoreElements()) {
+                String oneParam = allParam.nextElement();
+                LogUtils.debug(oneParam + ":" + request.getParameter(oneParam));
+            }
         }
         LogUtils.debug("--------End debugParam--------");
     }
