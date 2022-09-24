@@ -147,93 +147,137 @@ public class HttpUtil {
     }
 
     public static int getInt(HttpServletRequest request, String param) {
-        int tem;
+        int result;
         try {
-            tem = Integer.parseInt(request.getParameter(param).trim());
+            result = Integer.parseInt(request.getParameter(param).trim());
         } catch (Exception e) {
-            tem = 0;
+            result = 0;
             LogUtils.debug("getInt  [" + param + "] " + e.getMessage() + " | URI" + getURI(request));
         }
-        return tem;
-    }
-
-    public static boolean getBoolean(HttpServletRequest request, String param) {
-        boolean tem;
-        try {
-            String str = request.getParameter(param).trim();
-            tem = str != null && (str.equals("1") || str.equals("true") || str.equals("on"));
-        } catch (Exception e) {
-            tem = false;
-            LogUtils.debug("getBoolean " + e.getMessage() + " | URI" + getURI(request));
-        }
-        return tem;
-    }
-
-    public static boolean getBoolean(HttpServletRequest request, String param, boolean defaultVal) {
-        boolean tem;
-        try {
-            String str = request.getParameter(param).trim();
-            tem = str != null && (str.equals("1") || str.equals("true") || str.equals("on"));
-        } catch (Exception e) {
-            tem = defaultVal;
-            LogUtils.debug("getBoolean " + e.getMessage() + " | URI" + getURI(request));
-        }
-        return tem;
+        return result;
     }
 
     public static int getInt(HttpServletRequest request, String param, int defaultVal) {
-        int tem;
+        int result;
         try {
-            tem = Integer.parseInt(request.getParameter(param).trim());
+            result = Integer.parseInt(request.getParameter(param).trim());
         } catch (Exception e) {
+            result = defaultVal;
             LogUtils.debug("Exception:getInt  [" + param + "]- defaultVal:" + defaultVal + " | URI" + getURI(request));
-            tem = defaultVal;
         }
-        return tem;
+        return result;
+    }
+
+    public static boolean getBoolean(HttpServletRequest request, String param) {
+        boolean result;
+        try {
+            String str = request.getParameter(param).trim();
+            result = str != null && (str.equals("1") || str.equals("true") || str.equals("on"));
+        } catch (Exception e) {
+            result = false;
+            LogUtils.debug("getBoolean " + e.getMessage() + " | URI" + getURI(request));
+        }
+        return result;
+    }
+
+    public static boolean getBoolean(HttpServletRequest request, String param, boolean defaultVal) {
+        boolean result;
+        try {
+            String str = request.getParameter(param).trim();
+            result = str != null && (str.equals("1") || str.equals("true") || str.equals("on"));
+        } catch (Exception e) {
+            result = defaultVal;
+            LogUtils.debug("getBoolean " + e.getMessage() + " | URI" + getURI(request));
+        }
+        return result;
     }
 
     public static long getLong(HttpServletRequest request, String param) {
-        long tem;
+        long result;
         try {
-            tem = Long.parseLong(request.getParameter(param).trim());
+            result = Long.parseLong(request.getParameter(param).trim());
         } catch (Exception e) {
+            result = 0;
             LogUtils.debug("getLong  [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
-            tem = 0;
         }
-        return tem;
+        return result;
+    }
+
+    public static long getLong(HttpServletRequest request, String param, long defaultVal) {
+        long result;
+        try {
+            result = Long.parseLong(request.getParameter(param).trim());
+        } catch (Exception e) {
+            result = defaultVal;
+            LogUtils.debug("getLong  [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+        }
+        return result;
     }
 
     public static double getDouble(HttpServletRequest request, String param) {
-        double tem;
+        double result;
         try {
-            tem = Double.parseDouble(request.getParameter(param).trim());
+            result = Double.parseDouble(request.getParameter(param).trim());
         } catch (Exception e) {
             LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
-            tem = 0;
+            result = 0;
         }
-        return tem;
+        return result;
     }
 
     public static double getDouble(HttpServletRequest request, String param, double defaultVal) {
-        double tem;
+        double result;
         try {
-            tem = Double.parseDouble(request.getParameter(param).trim());
+            result = Double.parseDouble(request.getParameter(param).trim());
         } catch (Exception e) {
-            tem = defaultVal;
+            result = defaultVal;
             LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
         }
-        return tem;
+        return result;
     }
 
     public static String getString(HttpServletRequest request, String param) {
-        String str;
+        String result;
         try {
-            str = request.getParameter(param).trim();
+            result = request.getParameter(param).trim();
         } catch (Exception e) {
             LogUtils.debug("getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
-            str = "";
+            result = "";
         }
-        return str;
+        return result;
+    }
+
+    public static String getString(HttpServletRequest request, String param, String defaultVal) {
+        String result;
+        try {
+            result = request.getParameter(param).trim();
+        } catch (Exception e) {
+            LogUtils.debug("getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+            result = defaultVal;
+        }
+        return result;
+    }
+
+    public static Float getFloat(HttpServletRequest request, String param) {
+        float result;
+        try {
+            result = Float.parseFloat(request.getParameter(param).trim());
+        } catch (Exception e) {
+            LogUtils.debug("getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+            result = 0;
+        }
+        return result;
+    }
+
+    public static Float getFloat(HttpServletRequest request, String param, float defaultVal) {
+        float result;
+        try {
+            result = Float.parseFloat(request.getParameter(param).trim());
+        } catch (Exception e) {
+            result = defaultVal;
+            LogUtils.debug("getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
+        }
+        return result;
     }
 
     public static String[] getArrValue(HttpServletRequest request, String param) {
@@ -259,28 +303,6 @@ public class HttpUtil {
         } catch (Exception e) {
         }
         return data;
-    }
-
-    public static String getString(HttpServletRequest request, String param, String defaultVal) {
-        String str;
-        try {
-            str = request.getParameter(param).trim();
-        } catch (Exception e) {
-            LogUtils.debug("getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
-            str = defaultVal;
-        }
-        return str;
-    }
-
-    public static Float getFloat(HttpServletRequest request, String param) {
-        float tem;
-        try {
-            tem = Float.parseFloat(request.getParameter(param).trim());
-        } catch (Exception e) {
-            LogUtils.debug("getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
-            tem = 0;
-        }
-        return tem;
     }
 
     //--
