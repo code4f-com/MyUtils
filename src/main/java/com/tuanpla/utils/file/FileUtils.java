@@ -526,6 +526,7 @@ public class FileUtils {
         // This filter only returns directories
         FileFilter fileFilter = new FileFilter() {
 
+            @Override
             public boolean accept(File file) {
                 return file.isDirectory();
             }
@@ -594,6 +595,23 @@ public class FileUtils {
         } catch (Exception e) {
         }
         return ext;
+    }
+
+    public static String getFileName(String fullName) {
+        String name = "";
+        try {
+            if (StringUtils.isEmpty(fullName)) {
+                return name;
+            }
+            int index = fullName.lastIndexOf(".");
+            if (index != -1) {
+                name = fullName.substring(0, index);
+            } else {
+                return name;
+            }
+        } catch (Exception e) {
+        }
+        return name;
     }
 
     //
