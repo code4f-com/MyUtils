@@ -404,16 +404,16 @@ public class FileUtils {
     public static void copy(String src, String dst) throws IOException {
         File f_src = new File(src);
         File f_dst = new File(dst);
-        InputStream in = new FileInputStream(f_src);
-        OutputStream out = new FileOutputStream(f_dst);
-
-        // Transfer bytes from in to out
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
+        OutputStream out;
+        try (InputStream in = new FileInputStream(f_src)) {
+            out = new FileOutputStream(f_dst);
+            // Transfer bytes from in to out
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
         }
-        in.close();
         out.close();
     }
     //
@@ -426,10 +426,10 @@ public class FileUtils {
             // Delete temp file when program exits.
             temp.deleteOnExit();
 
-            // Write to temp file
-            BufferedWriter out = new BufferedWriter(new FileWriter(temp));
-            out.write("aString");
-            out.close();
+            try ( // Write to temp file
+                    BufferedWriter out = new BufferedWriter(new FileWriter(temp))) {
+                out.write("aString");
+            }
         } catch (IOException e) {
         }
     }
@@ -475,13 +475,8 @@ public class FileUtils {
 
             // Create file if it does not exist
             boolean success = file.createNewFile();
-            if (success) {
-                // File did not exist and was created
-                return true;
-            } else {
-                // File already exists
-                return false;
-            }
+            return success; // File did not exist and was created
+            // File already exists
         } catch (IOException e) {
             return false;
         }
