@@ -19,4 +19,5 @@ public class PublicConfig {
 
     public static long AUTO_LOAD_LIB_TIME = 30 * 1000;
     public static long DEFAULT_EXPIRE_TIME = 5 * 1000;
+    public static long MAX_FILE_SIZE = 10 * 1024 * 1024;
 }

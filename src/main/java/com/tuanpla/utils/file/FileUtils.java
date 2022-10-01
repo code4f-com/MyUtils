@@ -43,7 +43,6 @@ import org.slf4j.LoggerFactory;
 public class FileUtils {
 
     static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
-    public static long MAX_FILE_SIZE = 10 * 1024 * 1024;
 
     /**
      *
@@ -405,7 +404,7 @@ public class FileUtils {
         File f_src = new File(src);
         File f_dst = new File(dst);
         OutputStream out;
-        try (InputStream in = new FileInputStream(f_src)) {
+        try ( InputStream in = new FileInputStream(f_src)) {
             out = new FileOutputStream(f_dst);
             // Transfer bytes from in to out
             byte[] buf = new byte[1024];
@@ -427,7 +426,7 @@ public class FileUtils {
             temp.deleteOnExit();
 
             try ( // Write to temp file
-                    BufferedWriter out = new BufferedWriter(new FileWriter(temp))) {
+                     BufferedWriter out = new BufferedWriter(new FileWriter(temp))) {
                 out.write("aString");
             }
         } catch (IOException e) {
