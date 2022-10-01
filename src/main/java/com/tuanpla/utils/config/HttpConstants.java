@@ -8,7 +8,7 @@ package com.tuanpla.utils.config;
  *
  * @author tuanp
  */
-public interface MyConstants {
+public interface HttpConstants {
 
     public static final String APPLICATION_JSON_UTF8 = "application/json;charset=UTF-8";
     public static final String APPLICATION_XML_UTF8 = "application/xml;charset=UTF-8";
