@@ -104,9 +104,9 @@ public class DateProc {
         }
     }
 
-    public static Date string2Date(String strDate, String forMat) {
+    public static Date string2Date(String strDate, String fmIn) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(forMat);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(fmIn);
             return new Date(dateFormat.parse(strDate).getTime());
         } catch (ParseException ex) {
             LogUtils.debug("Error: " + ex.toString());
@@ -414,7 +414,7 @@ public class DateProc {
         try {
             String str = timestamp2String(currentTimestamp(), "yyyyMMddHHmmssSSS");
             return Long.parseLong(str);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -430,7 +430,16 @@ public class DateProc {
             Timestamp ts = new Timestamp(d.getTime());
             String str = timestamp2String(ts, "yyyyMMddHHmmssSSS");
             return Long.parseLong(str);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public static long dateToLongTime(String date, String fmIn) {
+        try {
+            Date d = string2Date(date, fmIn);
+            return d.getTime();
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -447,7 +456,7 @@ public class DateProc {
             Timestamp ts = new Timestamp(d.getTime());
             String str = timestamp2String(ts, fmOut);
             return Long.parseLong(str);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return 0;
         }
     }
