@@ -40,6 +40,15 @@ public class LogUtils {
         }
     }
 
+    public static void error(Object input) {
+        if (PublicConfig.DE_BUG) {
+            String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
+            String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+            int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
+            System.err.println(PROJECT_NAME + ": " + className + ".class[d" + lineNumber + "] " + input);
+        }
+    }
+
     public static String getLogMessage(Exception ex) {
         String str = DateProc.currentTimestamp() + "||" + ex.getMessage() + "||";
         StackTraceElement[] trace = ex.getStackTrace();
