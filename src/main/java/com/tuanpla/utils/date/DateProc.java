@@ -419,6 +419,14 @@ public class DateProc {
         }
     }
 
+    public static String nowToString() {
+        try {
+            return timestamp2String(currentTimestamp(), "yyyyMMddHHmmssSSS");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     /**
      * long format yyyyMMddHHmmssSSS
      *
@@ -435,9 +443,15 @@ public class DateProc {
         }
     }
 
+    /**
+     *
+     * @param date GMT +0
+     * @param fmIn dd/MM/yyyy
+     * @return
+     */
     public static long dateToLongTime(String date, String fmIn) {
         try {
-            Date d = string2Date(date, fmIn);
+            Date d = string2Date(date, fmIn); // GMT +0
             return d.getTime();
         } catch (Exception e) {
             return 0;
