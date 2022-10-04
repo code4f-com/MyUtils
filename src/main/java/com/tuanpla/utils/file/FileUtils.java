@@ -115,8 +115,8 @@ public class FileUtils {
                 bis.close();
             } catch (Exception e) {
             }
-            return byteReturn;
         }
+        return byteReturn;
     }
 
     public static boolean writeFileText(String content, String path) {
