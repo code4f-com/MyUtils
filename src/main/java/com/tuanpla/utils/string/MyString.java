@@ -53,55 +53,6 @@ public class MyString {
         return sBuf.toString();
     }
 
-    public static String getStringURL(String input) {
-        if (input == null || input.equals("")) {
-            return "";
-        }
-        input = input.trim();
-        input = convert2NoSign(input);
-        input = input.replaceAll("&amp;", "");
-        input = input.replaceAll("amp;", "");
-        input = input.replaceAll("&quot;", "");
-        input = input.replaceAll("quot;", "");
-        input = input.replaceAll("&apos;", "");
-        input = input.replaceAll("apos;", "");
-        input = input.replaceAll("&lt;", "");
-        input = input.replaceAll("lt;", "");
-        input = input.replaceAll("&gt;", "");
-        input = input.replaceAll("gt;", "");
-        input = input.replaceAll("&amp;", "");
-        input = input.replaceAll("&AMP;", "");
-        input = input.replaceAll("'", "");
-        input = input.replaceAll(":", "");
-        input = input.replaceAll(",", "");
-        input = input.replaceAll("\\.", "");
-        input = input.replaceAll("‘", "");
-        input = input.replaceAll("“", "");
-        input = input.replaceAll("”", "");
-        input = input.replaceAll("\\?", "");
-        input = input.replaceAll("~", "");
-        input = input.replaceAll("!", "");
-        input = input.replaceAll("@", "");
-        input = input.replaceAll("#", "");
-        input = input.replaceAll("$", "");
-        input = input.replaceAll("%", "");
-        input = input.replaceAll("^", "");
-        input = input.replaceAll("&", "");
-        input = input.replaceAll("…", "");
-        input = input.replaceAll("\\*", "");
-        input = input.replaceAll("\\(", "");
-        input = input.replaceAll("\\)", "");
-        input = input.replaceAll("\"", "");
-        input = input.replaceAll("\'", "");
-        input = input.replaceAll(" ", "-");
-        input = input.replaceAll("/", "-");
-        while (input.contains("--")) {
-            input = input.replaceAll("--", "-");
-        }
-        input = input.toLowerCase();
-        return input;
-    }
-
     public static String getLongTimeString() {
         String str = "";
         long time = new Date().getTime();
@@ -133,9 +84,9 @@ public class MyString {
     public static String replaceString(String sStr, String oldStr, String newStr) {
         sStr = (sStr == null ? "" : sStr);
         String strVar = sStr;
-        String tmpStr = "";
+        String tmpStr;
         String finalStr = "";
-        int stpos = 0, endpos = 0, strLen = 0;
+        int stpos, endpos, strLen;
         while (true) {
             strLen = strVar.length();
             stpos = 0;
@@ -499,14 +450,12 @@ public class MyString {
         if (is != null) {
             Writer writer = new StringWriter();
             char[] buffer = new char[1024];
-            try {
+            try (is) {
                 Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
                 int n;
                 while ((n = reader.read(buffer)) != -1) {
                     writer.write(buffer, 0, n);
                 }
-            } finally {
-                is.close();
             }
             return writer.toString();
         } else {
@@ -541,9 +490,9 @@ public class MyString {
         input = input.replaceAll("!", "");
         input = input.replaceAll("@", "");
         input = input.replaceAll("#", "");
-        input = input.replaceAll("$", "");
+        input = input.replaceAll("\\$", "");
         input = input.replaceAll("%", "");
-        input = input.replaceAll("^", "");
+        input = input.replaceAll("\\^", "");
         input = input.replaceAll("&", "");
         input = input.replaceAll("\\*", "");
         input = input.replaceAll("\\(", "");
@@ -553,6 +502,55 @@ public class MyString {
         while (input.contains("--")) {
             input = input.replaceAll("--", "-");
         }
+        return input;
+    }
+
+    public static String getStringURL(String input) {
+        if (input == null || input.equals("")) {
+            return "";
+        }
+        input = input.trim();
+        input = convert2NoSign(input);
+        input = input.replaceAll("&amp;", "");
+        input = input.replaceAll("amp;", "");
+        input = input.replaceAll("&quot;", "");
+        input = input.replaceAll("quot;", "");
+        input = input.replaceAll("&apos;", "");
+        input = input.replaceAll("apos;", "");
+        input = input.replaceAll("&lt;", "");
+        input = input.replaceAll("lt;", "");
+        input = input.replaceAll("&gt;", "");
+        input = input.replaceAll("gt;", "");
+        input = input.replaceAll("&amp;", "");
+        input = input.replaceAll("&AMP;", "");
+        input = input.replaceAll("'", "");
+        input = input.replaceAll(":", "");
+        input = input.replaceAll(",", "");
+        input = input.replaceAll("\\.", "");
+        input = input.replaceAll("‘", "");
+        input = input.replaceAll("“", "");
+        input = input.replaceAll("”", "");
+        input = input.replaceAll("\\?", "");
+        input = input.replaceAll("~", "");
+        input = input.replaceAll("!", "");
+        input = input.replaceAll("@", "");
+        input = input.replaceAll("#", "");
+        input = input.replaceAll("\\$", "");
+        input = input.replaceAll("%", "");
+        input = input.replaceAll("\\^", "");
+        input = input.replaceAll("&", "");
+        input = input.replaceAll("…", "");
+        input = input.replaceAll("\\*", "");
+        input = input.replaceAll("\\(", "");
+        input = input.replaceAll("\\)", "");
+        input = input.replaceAll("\"", "");
+        input = input.replaceAll("\'", "");
+        input = input.replaceAll(" ", "-");
+        input = input.replaceAll("/", "-");
+        while (input.contains("--")) {
+            input = input.replaceAll("--", "-");
+        }
+        input = input.toLowerCase();
         return input;
     }
 
@@ -586,9 +584,9 @@ public class MyString {
         input = input.replaceAll("!", "");
         input = input.replaceAll("@", "");
         input = input.replaceAll("#", "");
-        input = input.replaceAll("$", "");
+        input = input.replaceAll("\\$", "");
         input = input.replaceAll("%", "");
-        input = input.replaceAll("^", "");
+        input = input.replaceAll("\\^", "");
         input = input.replaceAll("&", "");
         input = input.replaceAll("…", "");
         input = input.replaceAll("\\*", "");
