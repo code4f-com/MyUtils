@@ -100,7 +100,7 @@ public class MyUtils {
         TimeUnit.SECONDS.sleep(delay);
     }
 
-    public Map<Object, Object> MyHashMap(Object key, Object val) {
+    public Map<Object, Object> MyMap(Object key, Object val) {
         if (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(val)) {
             Map<Object, Object> result = new HashMap<>();
             result.put(key, val);
