@@ -5,7 +5,10 @@
 package com.tuanpla.utils.common;
 
 import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.string.StringUtils;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -97,4 +100,12 @@ public class MyUtils {
         TimeUnit.SECONDS.sleep(delay);
     }
 
+    public Map<Object, Object> MyHashMap(Object key, Object val) {
+        if (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(val)) {
+            Map<Object, Object> result = new HashMap<>();
+            result.put(key, val);
+            return result;
+        }
+        return null;
+    }
 }
