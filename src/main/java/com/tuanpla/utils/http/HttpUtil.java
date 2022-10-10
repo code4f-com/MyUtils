@@ -4,6 +4,8 @@
  */
 package com.tuanpla.utils.http;
 
+import com.tuanpla.utils.common.Nullable;
+import com.tuanpla.utils.config.HttpConstants;
 import com.tuanpla.utils.logging.LogUtils;
 import com.tuanpla.utils.string.MyString;
 import java.io.InputStream;
@@ -21,7 +23,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.tuanpla.utils.config.HttpConstants;
 
 /**
  *
@@ -203,10 +204,10 @@ public class HttpUtil {
         return result;
     }
 
-    public static long getLong(HttpServletRequest request, String param, long defaultVal) {
-        long result;
+    public static Long getLong(HttpServletRequest request, String param, @Nullable Long defaultVal) {
+        Long result;
         try {
-            result = Long.parseLong(request.getParameter(param).trim());
+            result = Long.valueOf(request.getParameter(param).trim());
         } catch (Exception e) {
             result = defaultVal;
             LogUtils.debug("getLong  [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
@@ -225,10 +226,10 @@ public class HttpUtil {
         return result;
     }
 
-    public static double getDouble(HttpServletRequest request, String param, double defaultVal) {
-        double result;
+    public static Double getDouble(HttpServletRequest request, String param, @Nullable Double defaultVal) {
+        Double result;
         try {
-            result = Double.parseDouble(request.getParameter(param).trim());
+            result = Double.valueOf(request.getParameter(param).trim());
         } catch (Exception e) {
             result = defaultVal;
             LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
@@ -247,7 +248,7 @@ public class HttpUtil {
         return result;
     }
 
-    public static String getString(HttpServletRequest request, String param, String defaultVal) {
+    public static String getString(HttpServletRequest request, String param, @Nullable String defaultVal) {
         String result;
         try {
             result = request.getParameter(param).trim();
@@ -269,10 +270,10 @@ public class HttpUtil {
         return result;
     }
 
-    public static Float getFloat(HttpServletRequest request, String param, float defaultVal) {
-        float result;
+    public static Float getFloat(HttpServletRequest request, String param, @Nullable Float defaultVal) {
+        Float result;
         try {
-            result = Float.parseFloat(request.getParameter(param).trim());
+            result = Float.valueOf(request.getParameter(param).trim());
         } catch (Exception e) {
             result = defaultVal;
             LogUtils.debug("getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
