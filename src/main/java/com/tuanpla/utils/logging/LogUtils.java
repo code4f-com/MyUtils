@@ -37,7 +37,7 @@ public class LogUtils {
             String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
             String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
             int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-            System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ": " + className + ".class[d" + lineNumber + "] " + input);
+            System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.RED + " DEBUG " + ConsoleColors.PURPLE + className + ".class[d" + lineNumber + "] " + input);
         }
     }
 
@@ -46,7 +46,7 @@ public class LogUtils {
             String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
             String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
             int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-            System.err.println(ConsoleColors.RED + PROJECT_NAME + ": " + className + ".class[d" + lineNumber + "] " + input);
+            System.err.println(ConsoleColors.RED + PROJECT_NAME + ": " + " ERROR " + ConsoleColors.RED + className + ".class[d" + lineNumber + "] " + input);
         }
     }
 
@@ -54,7 +54,7 @@ public class LogUtils {
         String str = ConsoleColors.RED + DateProc.currentTimestamp() + "||" + ex.getMessage() + "||";
         StackTraceElement[] trace = ex.getStackTrace();
         for (StackTraceElement trace1 : trace) {
-            str += trace1 + "\t\n";
+            str += ConsoleColors.RED + trace1 + "\t\n";
         }
         return ConsoleColors.RED + str;
     }
