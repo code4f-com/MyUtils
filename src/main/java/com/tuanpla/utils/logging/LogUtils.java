@@ -24,7 +24,7 @@ public class LogUtils {
         String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
         String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
         int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-        System.out.println(PROJECT_NAME + ": " + className + ".class[d" + lineNumber + "] " + input);
+        System.out.println(ConsoleColors.GREEN + PROJECT_NAME + ": " + className + ".class[d" + lineNumber + "] " + input);
     }
 
     /**
@@ -37,7 +37,7 @@ public class LogUtils {
             String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
             String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
             int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-            System.out.println(PROJECT_NAME + ": " + className + ".class[d" + lineNumber + "] " + input);
+            System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ": " + className + ".class[d" + lineNumber + "] " + input);
         }
     }
 
@@ -46,7 +46,7 @@ public class LogUtils {
             String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
             String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
             int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-            System.err.println(PROJECT_NAME + ": " + className + ".class[d" + lineNumber + "] " + input);
+            System.err.println(ConsoleColors.RED + PROJECT_NAME + ": " + className + ".class[d" + lineNumber + "] " + input);
         }
     }
 
@@ -56,6 +56,6 @@ public class LogUtils {
         for (StackTraceElement trace1 : trace) {
             str += trace1 + "\t\n";
         }
-        return str;
+        return ConsoleColors.RED + str;
     }
 }
