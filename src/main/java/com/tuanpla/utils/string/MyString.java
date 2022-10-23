@@ -440,6 +440,14 @@ public class MyString {
         }
     }
 
+    public static String str2OneLine(String input) {
+        String cleaned = "";
+        if (!StringUtils.isEmpty(input)) {
+            cleaned = input.replaceAll("\\s*[\\r\\n]+\\s*", "").trim();
+        }
+        return cleaned;
+    }
+
     public static String convertStreamToString(InputStream is) throws IOException {
         /*
          * To convert the InputStream to String we use the
