@@ -24,7 +24,7 @@ public class LogUtils {
         String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
         String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
         int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-        System.out.println(ConsoleColors.GREEN + PROJECT_NAME + ": " + ConsoleColors.BLUE + " INFO " + className + ".class[d" + lineNumber + "] " + input);
+        System.out.println(ConsoleColors.GREEN + PROJECT_NAME + ": " + ConsoleColors.BLUE + " INFO " + ConsoleColors.GREEN + className + ".class[d" + lineNumber + "] " + input);
     }
 
     /**
