@@ -362,6 +362,8 @@ public class StringUtils {
     /**
      * A method that receive an array of Objects and return a String array
      * representation of that array.
+     * @param objArray
+     * @return 
      */
     public static String[] toStringArray(Object[] objArray) {
         int idx;
