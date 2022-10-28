@@ -54,7 +54,7 @@ public class LogUtils {
         String str = ConsoleColors.RED + DateProc.currentTimestamp() + "||" + ex.getMessage() + "||";
         StackTraceElement[] trace = ex.getStackTrace();
         for (StackTraceElement trace1 : trace) {
-            str += ConsoleColors.RED + trace1 + "\t\n";
+            str += ConsoleColors.RED + trace1 + System.lineSeparator();
         }
         return ConsoleColors.RED + str + ConsoleColors.RESET;
     }
