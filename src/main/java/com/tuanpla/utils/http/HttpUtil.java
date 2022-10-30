@@ -4,8 +4,10 @@
  */
 package com.tuanpla.utils.http;
 
+import com.tuanpla.utils.common.ConsoleColors;
 import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.config.HttpConstants;
+import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
 import com.tuanpla.utils.logging.LogUtils;
 import com.tuanpla.utils.string.MyString;
 import java.io.InputStream;
@@ -114,11 +116,15 @@ public class HttpUtil {
         if (isMultipart) {
             LogUtils.debug("form isMultipart");
         }
+        String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
+        String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+        int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
         if (!isMultipart) {
             Enumeration<String> allParam = request.getParameterNames();
             while (allParam.hasMoreElements()) {
                 String oneParam = allParam.nextElement();
-                LogUtils.debug(oneParam + ":" + request.getParameter(oneParam));
+                System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
+//                LogUtils.debug(oneParam + ":" + request.getParameter(oneParam));
             }
         }
         LogUtils.debug("--------End debugParam--------");
