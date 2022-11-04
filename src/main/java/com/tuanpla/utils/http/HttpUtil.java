@@ -9,6 +9,7 @@ import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.config.HttpConstants;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
 import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.multipart.HttpServletMultipartRequest;
 import com.tuanpla.utils.string.MyString;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -106,16 +107,7 @@ public class HttpUtil {
 
     public static void debugParam(HttpServletRequest request) {
         LogUtils.debug("--------debugParam--------");
-        boolean isMultipart = Boolean.FALSE;
-        String contentType = request.getContentType();
-        if (contentType != null && contentType.startsWith(HttpConstants.MULTIPART_FORM_DATA_VALUE)
-                //        if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)
-                && contentType.contains("boundary=")) {
-            isMultipart = true;
-        }
-        if (isMultipart) {
-            LogUtils.debug("form isMultipart");
-        }
+        boolean isMultipart = isMultipart(request);
         String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
         String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
         int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
@@ -125,6 +117,19 @@ public class HttpUtil {
                 String oneParam = allParam.nextElement();
                 System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
 //                LogUtils.debug(oneParam + ":" + request.getParameter(oneParam));
+            }
+        } else {
+            LogUtils.debug("form isMultipart");
+            try {
+                HttpServletMultipartRequest mreq = new HttpServletMultipartRequest(request);
+                Enumeration<String> allParam = mreq.getParameterNames();
+                while (allParam.hasMoreElements()) {
+                    String oneParam = allParam.nextElement();
+                    System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
+//                LogUtils.debug(oneParam + ":" + request.getParameter(oneParam));
+                }
+            } catch (Exception e) {
+                logger.error(LogUtils.getLogMessage(e));
             }
         }
         LogUtils.debug("--------End debugParam--------");
@@ -159,7 +164,6 @@ public class HttpUtil {
             result = Integer.parseInt(request.getParameter(param).trim());
         } catch (Exception e) {
             result = 0;
-            LogUtils.debug("getInt  [" + param + "] " + e.getMessage() + " | URI" + getURI(request));
         }
         return result;
     }
@@ -170,7 +174,6 @@ public class HttpUtil {
             result = Integer.parseInt(request.getParameter(param).trim());
         } catch (Exception e) {
             result = defaultVal;
-            LogUtils.debug("Exception:getInt  [" + param + "]- defaultVal:" + defaultVal + " | URI" + getURI(request));
         }
         return result;
     }
@@ -182,7 +185,6 @@ public class HttpUtil {
             result = str != null && (str.equals("1") || str.equals("true") || str.equals("on"));
         } catch (Exception e) {
             result = false;
-            LogUtils.debug("getBoolean " + e.getMessage() + " | URI" + getURI(request));
         }
         return result;
     }
@@ -194,7 +196,6 @@ public class HttpUtil {
             result = str != null && (str.equals("1") || str.equals("true") || str.equals("on"));
         } catch (Exception e) {
             result = defaultVal;
-            LogUtils.debug("getBoolean " + e.getMessage() + " | URI" + getURI(request));
         }
         return result;
     }
@@ -205,7 +206,6 @@ public class HttpUtil {
             result = Long.parseLong(request.getParameter(param).trim());
         } catch (Exception e) {
             result = 0;
-            LogUtils.debug("getLong  [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
         }
         return result;
     }
@@ -216,7 +216,6 @@ public class HttpUtil {
             result = Long.valueOf(request.getParameter(param).trim());
         } catch (Exception e) {
             result = defaultVal;
-            LogUtils.debug("getLong  [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
         }
         return result;
     }
@@ -226,7 +225,6 @@ public class HttpUtil {
         try {
             result = Double.parseDouble(request.getParameter(param).trim());
         } catch (Exception e) {
-            LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             result = 0;
         }
         return result;
@@ -238,7 +236,6 @@ public class HttpUtil {
             result = Double.valueOf(request.getParameter(param).trim());
         } catch (Exception e) {
             result = defaultVal;
-            LogUtils.debug("getDouble [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
         }
         return result;
     }
@@ -248,7 +245,6 @@ public class HttpUtil {
         try {
             result = request.getParameter(param).trim();
         } catch (Exception e) {
-            LogUtils.debug("getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             result = "";
         }
         return result;
@@ -259,7 +255,6 @@ public class HttpUtil {
         try {
             result = request.getParameter(param).trim();
         } catch (Exception e) {
-            LogUtils.debug("getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             result = defaultVal;
         }
         return result;
@@ -270,7 +265,6 @@ public class HttpUtil {
         try {
             result = Float.parseFloat(request.getParameter(param).trim());
         } catch (Exception e) {
-            LogUtils.debug("getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             result = 0;
         }
         return result;
@@ -282,7 +276,6 @@ public class HttpUtil {
             result = Float.valueOf(request.getParameter(param).trim());
         } catch (Exception e) {
             result = defaultVal;
-            LogUtils.debug("getFloat [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
         }
         return result;
     }
@@ -292,7 +285,6 @@ public class HttpUtil {
         try {
             data = request.getParameterValues(param);
         } catch (Exception e) {
-            LogUtils.debug("getstring [" + param + "]:" + e.getMessage() + " | URI " + getURI(request));
             data = new String[0];
         }
         return data;
