@@ -15,6 +15,15 @@ import com.tuanpla.utils.date.DateProc;
  */
 public class LogUtils {
 
+    public static void bug(Object input) {
+        if (PublicConfig.DE_BUG) {
+            String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
+            String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+            int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
+            System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.RED_BOLD + className + ".java [d" + lineNumber + "] " + input + ConsoleColors.RESET);
+        }
+    }
+
     /**
      * alway print message input
      *
