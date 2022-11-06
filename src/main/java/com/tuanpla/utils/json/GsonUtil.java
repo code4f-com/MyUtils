@@ -201,6 +201,15 @@ public class GsonUtil {
         }
     }
 
+    public static String toJsonArr(Object obj, Type typeOfSrc) {
+        if (obj != null) {
+            String str = gson.toJson(obj, typeOfSrc);
+            return Objects.isNull(str) ? "[]" : str;
+        } else {
+            return "[]";
+        }
+    }
+
     public static String toJsonInclueNull(Object obj) {
         Gson _gson = new GsonBuilder()
                 .serializeNulls()
