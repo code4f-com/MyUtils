@@ -210,6 +210,16 @@ public class GsonUtil {
         }
     }
 
+    public static String toJsonTreeArr(Object obj) {
+        if (obj != null) {
+            JsonElement jelement = gson.toJsonTree(obj);
+            String str = jelement.toString();
+            return Objects.isNull(str) ? "[]" : str;
+        } else {
+            return "[]";
+        }
+    }
+
     public static String toJsonInclueNull(Object obj) {
         Gson _gson = new GsonBuilder()
                 .serializeNulls()
