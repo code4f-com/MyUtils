@@ -397,10 +397,7 @@ public class HttpUtil {
     public static boolean matchesURI(String uri, String contextPath, String path) {
         boolean result = Boolean.FALSE;
         try {
-//            MyConfig.debugOut(DE_BUG,"----------------- ----------------------");
-//            MyConfig.debugOut(DE_BUG,"uri:" + uri);
-//            MyConfig.debugOut(DE_BUG,"contextPath:" + contextPath);
-//            MyConfig.debugOut(DE_BUG,"path:" + path);
+            path = Pattern.quote(path);
             Pattern p = Pattern.compile("^(" + path + ")$");
             Pattern pc = Pattern.compile("^(" + contextPath + path + ")$");
             Matcher m = p.matcher(uri);

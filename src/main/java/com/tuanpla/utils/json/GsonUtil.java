@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +71,23 @@ public class GsonUtil {
 //            BigDecimal bigValue = BigDecimal.valueOf(src);
 //            return new JsonPrimitive(bigValue.toPlainString());
         }
+    }
+//    https://github.com/google/gson/issues/1289
+
+    /**
+     * ??
+     * https://stackoverflow.com/questions/62358189/gson-stackoverflowerror-during-serialization
+     *
+     * @param object
+     * @param interfaceType
+     * @param context
+     * @return
+     */
+    public JsonElement serialize(T object, Type interfaceType, JsonSerializationContext context) {
+        final JsonObject wrapper = new JsonObject();
+        wrapper.addProperty("type", object.getClass().getName());
+        wrapper.add("data", new Gson().toJsonTree(object));
+        return wrapper;
     }
 
     public class MyDateTypeAdapter implements JsonDeserializer<Timestamp> {
