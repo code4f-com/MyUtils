@@ -201,6 +201,13 @@ public class GsonUtil {
         }
     }
 
+    /**
+     * Type listType = new TypeToken<List<Class>>() {}.getType();
+     *
+     * @param obj
+     * @param typeOfSrc
+     * @return
+     */
     public static String toJsonArr(Object obj, Type typeOfSrc) {
         if (obj != null) {
             String str = gson.toJson(obj, typeOfSrc);
