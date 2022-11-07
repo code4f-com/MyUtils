@@ -19,6 +19,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import static com.tuanpla.utils.json.JsonValueTypeAdapter.getJsonValueTypeAdapter;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -32,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import javax.json.JsonValue;
 import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,7 @@ public class GsonUtil {
     private static final Gson gson = new GsonBuilder()
             .setDateFormat("dd/MM/yyyy")
             .registerTypeAdapter(Double.class, new DoubleJsonSerializer())
+            .registerTypeHierarchyAdapter(JsonValue.class, getJsonValueTypeAdapter())
             .create();
 
 //    static final Gson GSON = new GsonBuilder().excludeFieldsWithModifiers(Modifier.STATIC, Modifier.PROTECTED)
