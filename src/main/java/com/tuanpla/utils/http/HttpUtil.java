@@ -4,6 +4,10 @@
  */
 package com.tuanpla.utils.http;
 
+import com.github.jgonian.ipmath.Ipv4;
+import com.github.jgonian.ipmath.Ipv4Range;
+import com.github.jgonian.ipmath.Ipv6;
+import com.github.jgonian.ipmath.Ipv6Range;
 import com.tuanpla.utils.common.ConsoleColors;
 import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.config.HttpConstants;
@@ -419,5 +423,21 @@ public class HttpUtil {
         SubnetUtils utils = new SubnetUtils(ipRang);
         String[] allIps = utils.getInfo().getAllAddresses();
         return allIps;
+    }
+
+    public static boolean checkIPv4IsInRange(String inputIP, String rangeStartIP, String rangeEndIP) {
+        Ipv4 startIPAddress = Ipv4.of(rangeStartIP);
+        Ipv4 endIPAddress = Ipv4.of(rangeEndIP);
+        Ipv4Range ipRange = Ipv4Range.from(startIPAddress).to(endIPAddress);
+        Ipv4 inputIPAddress = Ipv4.of(inputIP);
+        return ipRange.contains(inputIPAddress);
+    }
+
+    public static boolean checkIPv6IsInRange(String inputIP, String rangeStartIP, String rangeEndIP) {
+        Ipv6 startIPAddress = Ipv6.of(rangeStartIP);
+        Ipv6 endIPAddress = Ipv6.of(rangeEndIP);
+        Ipv6Range ipRange = Ipv6Range.from(startIPAddress).to(endIPAddress);
+        Ipv6 inputIPAddress = Ipv6.of(inputIP);
+        return ipRange.contains(inputIPAddress);
     }
 }
