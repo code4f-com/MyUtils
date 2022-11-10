@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.net.util.SubnetUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -407,5 +408,16 @@ public class HttpUtil {
             logger.error(LogUtils.getLogMessage(e));
         }
         return result;
+    }
+
+    /**
+     *
+     * @param ipRang example 192.168.1.1/24
+     * @return
+     */
+    public static String[] toArray(String ipRang) {
+        SubnetUtils utils = new SubnetUtils(ipRang);
+        String[] allIps = utils.getInfo().getAllAddresses();
+        return allIps;
     }
 }
