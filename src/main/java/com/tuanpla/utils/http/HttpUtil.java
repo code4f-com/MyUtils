@@ -13,7 +13,6 @@ import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.config.HttpConstants;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
 import com.tuanpla.utils.logging.LogUtils;
-import com.tuanpla.utils.multipart.HttpServletMultipartRequest;
 import com.tuanpla.utils.string.MyString;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -103,7 +102,6 @@ public class HttpUtil {
         boolean isMultipart = Boolean.FALSE;
         String contentType = request.getContentType();
         if (contentType != null && contentType.startsWith(HttpConstants.MULTIPART_FORM_DATA_VALUE)
-                //        if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)
                 && contentType.contains("boundary=")) {
             isMultipart = true;
         }
@@ -126,8 +124,8 @@ public class HttpUtil {
         } else {
             LogUtils.debug("form isMultipart");
             try {
-                HttpServletMultipartRequest mreq = new HttpServletMultipartRequest(request);
-                Enumeration<String> allParam = mreq.getParameterNames();
+//                HttpServletMultipartRequest mreq = new HttpServletMultipartRequest(request);
+                Enumeration<String> allParam = request.getParameterNames();
                 while (allParam.hasMoreElements()) {
                     String oneParam = allParam.nextElement();
                     System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
