@@ -12,6 +12,7 @@ import com.tuanpla.utils.common.ConsoleColors;
 import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.config.HttpConstants;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
+import com.tuanpla.utils.json.GsonUtil;
 import com.tuanpla.utils.logging.LogUtils;
 import com.tuanpla.utils.string.MyString;
 import java.io.InputStream;
@@ -136,6 +137,34 @@ public class HttpUtil {
             }
         }
         LogUtils.debug("--------End debugParam--------");
+    }
+
+    public static void debugAttribute(HttpServletRequest request) {
+        Enumeration<String> attr = request.getAttributeNames();
+        LogUtils.debug("==> debugAttribute -- Value");
+        while (attr != null && attr.hasMoreElements()) {
+            String k = attr.nextElement();
+            LogUtils.debug("key:" + k + "| val:" + request.getAttribute(k));
+        }
+    }
+
+    public static void debugHeader(HttpServletRequest request) {
+        Enumeration<String> attr = request.getHeaderNames();
+        LogUtils.debug("==> debugHeader -- Value");
+        while (attr != null && attr.hasMoreElements()) {
+            String k = attr.nextElement();
+            LogUtils.debug("key:" + k + "| val:" + request.getHeader(k));
+        }
+    }
+
+    public static void debugCookies(HttpServletRequest request) {
+        Cookie[] ck = request.getCookies();
+        LogUtils.debug("==> debugCookies -- Value");
+        if (ck != null) {
+            for (Cookie one : ck) {
+                LogUtils.debug("Cookie GS:" + GsonUtil.toJson(one));
+            }
+        }
     }
 
     public static String extractIndex(String param) {
