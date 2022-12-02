@@ -51,7 +51,7 @@ public class LogUtils {
     }
 
     public static String getLogMessage(Exception ex) {
-        String str = ConsoleColors.RED + DateProc.currentTimestamp() + "||" + ex.getMessage() + "||";
+        String str = ConsoleColors.RED + DateProc.currentTimestamp() + "|msg:" + ex.getMessage() + "]" + System.lineSeparator();;
         StackTraceElement[] trace = ex.getStackTrace();
         for (StackTraceElement trace1 : trace) {
             str += ConsoleColors.RED + trace1 + System.lineSeparator();
