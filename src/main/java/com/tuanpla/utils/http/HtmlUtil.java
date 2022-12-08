@@ -811,6 +811,8 @@ public class HtmlUtil {
 
     /**
      * Convert 1 String thanh HTML ko co http://xxx param s return
+     * @param s
+     * @return 
      */
     public static String text2HtmlnoLink(String s) {
         StringBuilder builder = new StringBuilder();
@@ -861,6 +863,8 @@ public class HtmlUtil {
      * *
      * Convert 1 String thanh HTML xu ly http://xxx thanh the
      * <code><a ></a></code> param s return
+     * @param s
+     * @return 
      */
     public static String txtToHtml(String s) {
         StringBuilder builder = new StringBuilder();
