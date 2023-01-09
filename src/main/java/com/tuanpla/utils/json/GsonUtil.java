@@ -157,20 +157,20 @@ public class GsonUtil {
         }
     }
 
-    public static String toJson(ArrayList<?> obj, String key) {
-        try {
-            return gson.toJson(obj);
-        } catch (JsonSyntaxException e) {
-            throw new JsonSyntaxException(String.format("[JSONParser] Failed to convert \"%s\" to JSON array", key));
-        }
-    }
-
     public static boolean isJSONValid(String jsonInString) {
         try {
             gson.fromJson(jsonInString, Object.class);
             return true;
         } catch (com.google.gson.JsonSyntaxException ex) {
             return false;
+        }
+    }
+
+    public static String toJson(ArrayList<?> obj, String key) {
+        try {
+            return gson.toJson(obj);
+        } catch (JsonSyntaxException e) {
+            throw new JsonSyntaxException(String.format("[JSONParser] Failed to convert \"%s\" to JSON array", key));
         }
     }
 
@@ -267,38 +267,7 @@ public class GsonUtil {
         }
     }
 
-    public static <T> T toObject(String content, Class<T> clazz) {
-        T result = null;
-        try {
-            result = gson.fromJson(content, clazz);
-        } catch (JsonSyntaxException e) {
-            logger.error(LogUtils.getLogMessage(e));
-        }
-        return result;
-    }
-
-    public static <T> Map<String, ArrayList<T>> toMapList(String content, Class<T> clazz) {
-        Map<String, ArrayList<T>> result = null;
-        try {
-            Type myMapType = new TypeToken<Map<String, ArrayList<T>>>() {
-            }.getType();
-            result = gson.fromJson(content, myMapType);
-        } catch (JsonSyntaxException e) {
-            logger.error(LogUtils.getLogMessage(e));
-        }
-        return result;
-    }
-
-    public static JsonObject toObject(String content) {
-        JsonObject result = null;
-        try {
-            result = JsonParser.parseString(content).getAsJsonObject();
-        } catch (JsonSyntaxException e) {
-            logger.error(LogUtils.getLogMessage(e));
-        }
-        return result;
-    }
-
+    // File to Java objects
     public static <T> T jsonFileToObject(String path, Class<T> clazz) {
         T result = null;
         try (Reader reader = new FileReader(path)) {
@@ -309,7 +278,16 @@ public class GsonUtil {
         return result;
     }
 
-    public static <T> T toObjectArray(String content) {
+    public static JsonObject toJsonObject(String content) {
+        try {
+            return JsonParser.parseString(content).getAsJsonObject();
+        } catch (JsonSyntaxException e) {
+            logger.error(LogUtils.getLogMessage(e));
+            return null;
+        }
+    }
+
+    public static <T> T toObject(String content) {
         T result = null;
         try {
             result = gson.fromJson(content, new TypeToken<T>() {
@@ -320,7 +298,17 @@ public class GsonUtil {
         return result;
     }
 
-    public static <T> ArrayList<T> toObjectArray(String content, Class<T> clazz) {
+    public static <T> T toObject(String content, Class<T> clazz) {
+        T result = null;
+        try {
+            result = gson.fromJson(content, clazz);
+        } catch (JsonSyntaxException e) {
+            logger.error(LogUtils.getLogMessage(e));
+        }
+        return result;
+    }
+
+    public static <T> ArrayList<T> toArrayList(String content, Class<T> clazz) {
         ArrayList<T> result = new ArrayList<>();
         try {
             JsonArray arrs = JsonParser.parseString(content).getAsJsonArray();
@@ -336,11 +324,23 @@ public class GsonUtil {
         return result;
     }
 
-    public static <T> List<T> stringToArray(String content, Class<T[]> clazz) {
+    public static <T> List<T> stringToList(String content, Class<T[]> clazz) {
         List<T> result = new ArrayList<>();
         try {
             T[] arr = gson.fromJson(content, clazz);
             result = Arrays.asList(arr);
+        } catch (JsonSyntaxException e) {
+            logger.error(LogUtils.getLogMessage(e));
+        }
+        return result;
+    }
+
+    public static <T> Map<String, ArrayList<T>> toMapList(String content, Class<T> clazz) {
+        Map<String, ArrayList<T>> result = null;
+        try {
+            Type myMapType = new TypeToken<Map<String, ArrayList<T>>>() {
+            }.getType();
+            result = gson.fromJson(content, myMapType);
         } catch (JsonSyntaxException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
