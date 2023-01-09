@@ -30,9 +30,11 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import javax.json.JsonValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -308,8 +310,8 @@ public class GsonUtil {
         return result;
     }
 
-    public static <T> ArrayList<T> toArrayList(String content, Class<T> clazz) {
-        ArrayList<T> result = new ArrayList<>();
+    public static <T> List<T> toList(String content, Class<T> clazz) {
+        List<T> result = new ArrayList<>();
         try {
             JsonArray arrs = JsonParser.parseString(content).getAsJsonArray();
             for (JsonElement jsonElement : arrs) {
@@ -335,12 +337,21 @@ public class GsonUtil {
         return result;
     }
 
-    public static <T> Map<String, ArrayList<T>> toMapList(String content, Class<T> clazz) {
-        Map<String, ArrayList<T>> result = null;
+    public static <T> Map<String, List<T>> toMapList(String content, Class<T> clazz) {
+        Map<String, List<T>> result = null;
         try {
-            Type myMapType = new TypeToken<Map<String, ArrayList<T>>>() {
-            }.getType();
-            result = gson.fromJson(content, myMapType);
+            Map<String, List<T>> mapNew = GsonUtil.toObject(content);
+            if (mapNew != null) {
+                result = new HashMap<>();
+                Set<String> keys = mapNew.keySet();
+                for (String key : keys) {
+                    List<T> oneList = mapNew.get(key);
+                    if (oneList != null) {
+                        List<T> listNew = toList(toJson(oneList), clazz);
+                        result.put(key, listNew);
+                    }
+                }
+            }
         } catch (JsonSyntaxException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
