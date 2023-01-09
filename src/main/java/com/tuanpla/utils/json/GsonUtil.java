@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import javax.json.JsonValue;
-//import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,8 +66,8 @@ public class GsonUtil {
         @Override
         public JsonElement serialize(final Double src, final Type typeOfSrc, final JsonSerializationContext context) {
             String text = String.format("%.0f", src);
-            LogUtils.debug("context=" + context.toString());
-            LogUtils.debug("src=" + src);
+//            LogUtils.debug("context=" + context.toString());
+//            LogUtils.debug("src=" + src);
             Long l = Long.valueOf(text);
             return new JsonPrimitive(l);
 //            BigDecimal bigValue = BigDecimal.valueOf(src);
