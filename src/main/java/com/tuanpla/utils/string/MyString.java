@@ -86,11 +86,10 @@ public class MyString {
         String strVar = sStr;
         String tmpStr;
         String finalStr = "";
-        int stpos, endpos, strLen;
+        int strLen = strVar.length();
         while (true) {
-            strLen = strVar.length();
-            stpos = 0;
-            endpos = strVar.indexOf(oldStr, stpos);
+            var stpos = 0;
+            var endpos = strVar.indexOf(oldStr, stpos);
             if (endpos == -1) {
                 break;
             }
@@ -98,7 +97,6 @@ public class MyString {
             tmpStr = tmpStr.concat(newStr);
             strVar = strVar.substring(endpos + oldStr.length() > sStr.length() ? endpos : endpos + oldStr.length(), strLen);
             finalStr = finalStr.concat(tmpStr);
-            stpos = endpos;
         }
         finalStr = finalStr.concat(strVar);
         return finalStr;
