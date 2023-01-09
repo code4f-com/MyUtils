@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import javax.json.JsonValue;
-import org.apache.poi.ss.formula.functions.T;
+//import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,30 +67,17 @@ public class GsonUtil {
         @Override
         public JsonElement serialize(final Double src, final Type typeOfSrc, final JsonSerializationContext context) {
             String text = String.format("%.0f", src);
-            System.out.println("context=" + context.toString());
-            System.out.println("src=" + src);
+            LogUtils.debug("context=" + context.toString());
+            LogUtils.debug("src=" + src);
             Long l = Long.valueOf(text);
             return new JsonPrimitive(l);
 //            BigDecimal bigValue = BigDecimal.valueOf(src);
 //            return new JsonPrimitive(bigValue.toPlainString());
         }
     }
-//    https://github.com/google/gson/issues/1289
 
-    /**
-     * ??
-     * https://stackoverflow.com/questions/62358189/gson-stackoverflowerror-during-serialization
-     *
-     * @param object
-     * @param interfaceType
-     * @param context
-     * @return
-     */
-    public JsonElement serialize(T object, Type interfaceType, JsonSerializationContext context) {
-        final JsonObject wrapper = new JsonObject();
-        wrapper.addProperty("type", object.getClass().getName());
-        wrapper.add("data", new Gson().toJsonTree(object));
-        return wrapper;
+    public static Gson getGson() {
+        return gson;
     }
 
     public class MyDateTypeAdapter implements JsonDeserializer<Timestamp> {
@@ -196,6 +183,14 @@ public class GsonUtil {
         }
     }
 
+    public static String toJson(Object obj, Type typeOfSrc) {
+        if (obj != null) {
+            return gson.toJson(obj, typeOfSrc);
+        } else {
+            return "";
+        }
+    }
+
     public static String toJsonObj(Object obj) {
         if (obj != null) {
             return gson.toJson(obj);
@@ -266,7 +261,7 @@ public class GsonUtil {
     // Java objects to File
     public static void toFileJson(Object obj, String path) {
         Gson _gson = new GsonBuilder().setPrettyPrinting().create();
-        try ( FileWriter writer = new FileWriter(path)) {
+        try (FileWriter writer = new FileWriter(path)) {
             _gson.toJson(obj, writer);
         } catch (IOException e) {
             logger.error(LogUtils.getLogMessage(e));
@@ -277,6 +272,18 @@ public class GsonUtil {
         T result = null;
         try {
             result = gson.fromJson(content, clazz);
+        } catch (JsonSyntaxException e) {
+            logger.error(LogUtils.getLogMessage(e));
+        }
+        return result;
+    }
+
+    public static <T> Map<String, ArrayList<T>> toMapList(String content, Class<T> clazz) {
+        Map<String, ArrayList<T>> result = null;
+        try {
+            Type myMapType = new TypeToken<Map<String, ArrayList<T>>>() {
+            }.getType();
+            result = gson.fromJson(content, myMapType);
         } catch (JsonSyntaxException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
@@ -295,7 +302,7 @@ public class GsonUtil {
 
     public static <T> T jsonFileToObject(String path, Class<T> clazz) {
         T result = null;
-        try ( Reader reader = new FileReader(path)) {
+        try (Reader reader = new FileReader(path)) {
             result = gson.fromJson(reader, clazz);
         } catch (IOException e) {
             logger.error(LogUtils.getLogMessage(e));
@@ -330,14 +337,11 @@ public class GsonUtil {
         return result;
     }
 
-    public static <T> ArrayList<T> toObjectArray_1(String content, Class<T[]> clazz) {
-        ArrayList<T> result = new ArrayList<>();
+    public static <T> List<T> stringToArray(String content, Class<T[]> clazz) {
+        List<T> result = new ArrayList<>();
         try {
             T[] arr = gson.fromJson(content, clazz);
-            List<T> tmp = Arrays.asList(arr);
-            tmp.forEach((one) -> {
-                result.add(one);
-            });
+            result = Arrays.asList(arr);
         } catch (JsonSyntaxException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
