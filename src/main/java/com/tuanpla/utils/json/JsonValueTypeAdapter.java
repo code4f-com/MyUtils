@@ -276,8 +276,7 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
 
         @Override
         @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonArray jsonArray)
-                throws IOException {
+        public void write(final JsonWriter out, final JsonArray jsonArray) throws IOException {
             out.beginArray();
             for (final JsonValue jsonValue : jsonArray) {
                 jsonValueTypeAdapter.write(out, jsonValue);
