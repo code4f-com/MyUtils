@@ -4,8 +4,8 @@
  */
 package com.tuanpla.utils.file;
 
+import com.tuanpla.utils.common.MyString;
 import com.tuanpla.utils.logging.LogUtils;
-import com.tuanpla.utils.string.StringUtils;
 import java.awt.image.BufferedImage;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -577,7 +577,7 @@ public class FileUtils {
     public static String getExtension(String fileName) {
         String ext = "";
         try {
-            if (StringUtils.isEmpty(fileName)) {
+            if (MyString.isEmpty(fileName)) {
                 return ext;
             }
             int index = fileName.lastIndexOf(".");
@@ -594,7 +594,7 @@ public class FileUtils {
     public static String getFileName(String fullName) {
         String name = "";
         try {
-            if (StringUtils.isEmpty(fullName)) {
+            if (MyString.isEmpty(fullName)) {
                 return name;
             }
             int index = fullName.lastIndexOf(".");

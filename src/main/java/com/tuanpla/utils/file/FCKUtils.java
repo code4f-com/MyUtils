@@ -4,8 +4,8 @@
  */
 package com.tuanpla.utils.file;
 
+import com.tuanpla.utils.common.MyString;
 import com.tuanpla.utils.http.HttpUtil;
-import com.tuanpla.utils.string.MyString;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

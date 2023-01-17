@@ -4,13 +4,10 @@
  */
 package com.tuanpla.utils.common;
 
-import com.tuanpla.utils.common.CollectionUtils;
-import com.tuanpla.utils.common.Nullable;
-import com.tuanpla.utils.common.ObjectUtils;
-import com.tuanpla.utils.string.StringUtils;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
+import org.apache.commons.codec.binary.StringUtils;
 
 /**
  * Assertion utility class that assists in validating arguments.
@@ -254,7 +251,7 @@ public abstract class Assert {
      * @see StringUtils#hasLength
      */
     public static void hasLength(@Nullable String text, String message) {
-        if (!StringUtils.hasLength(text)) {
+        if (!MyString.hasLength(text)) {
             throw new IllegalArgumentException(message);
         }
     }
@@ -275,7 +272,7 @@ public abstract class Assert {
      * @see StringUtils#hasLength
      */
     public static void hasLength(@Nullable String text, Supplier<String> messageSupplier) {
-        if (!StringUtils.hasLength(text)) {
+        if (!MyString.hasLength(text)) {
             throw new IllegalArgumentException(nullSafeGet(messageSupplier));
         }
     }
@@ -305,7 +302,7 @@ public abstract class Assert {
      * @see StringUtils#hasText
      */
     public static void hasText(@Nullable String text, String message) {
-        if (!StringUtils.hasText(text)) {
+        if (!MyString.hasText(text)) {
             throw new IllegalArgumentException(message);
         }
     }
@@ -328,7 +325,7 @@ public abstract class Assert {
      * @see StringUtils#hasText
      */
     public static void hasText(@Nullable String text, Supplier<String> messageSupplier) {
-        if (!StringUtils.hasText(text)) {
+        if (!MyString.hasText(text)) {
             throw new IllegalArgumentException(nullSafeGet(messageSupplier));
         }
     }
@@ -357,7 +354,7 @@ public abstract class Assert {
      * @throws IllegalArgumentException if the text contains the substring
      */
     public static void doesNotContain(@Nullable String textToSearch, String substring, String message) {
-        if (StringUtils.hasLength(textToSearch) && StringUtils.hasLength(substring)
+        if (MyString.hasLength(textToSearch) && MyString.hasLength(substring)
                 && textToSearch.contains(substring)) {
             throw new IllegalArgumentException(message);
         }
@@ -378,7 +375,7 @@ public abstract class Assert {
      * @since 5.0
      */
     public static void doesNotContain(@Nullable String textToSearch, String substring, Supplier<String> messageSupplier) {
-        if (StringUtils.hasLength(textToSearch) && StringUtils.hasLength(substring)
+        if (MyString.hasLength(textToSearch) && MyString.hasLength(substring)
                 && textToSearch.contains(substring)) {
             throw new IllegalArgumentException(nullSafeGet(messageSupplier));
         }
@@ -767,7 +764,7 @@ public abstract class Assert {
         String className = (obj != null ? obj.getClass().getName() : "null");
         String result = "";
         boolean defaultMessage = true;
-        if (StringUtils.hasLength(msg)) {
+        if (MyString.hasLength(msg)) {
             if (endsWithSeparator(msg)) {
                 result = msg + " ";
             } else {
@@ -784,7 +781,7 @@ public abstract class Assert {
     private static void assignableCheckFailed(Class<?> superType, @Nullable Class<?> subType, @Nullable String msg) {
         String result = "";
         boolean defaultMessage = true;
-        if (StringUtils.hasLength(msg)) {
+        if (MyString.hasLength(msg)) {
             if (endsWithSeparator(msg)) {
                 result = msg + " ";
             } else {

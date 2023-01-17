@@ -4,7 +4,7 @@
  */
 package com.tuanpla.utils.http;
 
-import com.tuanpla.utils.string.MyString;
+import com.tuanpla.utils.common.MyString;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

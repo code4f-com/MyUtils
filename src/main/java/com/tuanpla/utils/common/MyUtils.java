@@ -5,7 +5,6 @@
 package com.tuanpla.utils.common;
 
 import com.tuanpla.utils.logging.LogUtils;
-import com.tuanpla.utils.string.StringUtils;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,7 +100,7 @@ public class MyUtils {
     }
 
     public static Map<Object, Object> MyMap(Object key, Object val) {
-        if (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(val)) {
+        if (!MyString.isEmpty(key) && !MyString.isEmpty(val)) {
             Map<Object, Object> result = new HashMap<>();
             result.put(key, val);
             return result;
