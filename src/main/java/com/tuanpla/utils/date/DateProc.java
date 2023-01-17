@@ -62,6 +62,11 @@ public class DateProc {
         return realTime;
     }
 
+    public static double string2Time(String time) {
+        String aTime[] = time.split(":");
+        return Double.parseDouble(aTime[0]) + Double.parseDouble(aTime[1]) / 60;
+    }
+
     /**
      *
      * @param time is for mat hh:mm or HH:mm

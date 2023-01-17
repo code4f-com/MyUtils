@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.stream.ImageInputStream;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,7 +145,7 @@ public class DataConvert {
         if (is == null) {
             return -1;
         }
-        try ( FileOutputStream fout = new FileOutputStream(sPath)) {
+        try (FileOutputStream fout = new FileOutputStream(sPath)) {
             byte[] b = InputStream2Bytes(is);
             fout.write(b);
             fout.flush();
@@ -159,7 +160,7 @@ public class DataConvert {
         if (bInput == null) {
             return -1;
         }
-        try ( FileOutputStream fout = new FileOutputStream(sPath)) {
+        try (FileOutputStream fout = new FileOutputStream(sPath)) {
             fout.write(bInput);
             fout.flush();
         } catch (IOException ex) {
@@ -194,7 +195,7 @@ public class DataConvert {
     public static byte[] getBytesFromFile(String filePath) throws IOException {
         File file = new File(filePath);
         byte[] bytes = null;
-        try ( InputStream is = new FileInputStream(file)) {
+        try (InputStream is = new FileInputStream(file)) {
             LogUtils.debug("FileInputStream is " + file);
             // Get the size of the file
             long length = file.length();
@@ -227,4 +228,11 @@ public class DataConvert {
 
     }
 
+    public static String byte2Base64(byte[] data) {
+        try {
+            return Base64.encodeBase64String(data);
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }

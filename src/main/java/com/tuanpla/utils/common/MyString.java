@@ -2416,7 +2416,7 @@ public class MyString {
         return finalStr;
     }
 
-    public static String validString(String input) {
+    public static String null2Empty(String input) {
         if (input != null) {
             input = input.trim();
         } else {
