@@ -5,6 +5,11 @@
 package com.tuanpla.utils.common;
 
 import com.tuanpla.utils.logging.LogUtils;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +21,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,6 +30,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class MyUtils {
 
+    static final Logger logger = LoggerFactory.getLogger(MyUtils.class);
     // https://stackoverflow.com/questions/19456313/simple-timeout-in-java
     static final Duration timeout = Duration.ofSeconds(30);
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -104,6 +112,44 @@ public class MyUtils {
             Map<Object, Object> result = new HashMap<>();
             result.put(key, val);
             return result;
+        }
+        return null;
+    }
+
+    public void debugValue() {
+        try {
+            Class objClass = this.getClass();
+            // Get the public methods associated with this class.
+            Method[] methods = objClass.getMethods();
+            for (Method method : methods) {
+                String methodName = method.getName();
+                if (methodName.startsWith("get") || methodName.startsWith("is")) {
+                    String fieldName = getFieldName(method);
+                    if (!MyString.isEmpty(fieldName)) {
+//                        if (fieldName.equals("brand") || fieldName.equals("class")) {
+//                            continue;
+//                        }
+                        System.out.print(fieldName + ":" + method.invoke(this) + "\n");
+                    }
+                }
+            }
+        } catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            logger.error(LogUtils.getLogMessage(e));
+        }
+    }
+
+    public static String getFieldName(Method method) {
+        try {
+            Class<?> clazz = method.getDeclaringClass();
+            BeanInfo info = Introspector.getBeanInfo(clazz);
+            PropertyDescriptor[] props = info.getPropertyDescriptors();
+            for (PropertyDescriptor pd : props) {
+                if (method.equals(pd.getWriteMethod()) || method.equals(pd.getReadMethod())) {
+                    return pd.getName();
+                }
+            }
+        } catch (Exception e) {
+            logger.error(LogUtils.getLogMessage(e));
         }
         return null;
     }

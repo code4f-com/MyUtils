@@ -310,6 +310,22 @@ public class GsonUtil {
         return result;
     }
 
+    public static <T> ArrayList<T> toArrayList(String content, Class<T> clazz) {
+        ArrayList<T> result = new ArrayList<>();
+        try {
+            JsonArray arrs = JsonParser.parseString(content).getAsJsonArray();
+            for (JsonElement jsonElement : arrs) {
+                T tmp = gson.fromJson(jsonElement, clazz);
+                if (tmp != null) {
+                    result.add(tmp);
+                }
+            }
+        } catch (JsonSyntaxException e) {
+            logger.error(LogUtils.getLogMessage(e));
+        }
+        return result;
+    }
+
     public static <T> List<T> toList(String content, Class<T> clazz) {
         List<T> result = new ArrayList<>();
         try {

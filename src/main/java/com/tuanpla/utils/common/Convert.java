@@ -36,7 +36,7 @@ public class Convert {
      * char	2 bytes Stores a single character/letter or ASCII values
      *
      * @param value
-     * @return 
+     * @return
      */
     //======//
     public static int unsignedByte(byte value) {
@@ -298,6 +298,14 @@ public class Convert {
     public static byte[] charToByte(char c) {
         byte[] twoBytes = {(byte) (c & 0xff), (byte) (c >> 8 & 0xff)};
         return twoBytes;
+    }
+
+    public static boolean getBoolean(Object input, boolean defaultVal) {
+        try {
+            return input != null && (input.equals("1") || input.equals("true"));
+        } catch (Exception e) {
+            return defaultVal;
+        }
     }
 
     public static boolean getBoolean(String input, boolean defaultVal) {
