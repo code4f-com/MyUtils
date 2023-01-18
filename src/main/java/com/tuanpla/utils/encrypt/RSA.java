@@ -23,8 +23,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RSA {
 
-    static Logger logger = LoggerFactory.getLogger(RSA.class);
+    static Logger logger = LogManager.getLogger(RSA.class);
     public static final int KEY_SIZE = 2048;
     /**
      * String to hold name of the encryption algorithm.

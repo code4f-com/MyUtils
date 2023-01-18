@@ -9,8 +9,8 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.InitialDirContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ListNets {
 
-    static final Logger logger = LoggerFactory.getLogger(ListNets.class);
+    static final Logger logger = LogManager.getLogger(ListNets.class);
 
     static void displayInterfaceInformation(NetworkInterface netint) throws SocketException {
         out.printf("Display name: %s\n", netint.getDisplayName());
