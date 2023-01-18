@@ -7,11 +7,9 @@ import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.log4j.Logger;
 
 public class SMSUtils {
 
-    static Logger logger = Logger.getLogger(SMSUtils.class);
     private static final String HEXINDEX = "0123456789abcdef          ABCDEF";
     public static String CHAR_PARSE_MT = "###";
     public static String[] SO_NGIEP_VU = {};
