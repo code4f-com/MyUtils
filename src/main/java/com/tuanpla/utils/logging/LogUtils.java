@@ -51,10 +51,10 @@ public class LogUtils {
 
     public static String getLogMessage(Exception ex) {
         String str = "message: " + ex.getMessage() + System.lineSeparator();
-        str += "Detail =>:" + System.lineSeparator();
+        str += "Detail =>" + System.lineSeparator();
         StackTraceElement[] trace = ex.getStackTrace();
         for (StackTraceElement trace1 : trace) {
-            str += ConsoleColors.RED + trace1 + System.lineSeparator();
+            str += trace1 + System.lineSeparator();
         }
         return ConsoleColors.RED + str + ConsoleColors.RESET;
     }
