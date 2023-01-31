@@ -7,7 +7,6 @@ package com.tuanpla.utils.logging;
 import com.tuanpla.utils.common.ConsoleColors;
 import com.tuanpla.utils.config.PublicConfig;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
-import com.tuanpla.utils.date.DateProc;
 
 /**
  *
@@ -51,10 +50,8 @@ public class LogUtils {
     }
 
     public static String getLogMessage(Exception ex) {
-        String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
-        String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
-        int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-        String str = ConsoleColors.RED + " " + className + "[d."+lineNumber+"]"+ DateProc.currentTimestamp() + "|msg:" + ex.getMessage() + System.lineSeparator();
+        String str = "message: " + ex.getMessage() + System.lineSeparator();
+        str += "Detail =>:" + System.lineSeparator();
         StackTraceElement[] trace = ex.getStackTrace();
         for (StackTraceElement trace1 : trace) {
             str += ConsoleColors.RED + trace1 + System.lineSeparator();
