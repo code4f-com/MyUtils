@@ -51,7 +51,10 @@ public class LogUtils {
     }
 
     public static String getLogMessage(Exception ex) {
-        String str = ConsoleColors.RED + DateProc.currentTimestamp() + "|msg:" + ex.getMessage() + System.lineSeparator();
+        String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
+        String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+        int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
+        String str = ConsoleColors.RED + " " + className + "[d."+lineNumber+"]"+ DateProc.currentTimestamp() + "|msg:" + ex.getMessage() + System.lineSeparator();
         StackTraceElement[] trace = ex.getStackTrace();
         for (StackTraceElement trace1 : trace) {
             str += ConsoleColors.RED + trace1 + System.lineSeparator();
