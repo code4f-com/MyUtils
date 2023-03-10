@@ -49,6 +49,16 @@ public class LogUtils {
         }
     }
 
+    public static void error(Exception ex) {
+        String msg = getLogMessage(ex);
+        if (PublicConfig.DE_BUG) {
+            String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
+            String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+            int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
+            System.err.println(ConsoleColors.RED + PROJECT_NAME + ": " + " ERROR " + className + ".java [d." + lineNumber + "] " + msg + ConsoleColors.RESET);
+        }
+    }
+
     public static String getLogMessage(Exception ex) {
         String str = "message: " + ex.getMessage() + System.lineSeparator();
         str += "Detail =>" + System.lineSeparator();
