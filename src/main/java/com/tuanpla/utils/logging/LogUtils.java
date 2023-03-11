@@ -7,6 +7,7 @@ package com.tuanpla.utils.logging;
 import com.tuanpla.utils.common.ConsoleColors;
 import com.tuanpla.utils.config.PublicConfig;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -57,6 +58,16 @@ public class LogUtils {
             int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
             System.err.println(ConsoleColors.RED + PROJECT_NAME + ": " + " ERROR " + className + ".java [d." + lineNumber + "] " + msg + ConsoleColors.RESET);
         }
+    }
+
+    public static void logError(Logger logger, Exception ex) {
+        String msg = getLogMessage(ex);
+        logger.error(msg);
+    }
+
+    public static void logInfo(Logger logger, Exception ex) {
+        String msg = getLogMessage(ex);
+        logger.info(msg);
     }
 
     public static String getLogMessage(Exception ex) {
