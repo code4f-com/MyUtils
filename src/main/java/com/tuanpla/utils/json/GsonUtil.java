@@ -51,7 +51,7 @@ public class GsonUtil {
 //    Gson GSON = gsonBuilder.create();
     private static final Gson gson = new GsonBuilder()
             .setDateFormat("dd/MM/yyyy")
-            .registerTypeAdapter(Double.class, new DoubleJsonSerializer())
+            //            .registerTypeAdapter(Double.class, new DoubleJsonSerializer()) // => Thằng này làm cho Double thành long :))
             .registerTypeHierarchyAdapter(JsonValue.class, getJsonValueTypeAdapter())
             .create();
 
