@@ -7,7 +7,7 @@ package com.tuanpla.utils.logging;
 import com.tuanpla.utils.common.ConsoleColors;
 import com.tuanpla.utils.config.PublicConfig;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 
 /**
  *

@@ -36,8 +36,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.json.JsonValue;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -45,7 +45,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class GsonUtil {
 
-    static Logger logger = LogManager.getLogger(GsonUtil.class);
+    static Logger logger = LoggerFactory.getLogger(GsonUtil.class);
 //    https://www.baeldung.com/gson-json-to-map
 //    GsonBuilder gsonBuilder = new GsonBuilder().serializeNulls ();
 //    Gson GSON = gsonBuilder.create();

@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.net.util.SubnetUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,7 +38,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class HttpUtil {
 
-    static final Logger logger = LogManager.getLogger(HttpUtil.class);
+    static final Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     public static String getUrlFromImageTag(String imageTag) {
         try {
