@@ -24,15 +24,15 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  *
  * @author tuanpla
  */
 public class EmailUtil {
 
-    static Logger logger = LoggerFactory.getLogger(EmailUtil.class);
+    static Logger logger = LogManager.getLogger(EmailUtil.class);
 
 
     /*

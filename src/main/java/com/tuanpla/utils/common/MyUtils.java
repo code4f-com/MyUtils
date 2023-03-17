@@ -21,8 +21,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MyUtils {
 
-    static final Logger logger = LoggerFactory.getLogger(MyUtils.class);
+    static final Logger logger = LogManager.getLogger(MyUtils.class);
     // https://stackoverflow.com/questions/19456313/simple-timeout-in-java
     static final Duration timeout = Duration.ofSeconds(30);
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);

@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.stream.ImageInputStream;
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DataConvert {
 
-    static final Logger logger = LoggerFactory.getLogger(DataConvert.class);
+    static final Logger logger = LogManager.getLogger(DataConvert.class);
 
     public static byte[] InputStream2Bytes(InputStream is) {
         if (is == null) {
