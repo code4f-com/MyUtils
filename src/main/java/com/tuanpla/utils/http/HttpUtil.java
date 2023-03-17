@@ -74,7 +74,7 @@ public class HttpUtil {
             URL url = new URL(urlStr);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setConnectTimeout(20000);
-            try ( InputStream in = http.getInputStream()) {
+            try (InputStream in = http.getInputStream()) {
                 t = MyString.convertStreamToString(in);
             }
             http.disconnect();
@@ -167,27 +167,14 @@ public class HttpUtil {
         }
     }
 
-    public static String extractIndex(String param) {
-        String str = "";
+    public static String getHeader(HttpServletRequest request, String param) {
+        String result;
         try {
-            int fisrtIdex = param.indexOf("[");
-            int lastIdex = param.lastIndexOf("]");
-            str = param.substring(fisrtIdex + 1, lastIdex);
+            result = request.getHeader(param).trim();
         } catch (Exception e) {
-            logger.error(LogUtils.getLogMessage(e));
+            result = "";
         }
-        return str;
-    }
-
-    public static String extractIndex(String param, String reg) {
-        String index = "";
-        try {
-            String[] arr = param.split(reg);
-            index = arr[1];
-        } catch (Exception e) {
-            logger.error(LogUtils.getLogMessage(e));
-        }
-        return index;
+        return result;
     }
 
     public static int getInt(HttpServletRequest request, String param) {
