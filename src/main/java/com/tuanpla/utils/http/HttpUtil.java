@@ -167,6 +167,16 @@ public class HttpUtil {
         }
     }
 
+    public static String getHeader(HttpServletRequest request, String param) {
+        String result;
+        try {
+            result = request.getHeader(param).trim();
+        } catch (Exception e) {
+            result = "";
+        }
+        return result;
+    }
+
     public static String extractIndex(String param) {
         String str = "";
         try {
