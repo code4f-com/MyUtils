@@ -167,14 +167,27 @@ public class HttpUtil {
         }
     }
 
-    public static String getHeader(HttpServletRequest request, String param) {
-        String result;
+    public static String extractIndex(String param) {
+        String str = "";
         try {
-            result = request.getHeader(param).trim();
+            int fisrtIdex = param.indexOf("[");
+            int lastIdex = param.lastIndexOf("]");
+            str = param.substring(fisrtIdex + 1, lastIdex);
         } catch (Exception e) {
-            result = "";
+            logger.error(LogUtils.getLogMessage(e));
         }
-        return result;
+        return str;
+    }
+
+    public static String extractIndex(String param, String reg) {
+        String index = "";
+        try {
+            String[] arr = param.split(reg);
+            index = arr[1];
+        } catch (Exception e) {
+            logger.error(LogUtils.getLogMessage(e));
+        }
+        return index;
     }
 
     public static int getInt(HttpServletRequest request, String param) {
