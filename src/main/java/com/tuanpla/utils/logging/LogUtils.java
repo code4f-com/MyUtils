@@ -77,6 +77,6 @@ public class LogUtils {
         for (StackTraceElement trace1 : trace) {
             str += trace1 + System.lineSeparator();
         }
-        return ConsoleColors.RED + str + ConsoleColors.RESET;
+        return str;
     }
 }
