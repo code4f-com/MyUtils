@@ -28,7 +28,7 @@ public class LogUtils {
     }
 
     /**
-     * print message to console When DE_BUG = true in PublicConfig
+     * print message to console When DE_BUG = true in PublicConfig Debug info
      *
      * @param input
      */
@@ -41,7 +41,12 @@ public class LogUtils {
         }
     }
 
-    public static void error(Object input) {
+    /**
+     * Debug error
+     *
+     * @param input
+     */
+    public static void printError(Object input) {
         if (PublicConfig.DE_BUG) {
             String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
             String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
@@ -50,7 +55,7 @@ public class LogUtils {
         }
     }
 
-    public static void error(Exception ex) {
+    public static void printError(Exception ex) {
         String msg = getLogMessage(ex);
         if (PublicConfig.DE_BUG) {
             String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
