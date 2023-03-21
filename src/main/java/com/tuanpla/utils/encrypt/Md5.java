@@ -429,6 +429,20 @@ public class Md5 {
         }
     }
 
+    public static String cusEncrypt(String val, String customKey) {
+        String str = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            val = customKey + val;
+            byte[] input = val.getBytes(); //”UTF8″);
+            input = md.digest(input);
+            str = toHexadecimal(input); //new String(input,”UTF8″);
+            return str;
+        } catch (Exception e) {
+            return str;
+        }
+    }
+
     private static String toHexadecimal(byte[] data) {
         String result = "";
         ByteArrayInputStream input = new ByteArrayInputStream(data);
