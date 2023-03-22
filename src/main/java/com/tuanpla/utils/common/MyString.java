@@ -34,6 +34,7 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
+import java.util.UUID;
 
 /**
  *
@@ -2790,6 +2791,10 @@ public class MyString {
             }
         }
         return str;
+    }
+
+    public static String randomUDID() {
+        return UUID.randomUUID().toString();
     }
 
     public static String getStringAlt(String input) {
