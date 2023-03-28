@@ -1256,6 +1256,18 @@ public class MyString {
                 && str.regionMatches(true, str.length() - suffix.length(), suffix, 0, suffix.length()));
     }
 
+    public static boolean equalsIgnoreCase(@Nullable String input_1, @Nullable String input_2) {
+        if (input_1 == null && input_2 == null) {
+            return true;
+        } else if (input_1 == null && input_2 != null) {
+            return false;
+        } else if (input_1 != null && input_2 == null) {
+            return false;
+        } else {
+            return input_1 != null && input_1.equalsIgnoreCase(input_2);
+        }
+    }
+
     /**
      * Test whether the given string matches the given substring at the given
      * index.
