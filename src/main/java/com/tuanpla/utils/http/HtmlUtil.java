@@ -12,10 +12,10 @@ public class HtmlUtil {
 
     public static String getRanUserAgent() {
         String userAgent = "Windows NT 5.1) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.77 Safari/534.24";
-        try {
-            userAgent = USER_AGENT[buildRandomUserAgent()];
-        } catch (Exception e) {
-        }
+//        try {
+//            userAgent = USER_AGENT[buildRandomUserAgent()];
+//        } catch (Exception e) {
+//        }
 
         return userAgent;
     }

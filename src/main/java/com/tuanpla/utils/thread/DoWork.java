@@ -36,10 +36,14 @@ public class DoWork {
      * Done watching the delay and return the delay between start time to
      * current time.
      *
-     * @return the delay between start time to current time
+     * @return the delay between start time to current time in milliseconds
      */
     public long done() {
         return System.currentTimeMillis() - startTime;
+    }
+
+    public long doneSecond() {
+        return (System.currentTimeMillis() - startTime) / 1000;
     }
 
     /**
