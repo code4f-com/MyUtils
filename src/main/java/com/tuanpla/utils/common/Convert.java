@@ -300,7 +300,7 @@ public class Convert {
         return twoBytes;
     }
 
-    public static boolean getBoolean(Object input, boolean defaultVal) {
+    public static Boolean getBoolean(Object input, boolean defaultVal) {
         try {
             return input != null && (input.equals("1") || input.equals("true"));
         } catch (Exception e) {
@@ -308,7 +308,7 @@ public class Convert {
         }
     }
 
-    public static boolean getBoolean(String input, boolean defaultVal) {
+    public static Boolean getBoolean(String input, boolean defaultVal) {
         try {
             return input != null && (input.equals("1") || input.equals("true"));
         } catch (Exception e) {
@@ -316,7 +316,7 @@ public class Convert {
         }
     }
 
-    public static boolean getBoolean(int input) {
+    public static Boolean getBoolean(int input) {
         return input != 0;
     }
 
@@ -330,7 +330,31 @@ public class Convert {
 
     public static int string2Int(String input, int defaultVal) {
         try {
-            return Integer.parseInt(input.trim());
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return defaultVal;
+        }
+    }
+
+    public static String getString(Object input) {
+        try {
+            return input == null ? null : input.toString();
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public static Integer getInt(Object input, @Nullable Integer defaultVal) {
+        try {
+            return Integer.valueOf(String.valueOf(input));
+        } catch (NumberFormatException e) {
+            return defaultVal;
+        }
+    }
+
+    public static Long getLong(Object input, @Nullable Long defaultVal) {
+        try {
+            return Long.valueOf(String.valueOf(input));
         } catch (NumberFormatException e) {
             return defaultVal;
         }
@@ -347,6 +371,14 @@ public class Convert {
     public static long string2Long(String input, long defaultVal) {
         try {
             return Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            return defaultVal;
+        }
+    }
+
+    public static Double getDouble(Object input, @Nullable Double defaultVal) {
+        try {
+            return Double.valueOf(String.valueOf(input));
         } catch (NumberFormatException e) {
             return defaultVal;
         }
