@@ -51,13 +51,10 @@ public class GsonUtil {
 //    Gson GSON = gsonBuilder.create();
     private static final Gson gson = new GsonBuilder()
             .setDateFormat("dd/MM/yyyy")
-            //            .registerTypeAdapter(Double.class, new DoubleJsonSerializer()) // => Thằng này làm cho Double thành long :))
+            // .registerTypeAdapter(Double.class, new DoubleJsonSerializer()) // => Thằng này làm cho Double thành long :))
             .registerTypeHierarchyAdapter(JsonValue.class, getJsonValueTypeAdapter())
             .create();
 
-//    static final Gson GSON = new GsonBuilder().excludeFieldsWithModifiers(Modifier.STATIC, Modifier.PROTECTED)
-//            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-//            .create();
     ///********************
 //    static Gson GSON = new GsonBuilder()
 //            .setDateFormat(DateFormat.TIMEZONE_FIELD)
@@ -180,7 +177,7 @@ public class GsonUtil {
         if (obj != null) {
             return gson.toJson(obj);
         } else {
-            return "";
+            return "{}";
         }
     }
 
