@@ -302,7 +302,8 @@ public class Convert {
 
     public static Boolean getBoolean(Object input, boolean defaultVal) {
         try {
-            return input != null && (input.equals("1") || input.equals("true"));
+
+            return input != null && ("1".equals(input) || "true".equals(input));
         } catch (Exception e) {
             return defaultVal;
         }
