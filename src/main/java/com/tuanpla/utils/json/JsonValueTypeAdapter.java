@@ -103,18 +103,15 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
 
         @Override
         @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonValue jsonNull)
-                throws IOException {
+        public void write(final JsonWriter out, final JsonValue jsonNull) throws IOException {
             out.nullValue();
         }
 
         @Override
-        public JsonValue read(final JsonReader in)
-                throws IOException {
+        public JsonValue read(final JsonReader in) throws IOException {
             in.nextNull();
             return JsonValue.NULL;
         }
-
     }
 
     private static final class JsonBooleanTypeAdapter
