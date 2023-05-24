@@ -77,7 +77,7 @@ public class LogUtils {
 
     public static String getLogMessage(Exception ex) {
         String str = "message: " + ex.getMessage() + System.lineSeparator();
-        str += "Detail =>" + System.lineSeparator();
+        str += "Trace =>" + System.lineSeparator();
         StackTraceElement[] trace = ex.getStackTrace();
         for (StackTraceElement trace1 : trace) {
             str += trace1 + System.lineSeparator();
