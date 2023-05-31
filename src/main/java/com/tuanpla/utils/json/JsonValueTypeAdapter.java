@@ -31,13 +31,13 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
     private JsonValueTypeAdapter() {
     }
 
-    static TypeAdapter<JsonValue> getJsonValueTypeAdapter() {
+    public static TypeAdapter<JsonValue> getJsonValueTypeAdapter() {
         return jsonValueTypeAdapter;
     }
 
     @Override
-    public void write(final JsonWriter out, final JsonValue jsonValue)
-            throws IOException {
+    public void write(final JsonWriter out, final JsonValue jsonValue) throws IOException {
+        System.out.println("Vao JsonValueTypeAdapter.write");
         final ValueType valueType = jsonValue.getValueType();
         switch (valueType) {
             case ARRAY:
@@ -67,9 +67,11 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
     }
 
     @Override
-    public JsonValue read(final JsonReader in)
-            throws IOException {
+    public JsonValue read(final JsonReader in) throws IOException {
+        System.out.println("Vao JsonValueTypeAdapter.read");
         final JsonToken jsonToken = in.peek();
+        System.out.println("in.nextName()" + in.nextName());
+        System.out.println("jsonToken" + jsonToken);
         switch (jsonToken) {
             case BEGIN_ARRAY:
                 return JsonArrayTypeAdapter.instance.read(in);
@@ -96,8 +98,7 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
         }
     }
 
-    private static final class JsonNullTypeAdapter
-            extends TypeAdapter<JsonValue> {
+    private static final class JsonNullTypeAdapter extends TypeAdapter<JsonValue> {
 
         private static final TypeAdapter<JsonValue> instance = new JsonNullTypeAdapter().nullSafe();
 
@@ -109,13 +110,25 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
 
         @Override
         public JsonValue read(final JsonReader in) throws IOException {
-            in.nextNull();
-            return JsonValue.NULL;
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return JsonValue.NULL;
+            }
+            // TODO Với cách tiếp cận này, JsonValueTypeAdapter sẽ bỏ qua tất cả các trường có giá trị là null hoặc không phải là số trong quá trình chuyển đổi thành JSON.
+            if (in.peek() == JsonToken.NUMBER) {
+                String numberString = in.nextString();
+                if (isNumeric(numberString)) {
+                    return instance.fromJson(numberString);
+                } else {
+                    return null;
+                }
+            }
+            return instance.read(in);
         }
+
     }
 
-    private static final class JsonBooleanTypeAdapter
-            extends TypeAdapter<JsonValue> {
+    private static final class JsonBooleanTypeAdapter extends TypeAdapter<JsonValue> {
 
         private static final TypeAdapter<JsonValue> instance = new JsonBooleanTypeAdapter().nullSafe();
 
@@ -150,8 +163,7 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
 
     }
 
-    private static final class JsonNumberTypeAdapter
-            extends TypeAdapter<JsonNumber> {
+    private static final class JsonNumberTypeAdapter extends TypeAdapter<JsonNumber> {
 
         private static final TypeAdapter<JsonNumber> instance = new JsonNumberTypeAdapter().nullSafe();
 
@@ -178,21 +190,18 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
 
     }
 
-    private static final class JsonStringTypeAdapter
-            extends TypeAdapter<JsonString> {
+    private static final class JsonStringTypeAdapter extends TypeAdapter<JsonString> {
 
         private static final TypeAdapter<JsonString> instance = new JsonStringTypeAdapter().nullSafe();
 
         @Override
         @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonString jsonString)
-                throws IOException {
+        public void write(final JsonWriter out, final JsonString jsonString) throws IOException {
             out.value(jsonString.getString());
         }
 
         @Override
-        public JsonString read(final JsonReader in)
-                throws IOException {
+        public JsonString read(final JsonReader in) throws IOException {
             // TODO is there a good way to instantiate a JsonString instance?
             return (JsonString) Json.createArrayBuilder()
                     .add(in.nextString())
@@ -202,15 +211,13 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
 
     }
 
-    private static final class JsonObjectTypeAdapter
-            extends TypeAdapter<JsonObject> {
+    private static final class JsonObjectTypeAdapter extends TypeAdapter<JsonObject> {
 
         private static final TypeAdapter<JsonObject> instance = new JsonObjectTypeAdapter().nullSafe();
 
         @Override
         @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonObject jsonObject)
-                throws IOException {
+        public void write(final JsonWriter out, final JsonObject jsonObject) throws IOException {
             out.beginObject();
             for (final Entry<String, JsonValue> e : jsonObject.entrySet()) {
                 out.name(e.getKey());
@@ -220,8 +227,7 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
         }
 
         @Override
-        public JsonObject read(final JsonReader in)
-                throws IOException {
+        public JsonObject read(final JsonReader in) throws IOException {
             final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
             in.beginObject();
             while (in.hasNext()) {
@@ -266,8 +272,7 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
 
     }
 
-    private static final class JsonArrayTypeAdapter
-            extends TypeAdapter<JsonArray> {
+    private static final class JsonArrayTypeAdapter extends TypeAdapter<JsonArray> {
 
         private static final TypeAdapter<JsonArray> instance = new JsonArrayTypeAdapter().nullSafe();
 
@@ -282,8 +287,7 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
         }
 
         @Override
-        public JsonArray read(final JsonReader in)
-                throws IOException {
+        public JsonArray read(final JsonReader in) throws IOException {
             final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
             in.beginArray();
             while (in.hasNext()) {
@@ -324,6 +328,14 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
             in.endArray();
             return jsonArrayBuilder.build();
         }
+    }
 
+    private static boolean isNumeric(String value) {
+        try {
+            Integer.valueOf(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
