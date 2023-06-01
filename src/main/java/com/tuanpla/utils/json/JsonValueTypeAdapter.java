@@ -8,6 +8,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.tuanpla.utils.logging.LogUtils;
 import java.io.IOException;
 import java.util.Map.Entry;
 import javax.json.Json;
@@ -32,6 +33,7 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
     }
 
     public static TypeAdapter<JsonValue> getJsonValueTypeAdapter() {
+        LogUtils.debug("vao getJsonValueTypeAdapter");
         return jsonValueTypeAdapter;
     }
 
