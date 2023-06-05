@@ -6,7 +6,6 @@ package com.tuanpla.utils.date;
 
 import com.tuanpla.utils.common.Convert;
 import com.tuanpla.utils.exception.CustomerException;
-import com.tuanpla.utils.logging.LogUtils;
 import java.sql.Date;       // extends java.util.Date
 import java.sql.Time;
 import java.sql.Timestamp;  // extends java.util.Date
@@ -114,7 +113,6 @@ public class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(fmIn);
             return new Date(dateFormat.parse(strDate).getTime());
         } catch (ParseException ex) {
-            LogUtils.debug("Error: " + ex.toString());
             return null;
         }
     }
@@ -124,7 +122,6 @@ public class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(format);
             return dateFormat.format(d);
         } catch (Exception ex) {
-            LogUtils.debug("Error: " + ex.toString());
             return "";
         }
     }
@@ -153,7 +150,6 @@ public class DateProc {
             String strDate = date2String(date, fmOut);
             return Integer.valueOf(strDate);
         } catch (NumberFormatException ex) {
-            LogUtils.debug("Error: " + ex.toString());
             return null;
         }
     }
@@ -163,7 +159,6 @@ public class DateProc {
             String crdStr = date2String(currentDate(), fmOut);
             return Integer.valueOf(crdStr);
         } catch (NumberFormatException e) {
-            LogUtils.debug("Error: " + e.toString());
             return null;
         }
     }
@@ -173,7 +168,6 @@ public class DateProc {
             String strDate = date2String(string2Date(input, fmInput), fmOut);
             return Integer.valueOf(strDate);
         } catch (NumberFormatException e) {
-            LogUtils.debug("Error: " + e.toString());
             return null;
         }
     }
@@ -204,7 +198,6 @@ public class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(inFormat);
             return new Timestamp(dateFormat.parse(strDate).getTime());
         } catch (ParseException ex) {
-            LogUtils.debug("Error: " + ex.toString());
             return null;
         }
     }
@@ -214,7 +207,6 @@ public class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(fmOut);
             return dateFormat.format(ts);
         } catch (Exception ex) {
-            LogUtils.debug("Error: " + ex.toString());
             return "";
         }
     }
@@ -225,7 +217,6 @@ public class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(forMat);
             return new Timestamp(dateFormat.parse(strInputDate).getTime());
         } catch (ParseException ex) {
-            LogUtils.debug("Error: " + ex.toString());
             return null;
         }
     }
@@ -235,7 +226,6 @@ public class DateProc {
             String strTimestamp = timestamp2String(ts, fmOut);
             return Long.valueOf(strTimestamp);
         } catch (NumberFormatException ex) {
-            LogUtils.debug("Error: " + ex.toString());
             return null;
         }
     }
@@ -245,7 +235,6 @@ public class DateProc {
             String crdStr = timestamp2String(currentTimestamp(), fmOut);
             return Long.valueOf(crdStr);
         } catch (NumberFormatException e) {
-            LogUtils.debug("Error: " + e.toString());
             return null;
         }
     }
@@ -255,7 +244,6 @@ public class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(fmOut);
             return dateFormat.format(ti);
         } catch (Exception ex) {
-            LogUtils.debug("Error: " + ex.toString());
             return "";
         }
     }
@@ -282,7 +270,6 @@ public class DateProc {
                 return (current.get(Calendar.MINUTE) - cl.get(Calendar.MINUTE)) + " phút trước";
             }
         } catch (Exception e) {
-            LogUtils.debug("Error: " + e.toString());
             return "";
         }
     }
@@ -486,7 +473,6 @@ public class DateProc {
             Timestamp ts = new Timestamp(input);
             result = timestamp2String(ts, "dd/MM/yyyy");
         } catch (Exception e) {
-            LogUtils.debug(e.getMessage());
         }
 
         return result;
