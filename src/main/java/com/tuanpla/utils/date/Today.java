@@ -6,6 +6,7 @@ package com.tuanpla.utils.date;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -131,4 +132,17 @@ public class Today {
         return new Today();
     }
 
+    public static long startTime() {
+        Today td = getInstance();
+        String minTime = td.getDay() + "/" + td.getMonthMM() + "/" + td.getYear() + " 00:00:00";
+        Date d = DateProc.string2Date(minTime, "dd/MM/yyyy HH:mm:ss");
+        return d.getTime();
+    }
+
+    public static long endTime() {
+        Today td = getInstance();
+        String minTime = td.getDay() + "/" + td.getMonthMM() + "/" + td.getYear() + " 23:59:59";
+        Date d = DateProc.string2Date(minTime, "dd/MM/yyyy HH:mm:ss");
+        return d.getTime();
+    }
 }
