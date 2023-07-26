@@ -446,7 +446,7 @@ public class DateProc {
             Date d = string2Date(date, fmIn); // GMT +0
             return d.getTime();
         } catch (Exception e) {
-            return 0;
+            return Long.MIN_VALUE;
         }
     }
 
