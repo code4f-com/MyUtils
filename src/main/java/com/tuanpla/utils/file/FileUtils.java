@@ -421,10 +421,8 @@ public class FileUtils {
         try {
             // Create temp file.
             File temp = File.createTempFile(pattern, suffix);
-
             // Delete temp file when program exits.
             temp.deleteOnExit();
-
             try ( // Write to temp file
                      BufferedWriter out = new BufferedWriter(new FileWriter(temp))) {
                 out.write("aString");
