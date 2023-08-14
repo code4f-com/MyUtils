@@ -145,4 +145,85 @@ public class Today {
         Date d = DateProc.string2Date(minTime, "dd/MM/yyyy HH:mm:ss");
         return d.getTime();
     }
+
+    public static int getDayOfMonth(long longDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(longDate);
+        return cal.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static String getYearOld(long longDate) {
+        Today td = new Today();
+        Today birth = new Today(new Timestamp(longDate));
+        int years = td.getYear() - birth.getYear();
+        int months = td.getMonth() - birth.getMonth();
+        int days = td.getDay() - birth.getDay();
+        if (years < 0) {
+            return "Ngày sinh không hợp lệ";
+        } else if (years == 0) {
+            if (months < 0) {
+                return "Năm sinh không hợp lệ";
+            } else if (months == 0) {
+                if (days < 0) {
+                    return "Ngày sinh không hợp lệ";
+                } else {
+                    days += 1;
+                    if (days > 31) {
+                        return "Ngày sinh không hợp lệ";
+                    }
+                }
+            } else { // month > 0
+                if (days <= 0) {
+                    months -= 1; // Giảm tháng đi 1;
+                    days = td.getDay() + (getDayOfMonth(longDate) - birth.getDay());
+                } else {
+                    days += 1;
+                    if (days > 31) {
+                        return "Ngày sinh không hợp lệ";
+                    }
+                }
+            }
+        } else if (years > 0) {
+            if (months < 0) {
+                years -= 1; // Giảm năm đi 1
+                months = (td.getMonth() + 12) - birth.getMonth(); // => Đương nhiên tháng > 0
+                if (days <= 0) {
+                    months -= 1; // Giảm tháng đi 1;
+                    days = td.getDay() + (getDayOfMonth(longDate) - birth.getDay());
+                } else {
+                    days += 1;
+                    if (days > 31) {
+                        return "Ngày sinh không hợp lệ";
+                    }
+                }
+            } else if (months == 0) {
+                if (days < 0) {
+                    return "Ngày sinh không hợp lệ";
+                } else {
+                    days += 1;
+                    if (days > 31) {
+                        return "Ngày sinh không hợp lệ";
+                    }
+                }
+            } else { // month > 0
+                if (days <= 0) {
+                    months -= 1; // Giảm tháng đi 1;
+                    days = td.getDay() + (getDayOfMonth(longDate) - birth.getDay());
+                } else {
+                    days += 1;
+                    if (days > 31) {
+                        return "Ngày sinh không hợp lệ";
+                    }
+                }
+            }
+        }
+        // In ra kết quả
+        if (years > 1) {
+            return years + " tuổi" + (months > 0 ? (" - " + months + " tháng") : "") + (days > 0 ? (" - " + days + " ngày") : "");
+        } else if (months > 1) {
+            return months + " tháng" + (days > 0 ? (" - " + days + " ngày") : " tuổi");
+        } else {
+            return days + " ngày tuổi";
+        }
+    }
 }
