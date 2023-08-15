@@ -220,7 +220,7 @@ public class Today {
         // In ra kết quả
         if (years > 1) {
             return years + " tuổi" + (months > 0 ? (" - " + months + " tháng") : "") + (days > 0 ? (" - " + days + " ngày") : "");
-        } else if (months > 1) {
+        } else if (months >= 1) {
             return months + " tháng" + (days > 0 ? (" - " + days + " ngày") : " tuổi");
         } else {
             return days + " ngày tuổi";
