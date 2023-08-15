@@ -157,7 +157,7 @@ public class Today {
         Today birth = new Today(new Timestamp(longDate));
         int years = td.getYear() - birth.getYear();
         int months = td.getMonth() - birth.getMonth();
-        int days = td.getDay() - birth.getDay();
+        int days = td.getDay() - birth.getDay() - 1;
         if (years < 0) {
             return "Ngày sinh không hợp lệ";
         } else if (years == 0) {
@@ -218,12 +218,16 @@ public class Today {
             }
         }
         // In ra kết quả
-        if (years > 1) {
-            return years + " tuổi" + (months > 0 ? (" - " + months + " tháng") : "") + (days > 0 ? (" - " + days + " ngày") : "");
-        } else if (months >= 1) {
-            return months + " tháng" + (days > 0 ? (" - " + days + " ngày") : " tuổi");
+        if (years > 2) {
+            return years + " tuổi" + (months > 0 ? (" - " + months + " tháng") : "");
         } else {
-            return days + " ngày tuổi";
+            if (months >= 2) {
+                months += years * 12;
+                return months + " tháng" + (days > 0 ? (" - " + days + " ngày tuổi") : " tuổi");
+            } else {
+                days += months * 30;
+                return days + " ngày tuổi";
+            }
         }
     }
 }
