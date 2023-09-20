@@ -111,7 +111,8 @@ public class DateProc {
     public static Date string2Date(String strDate, String fmIn) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat(fmIn);
-            return new Date(dateFormat.parse(strDate).getTime());
+            java.util.Date parsedDate = dateFormat.parse(strDate);
+            return new Date(parsedDate.getTime());
         } catch (ParseException ex) {
             return null;
         }
@@ -211,12 +212,31 @@ public class DateProc {
         }
     }
 
+    /**
+     *
+     * @param input Long format as String
+     * @param forMat Ex: yyyyMMddhhmiss
+     * @return
+     */
     public static Timestamp long2Timestamp(Long input, String forMat) {
         try {
             String strInputDate = String.valueOf(input);
             SimpleDateFormat dateFormat = new SimpleDateFormat(forMat);
             return new Timestamp(dateFormat.parse(strInputDate).getTime());
         } catch (ParseException ex) {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param input Long Timestamp value
+     * @return
+     */
+    public static Timestamp long2Timestamp(Long input) {
+        try {
+            return new Timestamp(input);
+        } catch (Exception ex) {
             return null;
         }
     }
@@ -472,6 +492,22 @@ public class DateProc {
         try {
             Timestamp ts = new Timestamp(input);
             result = timestamp2String(ts, "dd/MM/yyyy");
+        } catch (Exception e) {
+        }
+
+        return result;
+    }
+
+    /**
+     * Lưu ý java.sql.Date chỉ biểu thị ngày không có giờ
+     *
+     * @param input
+     * @return
+     */
+    public static Date long2Date(Long input) {
+        Date result = null;
+        try {
+            result = new Date(input);
         } catch (Exception e) {
         }
 
