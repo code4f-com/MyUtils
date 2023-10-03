@@ -20,6 +20,28 @@ import java.util.Calendar;
 public class DateProc {
 
     /*
+        https://www.w3resource.com/mysql/date-and-time-functions/mysql-from_unixtime-function.php
+        MySQL. Dưới đây là một số ví dụ về các định dạng phổ biến:
+
+        %Y: Năm đầy đủ (ví dụ: 2021)
+        %y: Năm cuối cùng hai chữ số (ví dụ: 21 cho năm 2021)
+        %m: Tháng (01-12)
+        %c: Tháng (1-12)
+        %d: Ngày (01-31)
+        %H: Giờ (00-23)
+        %h: Giờ (01-12)
+        %i: Phút (00-59)
+        %s: Giây (00-59)
+        %p: AM hoặc PM
+        %W: Tên đầy đủ của ngày trong tuần (ví dụ: Wednesday)
+        %a: Tên viết tắt của ngày trong tuần (ví dụ: Wed)
+        %M: Tên đầy đủ của tháng (ví dụ: January)
+        %b: Tên viết tắt của tháng (ví dụ: Jan)
+     */
+
+ /*
+        
+    
         http://tutorials.jenkov.com/java-date-time/parsing-formatting-dates.html
         java.sql.Date = (yyyy-MM-dd) not have time
         java.sql.Timestamp is full
