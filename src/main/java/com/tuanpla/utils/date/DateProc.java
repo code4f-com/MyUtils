@@ -33,6 +33,28 @@ public class DateProc {
         S   = milliseconds (SSS)
         z   = time zone  text        (e.g. Pacific Standard Time...)
         Z   = time zone, time offset (e.g. -0800)
+    
+        y: Năm (đại diện cho năm cuối cùng gần nhăm hiện tại nhất Ex 21/10/21 -> dd/MM/y =>21/10/2021).
+        yy: Năm (số dư 2 chữ số) (ví dụ: 21 cho năm 2021).
+        yyy: Năm (hiển thị full year với 4 chữ số) (ví dụ: 21 => 0021, 221 => 0221 ).
+        yyyy: Năm đầy đủ (ví dụ: 2021).
+        M: Tháng (1-12).
+        MM: Tháng (01-12).
+        MMM: Tên tháng viết tắt (ví dụ: "Jan" cho tháng 1).
+        MMMM: Tên đầy đủ của tháng (ví dụ: "January" cho tháng 1).
+        d: Ngày trong tháng (1-31).
+        dd: Ngày trong tháng (01-31).
+        E: Ngày trong tuần (ví dụ: "Tue" cho thứ Ba).
+        EE: Ngày trong tuần (ví dụ: "Tuesday" cho thứ Ba).
+        a: Buổi (AM hoặc PM).
+        H: Giờ trong ngày (0-23).
+        HH: Giờ trong ngày (00-23).
+        k: Giờ trong ngày (1-24).
+        m: Phút (0-59).
+        mm: Phút (00-59).
+        s: Giây (0-59).
+        ss: Giây (00-59).
+        S: milliseconds (SSS)
      */
     public DateProc() {
     }
@@ -427,7 +449,25 @@ public class DateProc {
             String str = timestamp2String(currentTimestamp(), "yyyyMMddHHmmssSSS");
             return Long.parseLong(str);
         } catch (Exception e) {
-            return 0;
+            return Long.MIN_VALUE;
+        }
+    }
+
+    public static long nowToLongDate() {
+        try {
+            String str = timestamp2String(currentTimestamp(), "yyyyMMdd");
+            return Long.parseLong(str);
+        } catch (Exception e) {
+            return Long.MIN_VALUE;
+        }
+    }
+
+    public static long nowToLongDateTime() {
+        try {
+            String str = timestamp2String(currentTimestamp(), "yyyyMMddHHmmss");
+            return Long.parseLong(str);
+        } catch (Exception e) {
+            return Long.MIN_VALUE;
         }
     }
 
