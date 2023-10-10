@@ -198,7 +198,10 @@ public class Today {
                 }
             } else if (months == 0) {
                 if (days < 0) {
-                    return "Ngày sinh không hợp lệ";
+                    years = years - 1;
+                    months = 11;
+                    days = td.getDay() + (getDayOfMonth(longDate) - birth.getDay());
+//                    return "Ngày sinh không hợp lệ";
                 } else {
                     days += 1;
                     if (days > 31) {
