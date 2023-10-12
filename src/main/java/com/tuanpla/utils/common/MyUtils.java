@@ -10,9 +10,11 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -24,7 +26,6 @@ import java.util.concurrent.TimeoutException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 /**
  *
  * @author tuanpla
@@ -32,6 +33,7 @@ import org.apache.logging.log4j.Logger;
 public class MyUtils {
 
     static final Logger logger = LogManager.getLogger(MyUtils.class);
+    private static final Random RANDOM = new SecureRandom();
     // https://stackoverflow.com/questions/19456313/simple-timeout-in-java
     static final Duration timeout = Duration.ofSeconds(30);
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -154,4 +156,13 @@ public class MyUtils {
         }
         return null;
     }
+
+    public static int randomInt(int bound) {
+        return RANDOM.nextInt(bound);
+    }
+
+    public static long randomLong() {
+        return RANDOM.nextLong();
+    }
+
 }
