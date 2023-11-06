@@ -397,7 +397,7 @@ public class FileUtils {
             e.printStackTrace();
         }
     }
-// Copies src file to dst file.
+    // Copies src file to dst file.
     // If the dst file does not exist, it is created
 
     public static void copy(String src, String dst) throws IOException {
