@@ -2010,31 +2010,12 @@ public class MyString {
         return toStringArray(set);
     }
 
-    /**
-     * Split a {@code String} at the first occurrence of the delimiter. Does not
-     * include the delimiter in the result.
-     *
-     * @param toSplit the string to split (potentially {@code null} or empty)
-     * @param delimiter to split the string up with (potentially {@code null} or
-     * empty)
-     * @return a two element array with index 0 being before the delimiter, and
-     * index 1 being after the delimiter (neither element includes the
-     * delimiter); or {@code null} if the delimiter wasn't found in the given
-     * input {@code String}
-     */
     @Nullable
     public static String[] split(@Nullable String toSplit, @Nullable String delimiter) {
         if (!hasLength(toSplit) || !hasLength(delimiter)) {
             return null;
         }
-        int offset = toSplit.indexOf(delimiter);
-        if (offset < 0) {
-            return null;
-        }
-
-        String beforeDelimiter = toSplit.substring(0, offset);
-        String afterDelimiter = toSplit.substring(offset + delimiter.length());
-        return new String[]{beforeDelimiter, afterDelimiter};
+        return toSplit.split(delimiter);
     }
 
     /**
