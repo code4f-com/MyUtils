@@ -154,30 +154,36 @@ public class Today {
     }
 
     public static void main(String[] args) {
-        String startDate = "01/01/2022";
+        String startDate = "10/10/2021";
         System.out.println("startDate:" + startDate);
         int i = 1;
         Date _startDate = DateProc.string2Date(startDate, "dd/MM/yyyy");
-        while (true) {
-            i += 1;
-            long checkDate = _startDate.getTime();
-            String str = getYearOld(checkDate);
-            if (str.equals("Ngày sinh không hợp lệ")) {
-                System.out.println("_startDate:" + _startDate);
-                System.out.println("checkDate:" + checkDate);
-                break;
-            }
-            _startDate = DateProc.getNextDate(_startDate);
-            System.out.println("check date [" + i + "]: " + _startDate);
-        }
+        System.out.println(_startDate.getTime());
+//        while (true) {
+//            i += 1;
+//            long checkDate = _startDate.getTime();
+//            String str = getYearOld(checkDate);
+//            if (str.equals("Ngày sinh không hợp lệ")) {
+//                System.out.println("_startDate:" + _startDate + " - " + str);
+//                break;
+//            }
+//            _startDate = DateProc.getNextDate(_startDate);
+//            System.out.println("check date [" + i + "]: " + _startDate + " | " + str);
+//        }
     }
 
     public static String getYearOld(long longDate) {
-        Today td = new Today();
+        Today td = new Today(10, 10, 2023);
+//        Today td = new Today();
         Today birth = new Today(new Timestamp(longDate));
         int years = td.getYear() - birth.getYear();
         int months = td.getMonth() - birth.getMonth();
         int days = td.getDay() - birth.getDay() - 1;
+
+        System.out.println("years:" + years);
+        System.out.println("months:" + months);
+        System.out.println("days:" + days);
+
         if (years < 0) {
             return "Ngày sinh không hợp lệ";
         } else if (years == 0) {
