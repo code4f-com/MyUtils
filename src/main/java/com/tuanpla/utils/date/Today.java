@@ -173,29 +173,25 @@ public class Today {
     }
 
     public static String getYearOld(long longDate) {
-        Today td = new Today(10, 10, 2023);
-//        Today td = new Today();
+//        Today td = new Today(10, 10, 2023);
+        Today td = new Today();
+        String invalidDate = "Ngày sinh không hợp lệ";
         Today birth = new Today(new Timestamp(longDate));
         int years = td.getYear() - birth.getYear();
         int months = td.getMonth() - birth.getMonth();
         int days = td.getDay() - birth.getDay() - 1;
-
-        System.out.println("years:" + years);
-        System.out.println("months:" + months);
-        System.out.println("days:" + days);
-
         if (years < 0) {
-            return "Ngày sinh không hợp lệ";
+            return invalidDate;
         } else if (years == 0) {
             if (months < 0) {
-                return "Năm sinh không hợp lệ";
+                return invalidDate;
             } else if (months == 0) {
                 if (days < 0) {
-                    return "Ngày sinh không hợp lệ";
+                    return invalidDate;
                 } else {
                     days += 1;
                     if (days > 31) {
-                        return "Ngày sinh không hợp lệ";
+                        return invalidDate;
                     }
                 }
             } else { // month > 0
@@ -205,7 +201,7 @@ public class Today {
                 } else {
                     days += 1;
                     if (days > 31) {
-                        return "Ngày sinh không hợp lệ";
+                        return invalidDate;
                     }
                 }
             }
@@ -219,7 +215,7 @@ public class Today {
                 } else {
                     days += 1;
                     if (days > 31) {
-                        return "Ngày sinh không hợp lệ";
+                        return invalidDate;
                     }
                 }
             } else if (months == 0) {
@@ -227,11 +223,10 @@ public class Today {
                     years = years - 1;
                     months = 11;
                     days = td.getDay() + (getDayOfMonth(longDate) - birth.getDay());
-//                    return "Ngày sinh không hợp lệ";
                 } else {
                     days += 1;
                     if (days > 31) {
-                        return "Ngày sinh không hợp lệ";
+                        return invalidDate;
                     }
                 }
             } else { // month > 0
@@ -241,7 +236,7 @@ public class Today {
                 } else {
                     days += 1;
                     if (days > 31) {
-                        return "Ngày sinh không hợp lệ";
+                        return invalidDate;
                     }
                 }
             }
