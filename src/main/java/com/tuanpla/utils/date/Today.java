@@ -4,9 +4,10 @@
  */
 package com.tuanpla.utils.date;
 
+import com.tuanpla.utils.common.Nullable;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -152,6 +153,25 @@ public class Today {
         return cal.get(Calendar.DAY_OF_MONTH);
     }
 
+    public static void main(String[] args) {
+        String startDate = "01/01/2022";
+        System.out.println("startDate:" + startDate);
+        int i = 1;
+        Date _startDate = DateProc.string2Date(startDate, "dd/MM/yyyy");
+        while (true) {
+            i += 1;
+            long checkDate = _startDate.getTime();
+            String str = getYearOld(checkDate);
+            if (str.equals("Ngày sinh không hợp lệ")) {
+                System.out.println("_startDate:" + _startDate);
+                System.out.println("checkDate:" + checkDate);
+                break;
+            }
+            _startDate = DateProc.getNextDate(_startDate);
+            System.out.println("check date [" + i + "]: " + _startDate);
+        }
+    }
+
     public static String getYearOld(long longDate) {
         Today td = new Today();
         Today birth = new Today(new Timestamp(longDate));
@@ -232,5 +252,18 @@ public class Today {
                 return days + " ngày tuổi";
             }
         }
+    }
+
+    public static String buildDateStr(@Nullable Long date) {
+        String str = "";
+        try {
+            Today td = new Today(new Timestamp(date));
+            str += (td.getHour() > 9) ? td.getHour() : "0" + td.getHour();
+            str += ":";
+            str += (td.getMinute() > 9) ? td.getMinute() : "0" + td.getHour();
+            str += " Ngày " + td.getDay() + " tháng " + td.getMonthMM() + " năm " + td.getYear();
+        } catch (Exception e) {
+        }
+        return str;
     }
 }
