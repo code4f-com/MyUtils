@@ -303,6 +303,16 @@ public class DateProc {
         }
     }
 
+    public static Long date2Long(Date input, String fmOut) {
+        try {
+            Timestamp ts = new Timestamp(input.getTime());
+            String dateStr = timestamp2String(ts, fmOut);
+            return Long.valueOf(dateStr);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
     public static String timeString(Time ti, String fmOut) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat(fmOut);
