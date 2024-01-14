@@ -37,7 +37,6 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
 
     @Override
     public void write(final JsonWriter out, final JsonValue jsonValue) throws IOException {
-        System.out.println("Vao JsonValueTypeAdapter.write");
         final ValueType valueType = jsonValue.getValueType();
         switch (valueType) {
             case ARRAY:
@@ -68,10 +67,7 @@ public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
 
     @Override
     public JsonValue read(final JsonReader in) throws IOException {
-        System.out.println("Vao JsonValueTypeAdapter.read");
         final JsonToken jsonToken = in.peek();
-        System.out.println("in.nextName()" + in.nextName());
-        System.out.println("jsonToken" + jsonToken);
         switch (jsonToken) {
             case BEGIN_ARRAY:
                 return JsonArrayTypeAdapter.instance.read(in);
