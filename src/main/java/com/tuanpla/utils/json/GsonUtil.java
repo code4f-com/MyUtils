@@ -156,6 +156,15 @@ public class GsonUtil {
         }
     }
 
+    public static Boolean getValueBoolean(String jsonStr, String key) {
+        try {
+            JsonObject obj = gson.fromJson(jsonStr, JsonObject.class);
+            return obj.get(key).getAsBoolean();
+        } catch (JsonSyntaxException e) {
+            throw new JsonSyntaxException(String.format("[JSONParser] Failed to get \"%s\"  from JSON object", key));
+        }
+    }
+
     public static boolean isJSONValid(String jsonInString) {
         try {
             gson.fromJson(jsonInString, Object.class);
