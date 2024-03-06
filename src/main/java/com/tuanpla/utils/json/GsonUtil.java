@@ -348,7 +348,14 @@ public class GsonUtil {
         return result;
     }
 
-    public static <T> List<T> stringToList(String content, Class<T[]> clazz) {
+    public static <T> List<T> toList_1(String jsonString, Class<T> clazz) {
+        Type listType = new TypeToken<List<T>>() {
+        }.getType();
+        List<T> dataList = gson.fromJson(jsonString, listType);
+        return dataList;
+    }
+
+    public static <T> List<T> arrToList(String content, Class<T[]> clazz) {
         List<T> result = new ArrayList<>();
         try {
             T[] arr = gson.fromJson(content, clazz);
