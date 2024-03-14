@@ -11,6 +11,8 @@ import java.sql.Time;
 import java.sql.Timestamp;  // extends java.util.Date
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.Calendar;
 
 /**
@@ -103,6 +105,22 @@ public class DateProc {
         double m = c.get(Calendar.MINUTE);
         double realTime = h + m / 60;
         return realTime;
+    }
+
+    public static int getWeekOfYear() {
+        // Lấy ngày hiện tại
+        LocalDate today = LocalDate.now();
+        // Lấy số tuần của năm
+        int weekOfYear = today.get(WeekFields.ISO.weekOfWeekBasedYear());
+        return weekOfYear;
+    }
+
+    public static int getCurentMonth() {
+        // Lấy ngày hiện tại
+        LocalDate today = LocalDate.now();
+        // Lấy số tuần của năm
+        int month = today.getMonthValue();
+        return month;
     }
 
     public static double string2Time(String time) {
