@@ -43,6 +43,12 @@ public class Today {
         init(cal);
     }
 
+    public Today(long timeLong) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timeLong);
+        init(cal);
+    }
+
     public String getDayOfWeek() {
         return dayOfWeek;
     }
@@ -147,118 +153,10 @@ public class Today {
         return d.getTime();
     }
 
-    public static int getDayOfMonth(long longDate) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(longDate);
-        return cal.get(Calendar.DAY_OF_MONTH);
-    }
-
-    public static void main(String[] args) {
-        String startDate = "10/10/2021";
-        System.out.println("startDate:" + startDate);
-        int i = 1;
-        Date _startDate = DateProc.string2Date(startDate, "dd/MM/yyyy");
-        System.out.println(_startDate.getTime());
-//        while (true) {
-//            i += 1;
-//            long checkDate = _startDate.getTime();
-//            String str = getYearOld(checkDate);
-//            if (str.equals("Ngày sinh không hợp lệ")) {
-//                System.out.println("_startDate:" + _startDate + " - " + str);
-//                break;
-//            }
-//            _startDate = DateProc.getNextDate(_startDate);
-//            System.out.println("check date [" + i + "]: " + _startDate + " | " + str);
-//        }
-    }
-
-    public static String getYearOld(long longDate) {
-//        Today td = new Today(10, 10, 2023);
-        Today td = new Today();
-        String invalidDate = "Ngày sinh không hợp lệ";
-        Today birth = new Today(new Timestamp(longDate));
-        int years = td.getYear() - birth.getYear();
-        int months = td.getMonth() - birth.getMonth();
-        int days = td.getDay() - birth.getDay() - 1;
-        if (years < 0) {
-            return invalidDate;
-        } else if (years == 0) {
-            if (months < 0) {
-                return invalidDate;
-            } else if (months == 0) {
-                if (days < 0) {
-                    return invalidDate;
-                } else {
-                    days += 1;
-                    if (days > 31) {
-                        return invalidDate;
-                    }
-                }
-            } else { // month > 0
-                if (days <= 0) {
-                    months -= 1; // Giảm tháng đi 1;
-                    days = td.getDay() + (getDayOfMonth(longDate) - birth.getDay());
-                } else {
-                    days += 1;
-                    if (days > 31) {
-                        return invalidDate;
-                    }
-                }
-            }
-        } else if (years > 0) {
-            if (months < 0) {
-                years -= 1; // Giảm năm đi 1
-                months = (td.getMonth() + 12) - birth.getMonth(); // => Đương nhiên tháng > 0
-                if (days <= 0) {
-                    months -= 1; // Giảm tháng đi 1;
-                    days = td.getDay() + (getDayOfMonth(longDate) - birth.getDay());
-                } else {
-                    days += 1;
-                    if (days > 31) {
-                        return invalidDate;
-                    }
-                }
-            } else if (months == 0) {
-                if (days < 0) {
-                    years = years - 1;
-                    months = 11;
-                    days = td.getDay() + (getDayOfMonth(longDate) - birth.getDay());
-                } else {
-                    days += 1;
-                    if (days > 31) {
-                        return invalidDate;
-                    }
-                }
-            } else { // month > 0
-                if (days <= 0) {
-                    months -= 1; // Giảm tháng đi 1;
-                    days = td.getDay() + (getDayOfMonth(longDate) - birth.getDay());
-                } else {
-                    days += 1;
-                    if (days > 31) {
-                        return invalidDate;
-                    }
-                }
-            }
-        }
-        // In ra kết quả
-        if (years > 2) {
-            return years + " tuổi" + (months > 0 ? (" - " + months + " tháng") : "");
-        } else {
-            if (months >= 2) {
-                months += years * 12;
-                return months + " tháng" + (days > 0 ? (" - " + days + " ngày tuổi") : " tuổi");
-            } else {
-                days += months * 30;
-                return days + " ngày tuổi";
-            }
-        }
-    }
-
     public static String buildDateStr(@Nullable Long date) {
         String str = "";
         try {
-            Today td = new Today(new Timestamp(date));
+            Today td = new Today(date);
             str += (td.getHour() > 9) ? td.getHour() : "0" + td.getHour();
             str += ":";
             str += (td.getMinute() > 9) ? td.getMinute() : "0" + td.getHour();
