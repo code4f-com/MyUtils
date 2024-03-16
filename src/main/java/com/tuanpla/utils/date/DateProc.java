@@ -793,14 +793,14 @@ public class DateProc {
         }
         // In ra kết quả
         if (years > 2) {
-            return years + " tuổi" + (months > 0 ? (" - " + months + " tháng") : "");
+            return years + " năm" + (months > 0 ? (" - " + months + " tháng") : "");
         } else {
             months += years * 12;
             if (months >= 2) {
-                return months + " tháng" + (days > 0 ? (" - " + days + " ngày tuổi") : " tuổi");
+                return months + " tháng" + (days > 0 ? (" - " + days + " ngày") : "");
             } else {
                 days += months * 30;
-                return days + " ngày tuổi";
+                return days + " ngày";
             }
         }
     }
