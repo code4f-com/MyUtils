@@ -6,9 +6,9 @@ package com.tuanpla.utils.date;
 
 import com.tuanpla.utils.common.Convert;
 import com.tuanpla.utils.exception.CustomerException;
-import java.sql.Date;       // extends java.util.Date
+import java.sql.Date;
 import java.sql.Time;
-import java.sql.Timestamp;  // extends java.util.Date
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -690,20 +690,16 @@ public class DateProc {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(longDate);
         int year = cal.get(Calendar.YEAR);
-        int currentMonth = cal.get(Calendar.MONTH);
-        if (currentMonth == 11) {
-            currentMonth = 0;
-            year += 1;
-        } else {
-            currentMonth += 1;
-        }
-        YearMonth specificYearMonth = YearMonth.of(year, currentMonth);
+        // Calendar Month from 0 - 11
+        // Calendar Month from 0 - 11 || YearMonth -> Month 1 - 12 ==> Phải cộng thêm 1 khi dùng tháng ở đây
+        YearMonth specificYearMonth = YearMonth.of(year, cal.get(Calendar.MONTH) + 1);
         int totalDaysSpecific = specificYearMonth.lengthOfMonth();
         return totalDaysSpecific;
     }
 
     public static void main(String[] args) {
-        System.out.println(totalDayOfMonth(1676912400000L));
+        long date = dateToLongTime("29/12/2022", "dd/MM/yyyy");
+        System.out.println(totalDayOfMonth(date));
 //        String startDate = "10/10/2021";
 //        System.out.println("startDate:" + startDate);
 //        int i = 1;
