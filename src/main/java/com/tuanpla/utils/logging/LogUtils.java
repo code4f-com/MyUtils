@@ -7,6 +7,7 @@ package com.tuanpla.utils.logging;
 import com.tuanpla.utils.common.ConsoleColors;
 import com.tuanpla.utils.config.PublicConfig;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
+import com.tuanpla.utils.json.GsonUtil;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -38,6 +39,15 @@ public class LogUtils {
             String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
             int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
             System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d." + lineNumber + "] " + input + ConsoleColors.RESET);
+        }
+    }
+
+    public static void debugJson(Object input) {
+        if (PublicConfig.DE_BUG) {
+            String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
+            String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+            int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
+            System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d." + lineNumber + "] " + GsonUtil.toJson(input) + ConsoleColors.RESET);
         }
     }
 
