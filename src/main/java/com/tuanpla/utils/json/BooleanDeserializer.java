@@ -7,6 +7,7 @@ package com.tuanpla.utils.json;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.tuanpla.utils.logging.LogUtils;
 import java.io.IOException;
 
 /**
@@ -18,6 +19,7 @@ public class BooleanDeserializer extends JsonDeserializer<Boolean> {
     @Override
     public Boolean deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         String value = jsonParser.getValueAsString();
-        return "1".equals(value);
+        LogUtils.debug("BooleanDeserializer.deserialize:" + value);
+        return value != null && "1".equals(value);
     }
 }
