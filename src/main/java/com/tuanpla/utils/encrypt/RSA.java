@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -144,7 +145,7 @@ public class RSA {
         try {
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            byte[] x = cipher.doFinal(input.getBytes());
+            byte[] x = cipher.doFinal(input.getBytes(StandardCharsets.UTF_8));
             str = HexUtil.byteToHex(x);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
             logger.error(LogUtils.getLogMessage(ex));
@@ -183,27 +184,27 @@ public class RSA {
     public static String sign(PrivateKey privateKey, String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
         Signature sign = Signature.getInstance("SHA1withRSA");
         sign.initSign(privateKey);
-        sign.update(message.getBytes("UTF-8"));
-        return new String(Base64.encodeBase64(sign.sign()), "UTF-8");
+        sign.update(message.getBytes(StandardCharsets.UTF_8));
+        return new String(Base64.encodeBase64(sign.sign()), StandardCharsets.UTF_8);
     }
 
     public static boolean verify(PublicKey publicKey, String message, String signature) throws SignatureException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
         Signature sign = Signature.getInstance("SHA1withRSA");
         sign.initVerify(publicKey);
-        sign.update(message.getBytes("UTF-8"));
-        return sign.verify(Base64.decodeBase64(signature.getBytes("UTF-8")));
+        sign.update(message.getBytes(StandardCharsets.UTF_8));
+        return sign.verify(Base64.decodeBase64(signature.getBytes(StandardCharsets.UTF_8)));
     }
 
     public static String encrypt(String rawText, PublicKey publicKey) throws IOException, GeneralSecurityException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        return Base64.encodeBase64String(cipher.doFinal(rawText.getBytes("UTF-8")));
+        return Base64.encodeBase64String(cipher.doFinal(rawText.getBytes(StandardCharsets.UTF_8)));
     }
 
     public static String decrypt(String cipherText, PrivateKey privateKey) throws IOException, GeneralSecurityException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        return new String(cipher.doFinal(Base64.decodeBase64(cipherText)), "UTF-8");
+        return new String(cipher.doFinal(Base64.decodeBase64(cipherText)), StandardCharsets.UTF_8);
     }
 
 //    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
