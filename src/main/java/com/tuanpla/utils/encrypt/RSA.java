@@ -73,6 +73,13 @@ public class RSA {
         }
     }
 
+    /**
+     * For 2048 byte
+     *
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchProviderException
+     */
     public static KeyPair generateRSAKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "BC");
         generator.initialize(KEY_SIZE);
@@ -108,11 +115,11 @@ public class RSA {
                 publicKeyFile.getParentFile().mkdirs();
             }
             publicKeyFile.createNewFile();
-            try ( ObjectOutputStream publicKeyOS = new ObjectOutputStream(
+            try (ObjectOutputStream publicKeyOS = new ObjectOutputStream(
                     new FileOutputStream(publicKeyFile))) {
                 publicKeyOS.writeObject(key.getPublic());
             }
-            try ( ObjectOutputStream privateKeyOS = new ObjectOutputStream(
+            try (ObjectOutputStream privateKeyOS = new ObjectOutputStream(
                     new FileOutputStream(privateKeyFile))) {
                 privateKeyOS.writeObject(key.getPrivate());
             }
@@ -207,6 +214,52 @@ public class RSA {
         return new String(cipher.doFinal(Base64.decodeBase64(cipherText)), StandardCharsets.UTF_8);
     }
 
+    public static byte[] encrypt(String data, byte[] publicKey) throws BadPaddingException, IllegalBlockSizeException,
+            InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, getPublicKey(publicKey));
+        return cipher.doFinal(data.getBytes());
+    }
+
+    public static String decrypt(byte[] data, PrivateKey privateKey) throws NoSuchPaddingException,
+            NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        return new String(cipher.doFinal(data));
+    }
+
+    public static String decrypt(String data, byte[] base64PrivateKey) throws IllegalBlockSizeException,
+            InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+        return decrypt(java.util.Base64.getDecoder().decode(data.getBytes()), getPrivateKey(base64PrivateKey));
+    }
+
+    public static PublicKey getPublicKey(byte[] publicKeyByte) {
+        PublicKey publicKey = null;
+        try {
+            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyByte);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            publicKey = keyFactory.generatePublic(keySpec);
+            return publicKey;
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+        return publicKey;
+    }
+
+    public static PrivateKey getPrivateKey(byte[] privateKeyByte) throws NoSuchAlgorithmException {
+        PrivateKey privateKey = null;
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKeyByte);
+        KeyFactory keyFactory = null;
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+        keyGen.initialize(1024);
+        try {
+            keyFactory = KeyFactory.getInstance("RSA");
+            privateKey = keyFactory.generatePrivate(keySpec);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+        return privateKey;
+    }
 //    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 //
 //        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
@@ -230,8 +283,7 @@ public class RSA {
 //        byte[] y = cipher.doFinal(tempByte);
 //
 //        LogUtils.debug(new String(y));
-    
-    
+
 //        Security.addProvider(new BouncyCastleProvider());
 //        logger.info("BouncyCastle provider added.");
 //
@@ -241,7 +293,5 @@ public class RSA {
 //
 //        writePemFile(priv, "RSA PRIVATE KEY", "Private.pem");
 //        writePemFile(pub, "RSA PUBLIC KEY", "Public.pem");
-    
-    
 //    }
 }
