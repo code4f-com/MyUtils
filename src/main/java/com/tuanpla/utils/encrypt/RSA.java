@@ -147,6 +147,19 @@ public class RSA {
     }
 
 /// *********** OLD CODE
+    public static String SHA256(String inp) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(inp.getBytes(StandardCharsets.UTF_8)); // Change this to "UTF-16" if
+            // needed
+            byte[] digest = md.digest();
+            return String.format("%064x", new java.math.BigInteger(1, digest));
+        } catch (Exception e) {
+            logger.error("Error SHA26: ", e);
+            return null;
+        }
+    }
+
     public static String encript(PublicKey publicKey, String input) {
         String str = "";
         try {
