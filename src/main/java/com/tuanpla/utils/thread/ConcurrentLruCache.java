@@ -15,7 +15,7 @@
  */
 package com.tuanpla.utils.thread;
 
-import com.tuanpla.utils.common.Assert;
+import com.tuanpla.utils.common.MyUtils;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -59,8 +59,8 @@ public class ConcurrentLruCache<K, V> {
      * @param generator a function to generate a new value for a given key
      */
     public ConcurrentLruCache(int sizeLimit, Function<K, V> generator) {
-        Assert.isTrue(sizeLimit >= 0, "Cache size limit must not be negative");
-        Assert.notNull(generator, "Generator function must not be null");
+        MyUtils.isTrue(sizeLimit >= 0, "Cache size limit must not be negative");
+        MyUtils.notNull(generator, "Generator function must not be null");
         this.sizeLimit = sizeLimit;
         this.generator = generator;
     }

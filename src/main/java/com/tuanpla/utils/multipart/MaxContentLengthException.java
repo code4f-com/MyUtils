@@ -28,24 +28,25 @@ import java.io.IOException;
  * @version 2.00b11
  */
 public class MaxContentLengthException extends IOException {
-	private static final long serialVersionUID = 6953805748306660762L;
-	
-	private long maxContentLength;
-	private long contentLength;
 
-	public MaxContentLengthException(long contentLength, long maxContentLength) {
-		super("Content length exceeded (" + contentLength + " > "
-				+ maxContentLength + ")");
-		
-		this.maxContentLength = maxContentLength;
-		this.contentLength = contentLength;
-	}
+    private static final long serialVersionUID = 6953805748306660762L;
 
-	public long getContentLength() {
-		return this.contentLength;
-	}
+    private long maxContentLength;
+    private long contentLength;
 
-	public long getMaxContentLength() {
-		return this.maxContentLength;
-	}
+    public MaxContentLengthException(long contentLength, long maxContentLength) {
+        super("Content length exceeded (" + contentLength + " > "
+                + maxContentLength + ")");
+
+        this.maxContentLength = maxContentLength;
+        this.contentLength = contentLength;
+    }
+
+    public long getContentLength() {
+        return this.contentLength;
+    }
+
+    public long getMaxContentLength() {
+        return this.maxContentLength;
+    }
 }

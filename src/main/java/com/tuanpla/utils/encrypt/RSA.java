@@ -5,6 +5,7 @@
 package com.tuanpla.utils.encrypt;
 
 import com.tuanpla.utils.common.HexUtil;
+import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,8 +25,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +34,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class RSA {
 
-    static Logger logger = LogManager.getLogger(RSA.class);
+    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+
     public static final int KEY_SIZE = 2048;
     /**
      * String to hold name of the encryption algorithm.
@@ -124,7 +126,7 @@ public class RSA {
                 privateKeyOS.writeObject(key.getPrivate());
             }
         } catch (NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
     }

@@ -52,7 +52,7 @@ import org.apache.commons.codec.binary.StringUtils;
  * @author Rob Harrop
  * @since 1.1.2
  */
-public abstract class Assert {
+public abstract class Assert_bo {
 
     /**
      * Assert a boolean expression, throwing an {@code IllegalStateException} if
@@ -147,6 +147,7 @@ public abstract class Assert {
      * Assert a boolean expression, throwing an {@code IllegalArgumentException}
      * if the expression evaluates to {@code false}.
      *
+     * @param expression
      * @deprecated as of 4.3.7, in favor of {@link #isTrue(boolean, String)}
      */
     @Deprecated
@@ -205,7 +206,7 @@ public abstract class Assert {
      * @param message the exception message to use if the assertion fails
      * @throws IllegalArgumentException if the object is {@code null}
      */
-    public static void notNull(@Nullable Object object, String message) {
+    public static void notNull(@Nullable Object object, String message) throws IllegalArgumentException{
         if (object == null) {
             throw new IllegalArgumentException(message);
         }

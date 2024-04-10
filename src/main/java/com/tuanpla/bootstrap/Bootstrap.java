@@ -27,15 +27,12 @@ public class Bootstrap {
             final Object[] methodArgs = new Object[]{argsExec};
             mainClass = cl.loadClass(CLASS_TO_EXEC);
             final Method method = mainClass.getMethod(methodExec, classes);
-            Runnable execer = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        method.invoke(null, methodArgs);
-                    } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                        System.exit(1);
-                    }
+            Runnable execer = () -> {
+                try {
+                    method.invoke(null, methodArgs);
+                } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                    System.exit(1);
                 }
             };
             Thread bootstrapper = new Thread(execer, "main");

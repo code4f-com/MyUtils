@@ -80,8 +80,11 @@ public abstract class CollectionUtils {
      * with the JDK's
      * {@link java.util.concurrent.ConcurrentHashMap#ConcurrentHashMap(int)}.
      *
+     * @param <K>
+     * @param <V>
      * @param expectedSize the expected number of elements (with a corresponding
      * capacity to be derived so that no resize/rehash operations are needed)
+     * @return
      * @since 5.3
      * @see #newLinkedHashMap(int)
      */
@@ -99,8 +102,11 @@ public abstract class CollectionUtils {
      * Spring's own {@link LinkedCaseInsensitiveMap} and
      * {@link LinkedMultiValueMap} constructor semantics as of 5.3.
      *
+     * @param <K>
+     * @param <V>
      * @param expectedSize the expected number of elements (with a corresponding
      * capacity to be derived so that no resize/rehash operations are needed)
+     * @return
      * @since 5.3
      * @see #newHashMap(int)
      */
@@ -131,6 +137,7 @@ public abstract class CollectionUtils {
     /**
      * Merge the given array into the given Collection.
      *
+     * @param <E>
      * @param array the array to merge (may be {@code null})
      * @param collection the target Collection to merge the array into
      */
@@ -149,6 +156,8 @@ public abstract class CollectionUtils {
      * Uses {@code Properties.propertyNames()} to even catch default properties
      * linked into the original Properties instance.
      *
+     * @param <K>
+     * @param <V>
      * @param props the Properties instance to merge (may be {@code null})
      * @param map the target Map to merge the properties into
      */
@@ -478,6 +487,8 @@ public abstract class CollectionUtils {
     /**
      * Adapt a {@code Map<K, List<V>>} to an {@code MultiValueMap<K, V>}.
      *
+     * @param <K>
+     * @param <V>
      * @param targetMap the original map
      * @return the adapted multi-value map (wrapping the original map)
      * @since 3.1
@@ -489,16 +500,18 @@ public abstract class CollectionUtils {
     /**
      * Return an unmodifiable view of the specified multi-value map.
      *
+     * @param <K>
+     * @param <V>
      * @param targetMap the map for which an unmodifiable view is to be
      * returned.
      * @return an unmodifiable view of the specified multi-value map
      * @since 3.1
      */
     @SuppressWarnings("unchecked")
-    public static <K, V> MultiValueMap<K, V> unmodifiableMultiValueMap(
-            MultiValueMap<? extends K, ? extends V> targetMap) {
-
-        Assert.notNull(targetMap, "'targetMap' must not be null");
+    public static <K, V> MultiValueMap<K, V> unmodifiableMultiValueMap(MultiValueMap<? extends K, ? extends V> targetMap) {
+        if (targetMap == null) {
+            throw new IllegalArgumentException("'targetMap' must not be null");
+        }
         Map<K, List<V>> result = newLinkedHashMap(targetMap.size());
         targetMap.forEach((key, value) -> {
             List<? extends V> values = Collections.unmodifiableList(value);

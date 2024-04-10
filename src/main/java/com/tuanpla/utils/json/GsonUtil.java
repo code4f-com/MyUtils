@@ -19,6 +19,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.tuanpla.utils.config.PublicConfig;
 import static com.tuanpla.utils.json.JsonValueTypeAdapter.getJsonValueTypeAdapter;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.FileReader;
@@ -36,8 +37,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.json.JsonValue;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -45,7 +46,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class GsonUtil {
 
-    static Logger logger = LogManager.getLogger(GsonUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
 //    https://www.baeldung.com/gson-json-to-map
 //    GsonBuilder gsonBuilder = new GsonBuilder().serializeNulls ();
 //    Gson GSON = gsonBuilder.create();

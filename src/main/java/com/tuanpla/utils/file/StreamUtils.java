@@ -15,6 +15,7 @@
  */
 package com.tuanpla.utils.file;
 
+import com.tuanpla.utils.common.MyUtils;
 import com.tuanpla.utils.common.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,7 +29,6 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import com.tuanpla.utils.common.Assert;
 
 /**
  * Simple utility methods for dealing with streams. The copy methods of this
@@ -111,8 +111,12 @@ public abstract class StreamUtils {
      * @since 5.2.6
      */
     public static String copyToString(ByteArrayOutputStream baos, Charset charset) {
-        Assert.notNull(baos, "No ByteArrayOutputStream specified");
-        Assert.notNull(charset, "No Charset specified");
+        if (baos == null) {
+            throw new IllegalArgumentException("No ByteArrayOutputStream specified");
+        }
+        if (charset == null) {
+            throw new IllegalArgumentException("No Charset specified");
+        }
         try {
             // Can be replaced with toString(Charset) call in Java 10+
             return baos.toString(charset.name());
@@ -132,9 +136,12 @@ public abstract class StreamUtils {
      * @throws IOException in case of I/O errors
      */
     public static void copy(byte[] in, OutputStream out) throws IOException {
-        Assert.notNull(in, "No input byte array specified");
-        Assert.notNull(out, "No OutputStream specified");
-
+        if (in == null) {
+            throw new IllegalArgumentException("No input byte array specified");
+        }
+        if (out == null) {
+            throw new IllegalArgumentException("No OutputStream specified");
+        }
         out.write(in);
         out.flush();
     }
@@ -150,9 +157,9 @@ public abstract class StreamUtils {
      * @throws IOException in case of I/O errors
      */
     public static void copy(String in, Charset charset, OutputStream out) throws IOException {
-        Assert.notNull(in, "No input String specified");
-        Assert.notNull(charset, "No Charset specified");
-        Assert.notNull(out, "No OutputStream specified");
+        MyUtils.notNull(in, "No input String specified");
+        MyUtils.notNull(charset, "No Charset specified");
+        MyUtils.notNull(out, "No OutputStream specified");
 
         Writer writer = new OutputStreamWriter(out, charset);
         writer.write(in);
@@ -170,8 +177,8 @@ public abstract class StreamUtils {
      * @throws IOException in case of I/O errors
      */
     public static int copy(InputStream in, OutputStream out) throws IOException {
-        Assert.notNull(in, "No InputStream specified");
-        Assert.notNull(out, "No OutputStream specified");
+        MyUtils.notNull(in, "No InputStream specified");
+        MyUtils.notNull(out, "No OutputStream specified");
 
         int byteCount = 0;
         byte[] buffer = new byte[BUFFER_SIZE];
@@ -203,8 +210,8 @@ public abstract class StreamUtils {
      * @since 4.3
      */
     public static long copyRange(InputStream in, OutputStream out, long start, long end) throws IOException {
-        Assert.notNull(in, "No InputStream specified");
-        Assert.notNull(out, "No OutputStream specified");
+        MyUtils.notNull(in, "No InputStream specified");
+        MyUtils.notNull(out, "No OutputStream specified");
 
         long skipped = in.skip(start);
         if (skipped < start) {
@@ -239,7 +246,7 @@ public abstract class StreamUtils {
      * @since 4.3
      */
     public static int drain(InputStream in) throws IOException {
-        Assert.notNull(in, "No InputStream specified");
+        MyUtils.notNull(in, "No InputStream specified");
         byte[] buffer = new byte[BUFFER_SIZE];
         int bytesRead = -1;
         int byteCount = 0;
@@ -267,7 +274,7 @@ public abstract class StreamUtils {
      * @return a version of the InputStream that ignores calls to close
      */
     public static InputStream nonClosing(InputStream in) {
-        Assert.notNull(in, "No InputStream specified");
+        MyUtils.notNull(in, "No InputStream specified");
         return new NonClosingInputStream(in);
     }
 
@@ -279,7 +286,7 @@ public abstract class StreamUtils {
      * @return a version of the OutputStream that ignores calls to close
      */
     public static OutputStream nonClosing(OutputStream out) {
-        Assert.notNull(out, "No OutputStream specified");
+        MyUtils.notNull(out, "No OutputStream specified");
         return new NonClosingOutputStream(out);
     }
 

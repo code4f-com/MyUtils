@@ -15,8 +15,6 @@
  */
 package com.tuanpla.utils.common;
 
-import com.tuanpla.utils.common.CollectionUtils;
-import com.tuanpla.utils.common.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +44,9 @@ public class MultiValueMapAdapter<K, V> implements MultiValueMap<K, V>, Serializ
      * @param targetMap the plain target {@code Map}
      */
     public MultiValueMapAdapter(Map<K, List<V>> targetMap) {
-        Assert.notNull(targetMap, "'targetMap' must not be null");
+        if (targetMap == null) {
+            throw new IllegalArgumentException("'targetMap' must not be null");
+        }
         this.targetMap = targetMap;
     }
 

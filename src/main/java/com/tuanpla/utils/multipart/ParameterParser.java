@@ -20,19 +20,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A simple parser intended to parse sequences of name/value pairs.
- * Parameter values are exptected to be enclosed in quotes if they
- * contain unsafe characters, such as '=' characters or separators.
- * Parameter values are optional and can be omitted.
+ * A simple parser intended to parse sequences of name/value pairs. Parameter
+ * values are exptected to be enclosed in quotes if they contain unsafe
+ * characters, such as '=' characters or separators. Parameter values are
+ * optional and can be omitted.
  *
  * <p>
- *  <code>param1 = value; param2 = "anything goes; really"; param3</code>
+ * <code>param1 = value; param2 = "anything goes; really"; param3</code>
  * </p>
  *
  * @author <a href="mailto:oleg@ural.ru">Oleg Kalnichevski</a>
  */
-
 public class ParameterParser {
+
     /**
      * String to be parsed.
      */
@@ -74,19 +74,18 @@ public class ParameterParser {
      * Are there any characters left to parse?
      *
      * @return <tt>true</tt> if there are unparsed characters,
-     *         <tt>false</tt> otherwise.
+     * <tt>false</tt> otherwise.
      */
     private boolean hasChar() {
         return this.pos < this.len;
     }
 
     /**
-     * A helper method to process the parsed token. This method removes
-     * leading and trailing blanks as well as enclosing quotation marks,
-     * when necessary.
+     * A helper method to process the parsed token. This method removes leading
+     * and trailing blanks as well as enclosing quotation marks, when necessary.
      *
      * @param quoted <tt>true</tt> if quotation marks are expected,
-     *               <tt>false</tt> otherwise.
+     * <tt>false</tt> otherwise.
      * @return the token
      */
     private String getToken(boolean quoted) {
@@ -101,8 +100,8 @@ public class ParameterParser {
         // Strip away quotation marks if necessary
         if (quoted) {
             if (((i2 - i1) >= 2)
-                && (chars[i1] == '"')
-                && (chars[i2 - 1] == '"')) {
+                    && (chars[i1] == '"')
+                    && (chars[i2 - 1] == '"')) {
                 i1++;
                 i2--;
             }
@@ -121,7 +120,7 @@ public class ParameterParser {
      * @param charray the array of characters to test against
      *
      * @return <tt>true</tt> if the character is present in the array of
-     *   characters, <tt>false</tt> otherwise.
+     * characters, <tt>false</tt> otherwise.
      */
     private boolean isOneOf(char ch, final char[] charray) {
         boolean result = false;
@@ -135,8 +134,7 @@ public class ParameterParser {
     }
 
     /**
-     * Parses out a token until any of the given terminators
-     * is encountered.
+     * Parses out a token until any of the given terminators is encountered.
      *
      * @param terminators the array of terminating characters. Any of these
      * characters when encountered signify the end of the token
@@ -159,8 +157,8 @@ public class ParameterParser {
     }
 
     /**
-     * Parses out a token until any of the given terminators
-     * is encountered outside the quotation marks.
+     * Parses out a token until any of the given terminators is encountered
+     * outside the quotation marks.
      *
      * @param terminators the array of terminating characters. Any of these
      * characters when encountered outside the quotation marks signify the end
@@ -194,9 +192,8 @@ public class ParameterParser {
      * Returns <tt>true</tt> if parameter names are to be converted to lower
      * case when name/value pairs are parsed.
      *
-     * @return <tt>true</tt> if parameter names are to be
-     * converted to lower case when name/value pairs are parsed.
-     * Otherwise returns <tt>false</tt>
+     * @return <tt>true</tt> if parameter names are to be converted to lower
+     * case when name/value pairs are parsed. Otherwise returns <tt>false</tt>
      */
     public boolean isLowerCaseNames() {
         return this.lowerCaseNames;
@@ -206,8 +203,8 @@ public class ParameterParser {
      * Sets the flag if parameter names are to be converted to lower case when
      * name/value pairs are parsed.
      *
-     * @param b <tt>true</tt> if parameter names are to be
-     * converted to lower case when name/value pairs are parsed.
+     * @param b <tt>true</tt> if parameter names are to be converted to lower
+     * case when name/value pairs are parsed.
      * <tt>false</tt> otherwise.
      */
     public void setLowerCaseNames(boolean b) {
@@ -231,8 +228,8 @@ public class ParameterParser {
     }
 
     /**
-     * Extracts a map of name/value pairs from the given array of
-     * characters. Names are expected to be unique.
+     * Extracts a map of name/value pairs from the given array of characters.
+     * Names are expected to be unique.
      *
      * @param chars the array of characters that contains a sequence of
      * name/value pairs
@@ -248,8 +245,8 @@ public class ParameterParser {
     }
 
     /**
-     * Extracts a map of name/value pairs from the given array of
-     * characters. Names are expected to be unique.
+     * Extracts a map of name/value pairs from the given array of characters.
+     * Names are expected to be unique.
      *
      * @param chars the array of characters that contains a sequence of
      * name/value pairs
@@ -260,10 +257,10 @@ public class ParameterParser {
      * @return a map of name/value pairs
      */
     public Map parse(
-        final char[] chars,
-        int offset,
-        int length,
-        char separator) {
+            final char[] chars,
+            int offset,
+            int length,
+            char separator) {
 
         if (chars == null) {
             return new HashMap();
@@ -276,13 +273,13 @@ public class ParameterParser {
         String paramName = null;
         String paramValue = null;
         while (hasChar()) {
-            paramName = parseToken(new char[] {
-                    '=', separator });
+            paramName = parseToken(new char[]{
+                '=', separator});
             paramValue = null;
             if (hasChar() && (chars[pos] == '=')) {
                 pos++; // skip '='
-                paramValue = parseQuotedToken(new char[] {
-                        separator });
+                paramValue = parseQuotedToken(new char[]{
+                    separator});
             }
             if (hasChar() && (chars[pos] == separator)) {
                 pos++; // skip separator

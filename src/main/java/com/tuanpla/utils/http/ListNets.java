@@ -1,5 +1,6 @@
 package com.tuanpla.utils.http;
 
+import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.*;
 import static java.lang.System.out;
@@ -9,8 +10,8 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.InitialDirContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,7 +24,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class ListNets {
 
-    static final Logger logger = LogManager.getLogger(ListNets.class);
+    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
 
     static void displayInterfaceInformation(NetworkInterface netint) throws SocketException {
         out.printf("Display name: %s\n", netint.getDisplayName());
@@ -110,7 +111,7 @@ public class ListNets {
         try {
             URL whatismyip = new URL("http://checkip.amazonaws.com");
             String ip;
-            try ( BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()))) {
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()))) {
                 ip = in.readLine();
             }
             return ip;

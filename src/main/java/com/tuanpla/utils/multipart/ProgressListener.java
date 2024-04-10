@@ -20,33 +20,36 @@ package com.tuanpla.utils.multipart;
 	
 	A copy of the Lesser General Public License (lesser.txt) is included in 
 	this archive or goto the GNU website http://www.gnu.org/copyleft/lesser.html.
-*/
-
+ */
 /**
-*  Allows an object to be notified whenever a transfer is progressing.
-*
-*  <pre>
-*          ProgressListener pl = new ProgressListener() {
-*              public void update(long pBytesRead, long pContentLength, int pItems)
-*              {
-*					Tool.Debug("IN="+pBytesRead+", "+(int)(((float)pBytesRead/pContentLength)*100)+"%");
-*              }
-*          };
-*
-*          multi = new HttpServletMultipartRequest( req,
-*                                                   Long.MAX_VALUE,
-*                                                   HttpServletMultipartRequest.SAVE_TO_TMPDIR,
-*                                                   HttpServletMultipartRequest.ABORT_ON_MAX_LENGTH,
-*                                                   "UTF-8",
-*                                                   pl );
-*  </pre>
-*/
+ * Allows an object to be notified whenever a transfer is progressing.
+ *
+ * <pre>
+ *          ProgressListener pl = new ProgressListener() {
+ *              public void update(long pBytesRead, long pContentLength, int pItems)
+ *              {
+ *					Tool.Debug("IN="+pBytesRead+", "+(int)(((float)pBytesRead/pContentLength)*100)+"%");
+ *              }
+ *          };
+ *
+ *          multi = new HttpServletMultipartRequest( req,
+ *                                                   Long.MAX_VALUE,
+ *                                                   HttpServletMultipartRequest.SAVE_TO_TMPDIR,
+ *                                                   HttpServletMultipartRequest.ABORT_ON_MAX_LENGTH,
+ *                                                   "UTF-8",
+ *                                                   pl );
+ * </pre>
+ */
 public interface ProgressListener {
-	/**
-	 * Updates the listeners status information.
-	 * @param pBytesRead The total number of bytes, which have been read so far.
-	 * @param pContentLength The total number of bytes, which are being read. May be -1, if this number is unknown.
-	 * @param pItems The number of the field, which is currently being read. (0 = no item so far, 1 = first item is being read, ...)
-	 */
-	void update(long pBytesRead, long pContentLength, int pItems);
+
+    /**
+     * Updates the listeners status information.
+     *
+     * @param pBytesRead The total number of bytes, which have been read so far.
+     * @param pContentLength The total number of bytes, which are being read.
+     * May be -1, if this number is unknown.
+     * @param pItems The number of the field, which is currently being read. (0
+     * = no item so far, 1 = first item is being read, ...)
+     */
+    void update(long pBytesRead, long pContentLength, int pItems);
 }

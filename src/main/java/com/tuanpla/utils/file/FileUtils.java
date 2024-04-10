@@ -5,6 +5,7 @@
 package com.tuanpla.utils.file;
 
 import com.tuanpla.utils.common.MyString;
+import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.awt.image.BufferedImage;
 import java.beans.BeanInfo;
@@ -33,8 +34,8 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import net.coobird.thumbnailator.Thumbnails;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -42,7 +43,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class FileUtils {
 
-    static final Logger logger = LogManager.getLogger(FileUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
 
     /**
      *
@@ -122,7 +123,7 @@ public class FileUtils {
     public static boolean writeFileText(String content, String path) {
         boolean flag = false;
         try {
-            try ( Writer outw2 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "UTF-8"))) {
+            try (Writer outw2 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "UTF-8"))) {
                 outw2.write(content);
                 flag = true;
             } catch (Exception e) {
@@ -140,7 +141,7 @@ public class FileUtils {
         String sContent = "";
         try {
             FileInputStream fstream = new FileInputStream(path);
-            try ( DataInputStream in = new DataInputStream(fstream)) {
+            try (DataInputStream in = new DataInputStream(fstream)) {
                 BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
                 while ((Content = br.readLine()) != null) {
                     sContent += Content + "\n";
@@ -404,7 +405,7 @@ public class FileUtils {
         File f_src = new File(src);
         File f_dst = new File(dst);
         OutputStream out;
-        try ( InputStream in = new FileInputStream(f_src)) {
+        try (InputStream in = new FileInputStream(f_src)) {
             out = new FileOutputStream(f_dst);
             // Transfer bytes from in to out
             byte[] buf = new byte[1024];
@@ -424,7 +425,7 @@ public class FileUtils {
             // Delete temp file when program exits.
             temp.deleteOnExit();
             try ( // Write to temp file
-                     BufferedWriter out = new BufferedWriter(new FileWriter(temp))) {
+                    BufferedWriter out = new BufferedWriter(new FileWriter(temp))) {
                 out.write("aString");
             }
         } catch (IOException e) {

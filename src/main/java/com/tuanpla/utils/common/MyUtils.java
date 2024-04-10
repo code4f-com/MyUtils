@@ -4,6 +4,7 @@
  */
 package com.tuanpla.utils.common;
 
+import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -23,8 +24,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -32,7 +33,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class MyUtils {
 
-    static final Logger logger = LogManager.getLogger(MyUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+//    static final Logger logger = LogManager.getLogger(MyUtils.class);
     private static final Random RANDOM = new SecureRandom();
     // https://stackoverflow.com/questions/19456313/simple-timeout-in-java
     static final Duration timeout = Duration.ofSeconds(30);
@@ -165,4 +167,34 @@ public class MyUtils {
         return RANDOM.nextLong();
     }
 
+    /**
+     * Assert that an object is not {@code null}.
+     * <pre class="code">Assert.notNull(clazz, "The class must not be
+     * null");</pre>
+     *
+     * @param object the object to check
+     * @param message the exception message to use if the assertion fails
+     * @throws IllegalArgumentException if the object is {@code null}
+     */
+    public static void notNull(@Nullable Object object, String message) throws IllegalArgumentException {
+        if (object == null) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
+     * Assert a boolean expression, throwing an {@code IllegalArgumentException}
+     * if the expression evaluates to {@code false}.
+     * <pre class="code">Assert.isTrue(i &gt; 0, "The value must be greater than
+     * zero");</pre>
+     *
+     * @param expression a boolean expression
+     * @param message the exception message to use if the assertion fails
+     * @throws IllegalArgumentException if {@code expression} is {@code false}
+     */
+    public static void isTrue(boolean expression, String message) {
+        if (!expression) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }

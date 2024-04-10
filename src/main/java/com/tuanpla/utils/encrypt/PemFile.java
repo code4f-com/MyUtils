@@ -25,7 +25,7 @@ public class PemFile {
     }
 
     public void write(String filename) throws FileNotFoundException, IOException {
-        try ( PemWriter pemWriter = new PemWriter(new OutputStreamWriter(new FileOutputStream(filename)))) {
+        try (PemWriter pemWriter = new PemWriter(new OutputStreamWriter(new FileOutputStream(filename)))) {
             pemWriter.writeObject(this.pemObject);
         }
     }
@@ -35,7 +35,7 @@ public class PemFile {
     }
 
     public PemFile(String filename) throws FileNotFoundException, IOException {
-        try ( PemReader pemReader = new PemReader(new InputStreamReader(new FileInputStream(filename)))) {
+        try (PemReader pemReader = new PemReader(new InputStreamReader(new FileInputStream(filename)))) {
             this.pemObject = pemReader.readPemObject();
         }
     }

@@ -11,11 +11,17 @@ package com.tuanpla.utils.exception;
 public class CustomerException extends Exception {
 
     private static final long serialVersionUID = 1L;
-    private int code;
+    private Integer code;
     private String message;
 
     public CustomerException(String msg) {
         super(msg);
+        this.message = msg;
+    }
+
+    public CustomerException(Integer code, String msg) {
+        super(msg);
+        this.code = code;
         this.message = msg;
     }
 

@@ -15,7 +15,6 @@
  */
 package com.tuanpla.utils.common;
 
-import com.tuanpla.utils.common.Nullable;
 import java.util.List;
 import java.util.Map;
 

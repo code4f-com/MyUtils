@@ -4,6 +4,7 @@
  */
 package com.tuanpla.utils.mail;
 
+import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.http.ListNets;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.UnsupportedEncodingException;
@@ -24,15 +25,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author tuanpla
  */
 public class EmailUtil {
 
-    static Logger logger = LogManager.getLogger(EmailUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
 
 
     /*

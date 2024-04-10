@@ -186,7 +186,7 @@ public abstract class ObjectUtils {
                 return null;
             }
             Object result = optional.get();
-            Assert.isTrue(!(result instanceof Optional), "Multi-level Optional usage not supported");
+            MyUtils.isTrue(!(result instanceof Optional), "Multi-level Optional usage not supported");
             return result;
         }
         return obj;
