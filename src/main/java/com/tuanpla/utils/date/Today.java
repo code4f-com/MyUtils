@@ -93,39 +93,30 @@ public class Today {
 
     private void init(Calendar cal) {
         int d = cal.get(Calendar.DAY_OF_WEEK);
-        switch (d) {
-            case 2: // '\002'
-                dayOfWeek = "Thu Hai";
-                break;
-
-            case 3: // '\003'
-                dayOfWeek = "Thu Ba";
-                break;
-
-            case 4: // '\004'
-                dayOfWeek = "Thu Tu";
-                break;
-
-            case 5: // '\005'
-                dayOfWeek = "Thu Nam";
-                break;
-
-            case 6: // '\006'
-                dayOfWeek = "Thu Sau";
-                break;
-
-            case 7: // '\007'
-                dayOfWeek = "Thu Bay";
-                break;
-
-            case 1: // '\001'
-                dayOfWeek = "Chu Nhat";
-                break;
-
-            default:
-                dayOfWeek = "";
-                break;
-        }
+        dayOfWeek = switch (d) {
+            case 2 ->
+                "Thu Hai";
+            case 3 ->
+                "Thu Ba";
+            case 4 ->
+                "Thu Tu";
+            case 5 ->
+                "Thu Nam";
+            case 6 ->
+                "Thu Sau";
+            case 7 ->
+                "Thu Bay";
+            case 1 ->
+                "Chu Nhat";
+            default ->
+                "";
+        }; // '\002'
+        // '\003'
+        // '\004'
+        // '\005'
+        // '\006'
+        // '\007'
+        // '\001'
         dd = cal.get(Calendar.DAY_OF_MONTH);
         mm = cal.get(Calendar.MONTH) + 1;
         yyyy = cal.get(Calendar.YEAR);
