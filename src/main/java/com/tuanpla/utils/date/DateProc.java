@@ -20,7 +20,7 @@ import java.util.Calendar;
  *
  * @author tuanpla
  */
-public class DateProc {
+public abstract class DateProc {
 
     /*
         https://www.w3resource.com/mysql/date-and-time-functions/mysql-from_unixtime-function.php
@@ -695,27 +695,6 @@ public class DateProc {
         YearMonth specificYearMonth = YearMonth.of(year, cal.get(Calendar.MONTH) + 1);
         int totalDaysSpecific = specificYearMonth.lengthOfMonth();
         return totalDaysSpecific;
-    }
-
-    public static void main(String[] args) {
-        long date = dateToLongTime("29/12/2022", "dd/MM/yyyy");
-        System.out.println(totalDayOfMonth(date));
-//        String startDate = "10/10/2021";
-//        System.out.println("startDate:" + startDate);
-//        int i = 1;
-//        Date _startDate = DateProc.string2Date(startDate, "dd/MM/yyyy");
-//        System.out.println(_startDate.getTime());
-////        while (true) {
-////            i += 1;
-////            long checkDate = _startDate.getTime();
-////            String str = getYearOld(checkDate);
-////            if (str.equals("Ngày sinh không hợp lệ")) {
-////                System.out.println("_startDate:" + _startDate + " - " + str);
-////                break;
-////            }
-////            _startDate = DateProc.getNextDate(_startDate);
-////            System.out.println("check date [" + i + "]: " + _startDate + " | " + str);
-////        }
     }
 
     public static String getYearOld(long longDate) {
