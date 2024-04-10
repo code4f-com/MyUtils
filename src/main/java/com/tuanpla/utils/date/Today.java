@@ -130,17 +130,23 @@ public class Today {
         return new Today();
     }
 
+    public long startOf() {
+        String startTime = getDay() + "/" + getMonthMM() + "/" + getYear() + " 00:00:00";
+        Date d = DateProc.string2Date(startTime, "dd/MM/yyyy HH:mm:ss");
+        return d.getTime();
+    }
+
     public static long startTime() {
         Today td = getInstance();
-        String minTime = td.getDay() + "/" + td.getMonthMM() + "/" + td.getYear() + " 00:00:00";
-        Date d = DateProc.string2Date(minTime, "dd/MM/yyyy HH:mm:ss");
+        String startTime = td.getDay() + "/" + td.getMonthMM() + "/" + td.getYear() + " 00:00:00";
+        Date d = DateProc.string2Date(startTime, "dd/MM/yyyy HH:mm:ss");
         return d.getTime();
     }
 
     public static long endTime() {
         Today td = getInstance();
-        String minTime = td.getDay() + "/" + td.getMonthMM() + "/" + td.getYear() + " 23:59:59";
-        Date d = DateProc.string2Date(minTime, "dd/MM/yyyy HH:mm:ss");
+        String endTime = td.getDay() + "/" + td.getMonthMM() + "/" + td.getYear() + " 23:59:59";
+        Date d = DateProc.string2Date(endTime, "dd/MM/yyyy HH:mm:ss");
         return d.getTime();
     }
 
