@@ -1,6 +1,5 @@
 package com.tuanpla.utils.http;
 
-import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.*;
 import static java.lang.System.out;
@@ -24,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ListNets {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(ListNets.class);
 
     static void displayInterfaceInformation(NetworkInterface netint) throws SocketException {
         out.printf("Display name: %s\n", netint.getDisplayName());

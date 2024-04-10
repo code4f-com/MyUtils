@@ -5,7 +5,6 @@
 package com.tuanpla.utils.encrypt;
 
 import com.tuanpla.utils.common.HexUtil;
-import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RSA {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(RSA.class);
 
     public static final int KEY_SIZE = 2048;
     /**

@@ -4,7 +4,6 @@
  */
 package com.tuanpla.utils.common;
 
-import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -33,7 +32,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MyUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(MyUtils.class);
 //    static final Logger logger = LogManager.getLogger(MyUtils.class);
     private static final Random RANDOM = new SecureRandom();
     // https://stackoverflow.com/questions/19456313/simple-timeout-in-java

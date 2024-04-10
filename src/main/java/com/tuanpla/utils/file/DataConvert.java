@@ -4,7 +4,6 @@
  */
 package com.tuanpla.utils.file;
 
-import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DataConvert {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(DataConvert.class);
 
     public static byte[] InputStream2Bytes(InputStream is) {
         if (is == null) {

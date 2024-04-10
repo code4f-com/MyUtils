@@ -10,7 +10,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.tuanpla.utils.config.PublicConfig;
 import static com.tuanpla.utils.logging.LogUtils.getLogMessage;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -24,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class JacksonUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
     private static ObjectMapper objMapper = new ObjectMapper();
 
     public static String toJson(Object obj) {

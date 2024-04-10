@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 public class WorkQueue {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(WorkQueue.class);
 
     private final int maxPoolSize;
     private int activeCount;

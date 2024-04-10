@@ -12,7 +12,6 @@ import com.tuanpla.utils.common.ConsoleColors;
 import com.tuanpla.utils.common.MyString;
 import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.config.HttpConstants;
-import com.tuanpla.utils.config.PublicConfig;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
 import com.tuanpla.utils.json.GsonUtil;
 import com.tuanpla.utils.logging.LogUtils;
@@ -39,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class HttpUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     public static String getUrlFromImageTag(String imageTag) {
         try {

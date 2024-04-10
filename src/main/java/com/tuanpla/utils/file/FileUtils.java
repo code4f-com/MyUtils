@@ -5,7 +5,6 @@
 package com.tuanpla.utils.file;
 
 import com.tuanpla.utils.common.MyString;
-import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.awt.image.BufferedImage;
 import java.beans.BeanInfo;
@@ -43,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FileUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
     /**
      *

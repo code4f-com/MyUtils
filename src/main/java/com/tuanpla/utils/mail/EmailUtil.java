@@ -4,7 +4,6 @@
  */
 package com.tuanpla.utils.mail;
 
-import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.http.ListNets;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.UnsupportedEncodingException;
@@ -34,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public class EmailUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(EmailUtil.class);
 
 
     /*

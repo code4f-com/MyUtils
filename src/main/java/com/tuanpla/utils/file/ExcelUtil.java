@@ -4,7 +4,6 @@
  */
 package com.tuanpla.utils.file;
 
-import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ExcelUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(PublicConfig.MAIN_LOGGER_NAME);
+    private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
 
     public static String normalizeCellType(Cell cell) {
         String value = null;
