@@ -150,6 +150,12 @@ public class Today {
         return d.getTime();
     }
 
+    public long endOf() {
+        String endTime = getDay() + "/" + getMonthMM() + "/" + getYear() + " 23:59:59";
+        Date d = DateProc.string2Date(endTime, "dd/MM/yyyy HH:mm:ss");
+        return d.getTime();
+    }
+
     public static String buildDateStr(@Nullable Long date) {
         String str = "";
         try {
