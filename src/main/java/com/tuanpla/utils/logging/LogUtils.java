@@ -38,7 +38,7 @@ public class LogUtils {
             String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
             String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
             int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-            System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d." + lineNumber + "] " + input + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.YELLOW + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d." + lineNumber + "] " + input + ConsoleColors.RESET);
         }
     }
 
@@ -47,7 +47,7 @@ public class LogUtils {
             String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
             String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
             int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-            System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d." + lineNumber + "] " + GsonUtil.toJson(input) + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.YELLOW + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d." + lineNumber + "] " + GsonUtil.toJson(input) + ConsoleColors.RESET);
         }
     }
 
