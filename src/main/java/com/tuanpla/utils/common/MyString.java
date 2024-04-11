@@ -35,6 +35,7 @@ import java.util.StringJoiner;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -773,8 +774,92 @@ public class MyString {
         return input == null || input.length() == 0 || input.equalsIgnoreCase("null");
     }
 
+    public static boolean nonEmpty(String input) {
+        return input != null && input.length() > 0;
+    }
+
     public static boolean isEqual(String string0, String string1) {
         return isEqual(string0, string1, true);
+    }
+
+    public static String listToDelimitedString(@Nullable List<Long> arr, String delim) {
+        if (arr == null || arr.isEmpty()) {
+            return "";
+        }
+        if (arr.size() == 1) {
+            return ObjectUtils.nullSafeToString(arr.get(0));
+        }
+
+        StringJoiner sj = new StringJoiner(delim);
+        for (Object elem : arr) {
+            sj.add(String.valueOf(elem));
+        }
+        return sj.toString();
+    }
+
+    /**
+     * Viết hoa chữ cái đầu trong từng từ của String
+     *
+     * @param input
+     * @return
+     */
+    public static String capitalizeFirstLetter(String input) {
+        StringBuilder result = new StringBuilder();
+        boolean capitalizeNext = true;
+
+        for (char c : input.toCharArray()) {
+            if (Character.isWhitespace(c)) {
+                capitalizeNext = true;
+                result.append(c);
+            } else if (capitalizeNext) {
+                result.append(Character.toTitleCase(c));
+                capitalizeNext = false;
+            } else {
+                result.append(c);
+            }
+        }
+        return result.toString();
+    }
+
+    public static String removeSlash(@Nullable String input) {
+        return input == null ? "" : input.replaceAll("\\/", "");
+    }
+
+    public static void main(String[] args) {
+        System.out.println(toStringFormat(1000, 6));
+    }
+
+    /**
+     * Tạo 1 String từ 1 số với chiều dài tối đa của String. Nếu nhỏ hơn chiều
+     * dài tối đa thì sẽ thêm số 0 ở đầu
+     *
+     * @param number
+     * @param maxLength
+     * @return
+     */
+    public static String toStringFormat(int number, int maxLength) {
+        String formattedNumber = String.format("%0" + maxLength + "d", number);
+        return formattedNumber;
+    }
+
+    /**
+     * Tạo 1 String từ 1 số với chiều dài tối đa của String. Nếu nhỏ hơn chiều
+     * dài tối đa thì sẽ thêm số 0 ở đầu
+     *
+     * @param number
+     * @param maxLength
+     * @return
+     */
+    public static String toStringFormat(Long number, int maxLength) {
+        String formattedNumber = String.format("%0" + maxLength + "d", number);
+        return formattedNumber;
+    }
+
+    public static boolean stringInList(List<String> data, String value) {
+        List<String> lowercaseList = data.stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+        return lowercaseList.contains(value.toLowerCase());
     }
 
     /**

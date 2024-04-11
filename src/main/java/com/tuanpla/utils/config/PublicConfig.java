@@ -27,4 +27,5 @@ public class PublicConfig {
     // FOR FINAL CONSTANT
     public static final String UTF_8 = StandardCharsets.UTF_8.name();
     public static final String UTF_16 = StandardCharsets.UTF_16.name();
+    public static final boolean ISDEL = true;
 }

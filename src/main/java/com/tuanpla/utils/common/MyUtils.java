@@ -4,6 +4,7 @@
  */
 package com.tuanpla.utils.common;
 
+import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.logging.LogUtils;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -195,5 +196,9 @@ public class MyUtils {
         if (!expression) {
             throw new IllegalArgumentException(message);
         }
+    }
+
+    public static boolean notDel() {
+        return !PublicConfig.ISDEL;
     }
 }
