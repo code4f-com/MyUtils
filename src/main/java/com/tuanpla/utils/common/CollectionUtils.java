@@ -253,6 +253,7 @@ public abstract class CollectionUtils {
      * '{@code source}' returns {@code null}. Iteration order is
      * {@link Collection} implementation specific.
      *
+     * @param <E>
      * @param source the source Collection
      * @param candidates the candidates to search for
      * @return the first present object, or {@code null} if not found
@@ -274,6 +275,7 @@ public abstract class CollectionUtils {
     /**
      * Find a single value of the given type in the given Collection.
      *
+     * @param <T>
      * @param collection the Collection to search
      * @param type the type to look for
      * @return a value of the given type found if there is a clear match, or
@@ -403,6 +405,7 @@ public abstract class CollectionUtils {
     /**
      * Retrieve the first element of the given List, accessing the zero index.
      *
+     * @param <T>
      * @param list the List to check (may be {@code null} or empty)
      * @return the first element, or {@code null} if none
      * @since 5.2.3
@@ -420,6 +423,7 @@ public abstract class CollectionUtils {
      * {@link SortedSet#last()} or otherwise iterating over all elements
      * (assuming a linked set).
      *
+     * @param <T>
      * @param set the Set to check (may be {@code null} or empty)
      * @return the last element, or {@code null} if none
      * @since 5.0.3
@@ -465,6 +469,11 @@ public abstract class CollectionUtils {
      * given type. Enumeration elements must be assignable to the type of the
      * given array. The array returned will be a different instance than the
      * array given.
+     * @param <A>
+     * @param <E>
+     * @param enumeration
+     * @param array
+     * @return 
      */
     public static <A, E extends A> A[] toArray(Enumeration<E> enumeration, A[] array) {
         ArrayList<A> elements = new ArrayList<>();
@@ -477,6 +486,7 @@ public abstract class CollectionUtils {
     /**
      * Adapt an {@link Enumeration} to an {@link Iterator}.
      *
+     * @param <E>
      * @param enumeration the original {@code Enumeration}
      * @return the adapted {@code Iterator}
      */
