@@ -825,10 +825,6 @@ public class MyString {
         return input == null ? "" : input.replaceAll("\\/", "");
     }
 
-    public static void main(String[] args) {
-        System.out.println(toStringFormat(1000, 6));
-    }
-
     /**
      * Tạo 1 String từ 1 số với chiều dài tối đa của String. Nếu nhỏ hơn chiều
      * dài tối đa thì sẽ thêm số 0 ở đầu
