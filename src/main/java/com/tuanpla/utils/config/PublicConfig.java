@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
  *
  * @author tuanp
  */
-public class PublicConfig {
+public abstract class PublicConfig {
 
     public static boolean AppRunning = true;
     public static boolean DE_BUG = true;
