@@ -490,6 +490,10 @@ public abstract class DateProc {
         return tsNew;
     }
 
+    public static void main(String[] args) {
+        System.out.println(nowToLong());
+    }
+
     /**
      * long format yyyyMMddHHmmssSSS
      *
@@ -499,20 +503,30 @@ public abstract class DateProc {
         try {
             String str = timestamp2String(currentTimestamp(), "yyyyMMddHHmmssSSS");
             return Long.parseLong(str);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return Long.MIN_VALUE;
         }
     }
 
+    /**
+     * long format yyyyMMdd
+     *
+     * @return
+     */
     public static long nowToLongDate() {
         try {
             String str = timestamp2String(currentTimestamp(), "yyyyMMdd");
             return Long.parseLong(str);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return Long.MIN_VALUE;
         }
     }
 
+    /**
+     * long format yyyyMMddHHmmss
+     *
+     * @return
+     */
     public static long nowToLongDateTime() {
         try {
             String str = timestamp2String(currentTimestamp(), "yyyyMMddHHmmss");
@@ -521,7 +535,11 @@ public abstract class DateProc {
             return Long.MIN_VALUE;
         }
     }
-
+    /**
+     * long format yyyyMMddHHmmssSSS
+     *
+     * @return
+     */
     public static String nowToString() {
         try {
             return timestamp2String(currentTimestamp(), "yyyyMMddHHmmssSSS");
