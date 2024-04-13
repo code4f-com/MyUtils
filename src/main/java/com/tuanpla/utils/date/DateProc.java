@@ -218,6 +218,16 @@ public abstract class DateProc {
         }
     }
 
+    public static Integer date2Int(Long date, String fmOut) {
+        try {
+            Date d = new Date(date);
+            String strDate = date2String(d, fmOut);
+            return Integer.valueOf(strDate);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
     public static Integer currentInt(String fmOut) {
         try {
             String crdStr = date2String(currentDate(), fmOut);
@@ -535,6 +545,7 @@ public abstract class DateProc {
             return Long.MIN_VALUE;
         }
     }
+
     /**
      * long format yyyyMMddHHmmssSSS
      *
