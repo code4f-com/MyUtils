@@ -9,7 +9,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <jaxson.version>2.17.0</jaxson.version>
+        <jaxson.version>2.12.7</jaxson.version>
+        <!--<jaxson.version>2.17.0</jaxson.version>-->
     </properties>
     <name>MyUtils</name>
     <description>My Utilities</description>
