@@ -17,7 +17,7 @@ public abstract class PublicConfig {
     public static boolean BUNDLES_MODEL_APP = false;
 
     public static String PROJECT_NAME = "Unknow Project Name";
-    public static String MAIN_LOGGER_NAME = "AppLog";
+    public static String MAIN_LOGGER_NAME = "APP_LOG";
     public static String AUTH_CUS_MD5 = "Customize String for cusEncrypt MD5";
 
     public static long AUTO_LOAD_LIB_TIME = 30 * 1000;

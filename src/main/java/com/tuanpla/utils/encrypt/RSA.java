@@ -19,11 +19,12 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import org.apache.commons.codec.binary.Base64;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,73 +34,58 @@ import org.slf4j.LoggerFactory;
  */
 public class RSA {
 
-    private static Logger logger = LoggerFactory.getLogger(RSA.class);
-
-//    public static final int KEY_SIZE = 2048;
-    public static final int KEY_SIZE = 1024;
+    private static final Logger logger = LoggerFactory.getLogger(RSA.class);
+    private static final String PROVIDER = BouncyCastleProvider.PROVIDER_NAME;
+    public static final int KEY_SIZE_2048 = 2048;
+    public static final int KEY_SIZE_1024 = 1024;
     /**
      * String to hold name of the encryption algorithm.
      */
     private static final String ALGORITHM = "RSA";
-    /**
-     * String to hold the name of the private key file.
-     */
-//    public static final String PRIVATE_KEY_FILE = "/config/rsa.key/private.key";
-    /**
-     * String to hold name of the public key file.
-     */
-//    public static final String PUBLIC_KEY_FILE = "/config/rsa.key/public.key";
-    // Key ------------
-    public static PublicKey RSA_PUBLIC_KEY;
-    public static PrivateKey RSA_PRIVATE_KEY;
 
-    /**
-     * Create a KeyPair RSA with object java.security.PublicKey/ PrivateKey
-     *
-     * @param pathPrivate
-     * @param pathPublic
-     */
-    public static void createRSAObject(String pathPrivate, String pathPublic) {
+    public static PublicKey readPublicObject(String pathPublic) {
+        PublicKey prublicKey = null;
         try {
-            logger.info("Dùng logger with org.slf4j.Logger");
-            // Check if the pair of keys are present else generate those.
-            if (!areKeysPresent(pathPrivate, pathPublic)) {
-                // Method generates a pair of keys using the RSA algorithm and stores it in their respective files
-                generateKey(pathPrivate, pathPublic);
-            }
-            // Read RSA Key From File
-            ObjectInputStream inputStream = null;
-            // Encrypt the string using the public key
-            inputStream = new ObjectInputStream(new FileInputStream(pathPublic));
-            RSA_PUBLIC_KEY = (PublicKey) inputStream.readObject();
-            // Decrypt the cipher text using the private key.
-            inputStream = new ObjectInputStream(new FileInputStream(pathPrivate));
-            RSA_PRIVATE_KEY = (PrivateKey) inputStream.readObject();
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(pathPublic));
+            prublicKey = (PublicKey) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
+        return prublicKey;
+    }
+
+    public static PrivateKey readPrivateObject(String pathPrivate) {
+        PrivateKey privateKey = null;
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(pathPrivate));
+            privateKey = (PrivateKey) inputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            logger.error(LogUtils.getLogMessage(e));
+        }
+        return privateKey;
     }
 
     /**
      * For 2048 byte
      *
+     * @param keySize
      * @return
      * @throws NoSuchAlgorithmException
      * @throws NoSuchProviderException
      */
-    public static KeyPair generateRSAKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
-        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "BC");
-        generator.initialize(KEY_SIZE);
+    public static KeyPair generateRSAKeyPair(int keySize) throws NoSuchAlgorithmException, NoSuchProviderException {
+        if (keySize % 1024 != 0) {
+            // TODO KeySize invalid
+        }
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", PROVIDER);
+        generator.initialize(keySize);
         KeyPair keyPair = generator.generateKeyPair();
         logger.info("RSA key pair generated.");
         return keyPair;
     }
 
-    public static void writePemFile(Key key, String description, String filename)
-            throws FileNotFoundException, IOException {
-        PemFile pemFile = new PemFile(key, description);
-        pemFile.write(filename);
-        logger.info(String.format("%s successfully writen in file %s.", description, filename));
+    public static void main(String[] args) {
+
     }
 
     public static void generateKey(String pathPrivate, String pathPublic) throws IOException {
@@ -107,7 +93,7 @@ public class RSA {
             final KeyPairGenerator keyGen = KeyPairGenerator.getInstance(ALGORITHM);
             keyGen.initialize(1024);
             final KeyPair key = keyGen.generateKeyPair();
-            logger.info(String.format("successfully KeyPairGenerator"));
+            logger.info(String.format("generateKey successfully KeyPairGenerator"));
             //-------------
             File privateKeyFile = new File(pathPrivate);
             File publicKeyFile = new File(pathPublic);
@@ -215,35 +201,40 @@ public class RSA {
         Signature sign = Signature.getInstance("SHA1withRSA");
         sign.initSign(privateKey);
         sign.update(message.getBytes(StandardCharsets.UTF_8));
-        return new String(Base64.encodeBase64(sign.sign()), StandardCharsets.UTF_8);
+//        return new String(Base64.encodeBase64(sign.sign()), StandardCharsets.UTF_8); // using org.apache.commons.codec.binary.Base64
+        return new String(Base64.getEncoder().encode(sign.sign()), StandardCharsets.UTF_8);
     }
 
     public static boolean verify(PublicKey publicKey, String message, String signature) throws SignatureException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
         Signature sign = Signature.getInstance("SHA1withRSA");
         sign.initVerify(publicKey);
         sign.update(message.getBytes(StandardCharsets.UTF_8));
-        return sign.verify(Base64.decodeBase64(signature.getBytes(StandardCharsets.UTF_8)));
+        return sign.verify(Base64.getDecoder().decode(signature.getBytes(StandardCharsets.UTF_8)));
     }
 
     public static String encrypt(String rawText, PublicKey publicKey) throws IOException, GeneralSecurityException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        return Base64.encodeBase64String(cipher.doFinal(rawText.getBytes(StandardCharsets.UTF_8)));
+//        return Base64.encodeBase64String(cipher.doFinal(rawText.getBytes(StandardCharsets.UTF_8)));
+        return Base64.getEncoder().encodeToString(cipher.doFinal(rawText.getBytes(StandardCharsets.UTF_8)));
     }
 
     public static String decrypt(String cipherText, PrivateKey privateKey) throws IOException, GeneralSecurityException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        return new String(cipher.doFinal(Base64.decodeBase64(cipherText)), StandardCharsets.UTF_8);
+//        return new String(cipher.doFinal(Base64.decodeBase64(cipherText)), StandardCharsets.UTF_8);
+        return new String(cipher.doFinal(Base64.getDecoder().decode(cipherText)), StandardCharsets.UTF_8);
     }
 
-    public static byte[] encrypt(String data, byte[] publicKey) throws BadPaddingException, IllegalBlockSizeException,
-            InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+    ///---------------
+    public static byte[] encrypt(String data, byte[] publicKey) throws BadPaddingException, IllegalBlockSizeException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, getPublicKey(publicKey));
         return cipher.doFinal(data.getBytes());
     }
 
+    // -- Thiếu decrypt privateKey byte
+    //------
     public static String decrypt(byte[] data, PrivateKey privateKey) throws NoSuchPaddingException,
             NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
@@ -283,6 +274,51 @@ public class RSA {
         }
         return privateKey;
     }
+
+    //--- Ghi file theo cac chuan ---//
+    /**
+     * PKCS#1 store file public_key.pem/private_key.pem ==> ASN.1 (Abstract
+     * Syntax Notation One) PKCS#8 store file public_key.der/private_key.der ==>
+     * Private-Key Information Syntax Standard
+     *
+     * @param publicKey
+     * @param desStoreFile
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static void writeKeyPKCS(PublicKey publicKey, String desStoreFile) throws FileNotFoundException, IOException {
+        try (FileOutputStream fos = new FileOutputStream(desStoreFile)) {
+            fos.write(publicKey.getEncoded());
+        }
+    }
+
+    public static void writeKeyPKCS(PrivateKey privateKey, String desStoreFile) throws FileNotFoundException, IOException {
+        try (FileOutputStream fos = new FileOutputStream(desStoreFile)) {
+            fos.write(privateKey.getEncoded());
+        }
+    }
+
+    public static void writeKeyPKCS(Key keyStore, String desStoreFile) throws FileNotFoundException, IOException {
+        try (FileOutputStream fos = new FileOutputStream(desStoreFile)) {
+            fos.write(keyStore.getEncoded());
+        }
+    }
+
+    /**
+     * Use for Write PrivateKey/PublicKey to file
+     *
+     * @param key là một đối tượng PublicKey hoặc PrivateKey
+     * @param description
+     * @param desStoreFile Destination store file .pem
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static void writePemFile(Key key, String description, String desStoreFile) throws FileNotFoundException, IOException {
+        PemFile pemFile = new PemFile(key, description);
+        pemFile.write(desStoreFile);
+        logger.info(String.format("%s successfully writen in file %s.", description, desStoreFile));
+    }
+
 //    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 //
 //        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
@@ -306,7 +342,6 @@ public class RSA {
 //        byte[] y = cipher.doFinal(tempByte);
 //
 //        LogUtils.debug(new String(y));
-
 //        Security.addProvider(new BouncyCastleProvider());
 //        logger.info("BouncyCastle provider added.");
 //
