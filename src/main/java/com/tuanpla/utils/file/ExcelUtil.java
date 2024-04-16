@@ -221,7 +221,7 @@ public class ExcelUtil {
             FileOutputStream out = new FileOutputStream(new File("C:\\new.xls"));
             workbook.write(out);
             out.close();
-            LogUtils.debug("Excel written successfully..");
+            logger.debug("Excel written successfully..");
 
         } catch (Exception e) {
             e.printStackTrace();

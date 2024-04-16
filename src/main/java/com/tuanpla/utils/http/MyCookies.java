@@ -4,12 +4,13 @@
  */
 package com.tuanpla.utils.http;
 
-import com.tuanpla.utils.logging.LogUtils;
 import java.net.*;
 import java.util.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MyCookies {
 
+    private static Logger logger = LoggerFactory.getLogger(MyCookies.class);
     static Map theCookies = new HashMap();
 
     /**
@@ -41,7 +43,7 @@ public class MyCookies {
         }
         urlConn.setRequestProperty("Cookie", cookieString);
         if (printCookies) {
-            LogUtils.debug("Wrote cookies:\n   " + cookieString);
+            logger.debug("Wrote cookies:\n   " + cookieString);
         }
         return urlConn;
     }
@@ -79,9 +81,9 @@ public class MyCookies {
                             // the stored Cookie instead. thanks to rwhelan
                             theCookies.put(aCookie.substring(0, j), aCookie.substring(j + 1));
                             if (printCookies) {
-                                LogUtils.debug("Reading Key: "
+                                logger.debug("Reading Key: "
                                         + aCookie.substring(0, j));
-                                LogUtils.debug("        Val: "
+                                logger.debug("        Val: "
                                         + aCookie.substring(j + 1));
                             }
                         }
@@ -97,13 +99,13 @@ public class MyCookies {
      *
      */
     public void viewAllCookies() {
-        LogUtils.debug("All Cookies are:");
+        logger.debug("All Cookies are:");
         Set keys = theCookies.keySet();
         Iterator<String> iterator = keys.iterator();
         String key;
         while (iterator.hasNext()) {
             key = (String) iterator.next();
-            LogUtils.debug("   " + key + "="
+            logger.debug("   " + key + "="
                     + theCookies.get(key));
         }
     }
@@ -118,7 +120,7 @@ public class MyCookies {
      */
     public void viewURLCookies(URLConnection urlConn) {
         System.out.print("Cookies in this URLConnection are:\n   ");
-        LogUtils.debug(urlConn.getRequestProperty("Cookie"));
+        logger.debug(urlConn.getRequestProperty("Cookie"));
     }
 
     /**
@@ -132,8 +134,8 @@ public class MyCookies {
         if (!theCookies.containsKey(_key)) {
             theCookies.put(_key, _val);
             if (printCookies) {
-                LogUtils.debug("Adding Cookie: ");
-                LogUtils.debug("   " + _key + " = " + _val);
+                logger.debug("Adding Cookie: ");
+                logger.debug("   " + _key + " = " + _val);
             }
         }
     }

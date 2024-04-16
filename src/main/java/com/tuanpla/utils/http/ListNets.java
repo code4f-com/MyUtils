@@ -80,7 +80,7 @@ public class ListNets {
             ipAdress = new URL("http://myexternalip.com/raw");
             BufferedReader in = new BufferedReader(new InputStreamReader(ipAdress.openStream()));
             String ip = in.readLine();
-            LogUtils.debug(ip);
+            logger.debug(ip);
         } catch (IOException e) {
             logger.error(LogUtils.getLogMessage(e));
         }

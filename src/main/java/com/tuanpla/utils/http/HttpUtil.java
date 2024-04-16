@@ -110,7 +110,7 @@ public class HttpUtil {
     }
 
     public static void debugParam(HttpServletRequest request) {
-        LogUtils.debug("--------debugParam--------");
+        logger.debug("--------debugParam--------");
         boolean isMultipart = isMultipart(request);
         String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
         String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
@@ -120,49 +120,49 @@ public class HttpUtil {
             while (allParam.hasMoreElements()) {
                 String oneParam = allParam.nextElement();
                 System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
-//                LogUtils.debug(oneParam + ":" + request.getParameter(oneParam));
+//                logger.debug(oneParam + ":" + request.getParameter(oneParam));
             }
         } else {
-            LogUtils.debug("form isMultipart");
+            logger.debug("form isMultipart");
             try {
 //                HttpServletMultipartRequest mreq = new HttpServletMultipartRequest(request);
                 Enumeration<String> allParam = request.getParameterNames();
                 while (allParam.hasMoreElements()) {
                     String oneParam = allParam.nextElement();
                     System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
-//                LogUtils.debug(oneParam + ":" + request.getParameter(oneParam));
+//                logger.debug(oneParam + ":" + request.getParameter(oneParam));
                 }
             } catch (Exception e) {
                 logger.error(LogUtils.getLogMessage(e));
             }
         }
-        LogUtils.debug("--------End debugParam--------");
+        logger.debug("--------End debugParam--------");
     }
 
     public static void debugAttribute(HttpServletRequest request) {
         Enumeration<String> attr = request.getAttributeNames();
-        LogUtils.debug("==> debugAttribute -- Value");
+        logger.debug("==> debugAttribute -- Value");
         while (attr != null && attr.hasMoreElements()) {
             String k = attr.nextElement();
-            LogUtils.debug("key:" + k + "| val:" + request.getAttribute(k));
+            logger.debug("key:" + k + "| val:" + request.getAttribute(k));
         }
     }
 
     public static void debugHeader(HttpServletRequest request) {
         Enumeration<String> attr = request.getHeaderNames();
-        LogUtils.debug("==> debugHeader -- Value");
+        logger.debug("==> debugHeader -- Value");
         while (attr != null && attr.hasMoreElements()) {
             String k = attr.nextElement();
-            LogUtils.debug("key:" + k + "| val:" + request.getHeader(k));
+            logger.debug("key:" + k + "| val:" + request.getHeader(k));
         }
     }
 
     public static void debugCookies(HttpServletRequest request) {
         Cookie[] ck = request.getCookies();
-        LogUtils.debug("==> debugCookies -- Value");
+        logger.debug("==> debugCookies -- Value");
         if (ck != null) {
             for (Cookie one : ck) {
-                LogUtils.debug("Cookie GS:" + GsonUtil.toJson(one));
+                logger.debug("Cookie GS:" + GsonUtil.toJson(one));
             }
         }
     }
@@ -418,7 +418,7 @@ public class HttpUtil {
         while (paraList.hasMoreElements()) {
             String paraName = String.valueOf(paraList.nextElement());
             if (!paraName.equalsIgnoreCase("page") && !paraName.equalsIgnoreCase("submit")) {
-                LogUtils.debug("paraName:" + paraName + "=" + request.getParameter(paraName));
+                logger.debug("paraName:" + paraName + "=" + request.getParameter(paraName));
                 data += paraName + "=" + request.getParameter(paraName) + "&amp;";
             }
         }

@@ -68,7 +68,7 @@ public class FileUtils {
                 fsave.flush();
                 fsave.close();
             } catch (IOException ex) {
-                LogUtils.debug("Error close FileOutputStream");
+                logger.debug("Error close FileOutputStream");
             }
             return flag;
         }
@@ -462,7 +462,7 @@ public class FileUtils {
         // Rename file (or directory)
         boolean success = oldFile.renameTo(newFile);
         if (!success) {
-            LogUtils.debug("Rename file not successfully");
+            logger.debug("Rename file not successfully");
         }
     }
 
@@ -618,7 +618,7 @@ public class FileUtils {
                 result += line + "\n";
             }
         } catch (Exception ex) {
-            LogUtils.debug("convertTxtFie2String:" + ex.toString());
+            logger.debug("convertTxtFie2String:" + ex.toString());
         } finally {
             try {
                 if (br != null) {

@@ -9,7 +9,6 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
-import com.tuanpla.utils.logging.LogUtils;
 import java.lang.reflect.Type;
 
 /**
@@ -22,7 +21,6 @@ public class MyNumberTypeAdapter implements JsonDeserializer<Number> {
     public Number deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         if (json != null && json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber()) {
             JsonPrimitive jsonPrimitive = json.getAsJsonPrimitive();
-            LogUtils.debug("Vao day:" + jsonPrimitive);
             if (jsonPrimitive.getAsNumber().doubleValue() % 1 == 0) {
                 // Return Long if the number is an integer
                 return jsonPrimitive.getAsLong();

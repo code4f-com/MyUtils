@@ -196,17 +196,17 @@ public class DataConvert {
         File file = new File(filePath);
         byte[] bytes = null;
         try (InputStream is = new FileInputStream(file)) {
-            LogUtils.debug("FileInputStream is " + file);
+            logger.debug("FileInputStream is " + file);
             // Get the size of the file
             long length = file.length();
-            LogUtils.debug("ength of " + file + " is " + length + "\n");
+            logger.debug("ength of " + file + " is " + length + "\n");
             /*
             * You cannot create an array using a long type. It needs to be an int
             * type. Before converting to an int type, check to ensure that file is
             * not loarger than Integer.MAX_VALUE;
              */
             if (length > Integer.MAX_VALUE) {
-                LogUtils.debug("File is too large to process");
+                logger.debug("File is too large to process");
                 return null;
             }   // Create the byte array to hold the data
             bytes = new byte[(int) length];

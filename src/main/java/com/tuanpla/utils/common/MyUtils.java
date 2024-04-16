@@ -93,7 +93,6 @@ public class MyUtils {
     public static boolean timeOut(long lastTime, int secondTimeOut) {
         long current = System.currentTimeMillis();
         boolean result = lastTime + (secondTimeOut * 1000) < current;
-        LogUtils.debug("timeOut.result: " + result);
         return result;
     }
 

@@ -7,8 +7,9 @@ package com.tuanpla.utils.thread;
 
 import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.date.DateProc;
-import com.tuanpla.utils.logging.LogUtils;
 import java.util.LinkedList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,6 +17,7 @@ import java.util.LinkedList;
  */
 public class MonitorWorker extends Thread {
 
+    private static Logger logger = LoggerFactory.getLogger(MonitorWorker.class);
     private static final LinkedList<String> DEMON_THREAD_LIST = new LinkedList<>();            // Dem So Demon Thread
     private static final LinkedList<WorkQueue> WORKS = new LinkedList<>();
     int delay;
@@ -45,7 +47,7 @@ public class MonitorWorker extends Thread {
     public static void removeDemonName(String name) {
         synchronized (DEMON_THREAD_LIST) {
             DEMON_THREAD_LIST.remove(name);
-            LogUtils.debug("|==> " + name + " ended...");
+            logger.debug("|==> " + name + " ended...");
             DEMON_THREAD_LIST.notify();
         }
     }
@@ -60,7 +62,7 @@ public class MonitorWorker extends Thread {
         synchronized (DEMON_THREAD_LIST) {
             int i = 1;
             for (String one : DEMON_THREAD_LIST) {
-                LogUtils.debug((i++) + ". " + one + " is runing");
+                logger.debug((i++) + ". " + one + " is runing");
             }
             DEMON_THREAD_LIST.notify();
         }
@@ -68,7 +70,7 @@ public class MonitorWorker extends Thread {
 
     @Override
     public void run() {
-        LogUtils.debug("|==> MonitorWorker Started...");
+        logger.debug("|==> MonitorWorker Started...");
         while (PublicConfig.AppRunning) {
             showMonitor();
             try {
@@ -78,19 +80,19 @@ public class MonitorWorker extends Thread {
             }
         }
         MonitorWorker.removeDemonName(this.getName());
-        LogUtils.debug("==> MyMonitorThread is die...[DemonThread size:" + DEMON_THREAD_LIST.size() + "]");
+        logger.debug("==> MyMonitorThread is die...[DemonThread size:" + DEMON_THREAD_LIST.size() + "]");
         if (!DEMON_THREAD_LIST.isEmpty()) {
             showDemon();
         }
-        LogUtils.debug("=========> Xong roi Quit di....");
+        logger.debug("=========> Xong roi Quit di....");
     }
 
     public static void showMonitor() {
         synchronized (WORKS) {
             if (!WORKS.isEmpty()) {
                 for (WorkQueue work : WORKS) {
-                    LogUtils.debug("************MonitorWorker**************");
-                    LogUtils.debug(
+                    logger.debug("************MonitorWorker**************");
+                    logger.debug(
                             String.format("M-Worker [" + work.getName() + "] [%d] Active: %d, Wait %d, Completed: %d, Task: %d",
                                     work.getMaxPoolSize(),
                                     work.getActiveCount(),

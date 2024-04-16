@@ -215,11 +215,11 @@ public class EmailUtil {
             //  msg.setText(body, "UTF-8"); // Send Text Message
             msg.setSentDate(new Date());
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-            LogUtils.debug("Message is ready");
+            logger.debug("Message is ready");
 
             Transport.send(msg);
             sended = true;
-            LogUtils.debug("EMail Sent Successfully!!");
+            logger.debug("EMail Sent Successfully!!");
         } catch (UnsupportedEncodingException | MessagingException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
@@ -283,7 +283,7 @@ public class EmailUtil {
          * Outgoing Mail (SMTP) Server requires TLS or SSL: smtp.gmail.com (use
          * authentication) Use Authentication: Yes Port for SSL: 465
          */
-        LogUtils.debug("Send Email emailSSL Started...");
+        logger.debug("Send Email emailSSL Started...");
         Properties props = new Properties();
         props.put("mail.smtp.host", mailHost); //SMTP Host
 //        props.put("mail.smtp.socketFactory.port", "465"); //SSL Port
@@ -354,7 +354,7 @@ public class EmailUtil {
             msg.setContent(multipart);
             // Send message
             Transport.send(msg);
-            LogUtils.debug("EMail Sent Successfully with image!!");
+            logger.debug("EMail Sent Successfully with image!!");
         } catch (MessagingException | UnsupportedEncodingException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
@@ -399,7 +399,7 @@ public class EmailUtil {
             msg.setContent(multipart);
             // Send message
             Transport.send(msg);
-            LogUtils.debug("EMail Sent Successfully with attachment!!");
+            logger.debug("EMail Sent Successfully with attachment!!");
         } catch (MessagingException | UnsupportedEncodingException e) {
             logger.error(LogUtils.getLogMessage(e));
         }
