@@ -53,12 +53,18 @@ public class RSA {
     public static PublicKey RSA_PUBLIC_KEY;
     public static PrivateKey RSA_PRIVATE_KEY;
 
-    public static void createRSA(String pathPrivate, String pathPublic) {
+    /**
+     * Create a KeyPair RSA with object java.security.PublicKey/ PrivateKey
+     *
+     * @param pathPrivate
+     * @param pathPublic
+     */
+    public static void createRSAObject(String pathPrivate, String pathPublic) {
         try {
+            logger.info("Dùng logger with org.slf4j.Logger");
             // Check if the pair of keys are present else generate those.
             if (!areKeysPresent(pathPrivate, pathPublic)) {
-                // Method generates a pair of keys using the RSA algorithm and stores it
-                // in their respective files
+                // Method generates a pair of keys using the RSA algorithm and stores it in their respective files
                 generateKey(pathPrivate, pathPublic);
             }
             // Read RSA Key From File
@@ -96,43 +102,12 @@ public class RSA {
         logger.info(String.format("%s successfully writen in file %s.", description, filename));
     }
 
-//    private static void generateKey() throws IOException {
-//        try {
-//            final KeyPairGenerator keyGen = KeyPairGenerator.getInstance(ALGORITHM);
-//            keyGen.initialize(1024);
-//            final KeyPair key = keyGen.generateKeyPair();
-//
-//            File privateKeyFile = new File(PRIVATE_KEY_FILE);
-//            File publicKeyFile = new File(PUBLIC_KEY_FILE);
-//
-//            // Create files to store public and private key
-//            if (privateKeyFile.getParentFile() != null) {
-//                privateKeyFile.getParentFile().mkdirs();
-//            }
-//            privateKeyFile.createNewFile();
-//
-//            if (publicKeyFile.getParentFile() != null) {
-//                publicKeyFile.getParentFile().mkdirs();
-//            }
-//            publicKeyFile.createNewFile();
-//            try (ObjectOutputStream publicKeyOS = new ObjectOutputStream(
-//                    new FileOutputStream(publicKeyFile))) {
-//                publicKeyOS.writeObject(key.getPublic());
-//            }
-//            try (ObjectOutputStream privateKeyOS = new ObjectOutputStream(
-//                    new FileOutputStream(privateKeyFile))) {
-//                privateKeyOS.writeObject(key.getPrivate());
-//            }
-//        } catch (NoSuchAlgorithmException | IOException e) {
-//            logger.error(e.getMessage(), e);
-//        }
-//    }
-    
     public static void generateKey(String pathPrivate, String pathPublic) throws IOException {
         try {
             final KeyPairGenerator keyGen = KeyPairGenerator.getInstance(ALGORITHM);
             keyGen.initialize(1024);
             final KeyPair key = keyGen.generateKeyPair();
+            logger.info(String.format("successfully KeyPairGenerator"));
             //-------------
             File privateKeyFile = new File(pathPrivate);
             File publicKeyFile = new File(pathPublic);
@@ -182,12 +157,19 @@ public class RSA {
             // needed
             byte[] digest = md.digest();
             return String.format("%064x", new java.math.BigInteger(1, digest));
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException e) {
             logger.error("Error SHA26: ", e);
             return null;
         }
     }
 
+    /**
+     * Encrypt with PublicKey
+     *
+     * @param publicKey
+     * @param input
+     * @return
+     */
     public static String encript(PublicKey publicKey, String input) {
         String str = "";
         try {

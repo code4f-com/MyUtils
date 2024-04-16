@@ -9,6 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <jaxson.version>2.17.0</jaxson.version>
     </properties>
     <name>MyUtils</name>
     <description>My Utilities</description>
@@ -95,14 +96,19 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.17.0</version>
+            <version>${jaxson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.17.0</version>
-            <type>jar</type>
+            <version>${jaxson.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jaxson.version}</version>
+        </dependency>
+        <!--javaee-api-->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>

@@ -88,9 +88,7 @@ public class JacksonUtil {
         T result = null;
         try {
             objMapper = new ObjectMapper().configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-            result
-                    = objMapper.readValue(content, objMapper.getTypeFactory().constructCollectionType(List.class,
-                            clazz));
+            result = objMapper.readValue(content, objMapper.getTypeFactory().constructCollectionType(List.class, clazz));
         } catch (JsonProcessingException e) {
         }
         return result;
