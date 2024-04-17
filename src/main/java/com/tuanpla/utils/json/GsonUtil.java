@@ -20,7 +20,7 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import static com.tuanpla.utils.json.JsonValueTypeAdapter.getJsonValueTypeAdapter;
-import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.common.LogUtils;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;

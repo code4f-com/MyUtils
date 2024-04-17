@@ -5,7 +5,7 @@
 package com.tuanpla.utils.mail;
 
 import com.tuanpla.utils.http.ListNets;
-import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.common.LogUtils;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;

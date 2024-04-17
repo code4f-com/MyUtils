@@ -1,6 +1,6 @@
 package com.tuanpla.utils.http;
 
-import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.common.LogUtils;
 import java.io.*;
 import static java.lang.System.out;
 import java.net.*;

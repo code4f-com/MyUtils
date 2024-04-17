@@ -5,7 +5,7 @@
 package com.tuanpla.utils.common;
 
 import com.tuanpla.utils.config.PublicConfig;
-import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.common.LogUtils;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;

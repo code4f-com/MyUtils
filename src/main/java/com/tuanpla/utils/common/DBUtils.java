@@ -4,7 +4,6 @@
  */
 package com.tuanpla.utils.common;
 
-import com.tuanpla.utils.logging.LogUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

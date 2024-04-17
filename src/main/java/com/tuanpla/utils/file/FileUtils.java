@@ -5,7 +5,7 @@
 package com.tuanpla.utils.file;
 
 import com.tuanpla.utils.common.MyString;
-import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.common.LogUtils;
 import java.awt.image.BufferedImage;
 import java.beans.BeanInfo;
 import java.beans.Introspector;

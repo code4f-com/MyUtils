@@ -4,7 +4,7 @@
  */
 package com.tuanpla.utils.file;
 
-import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.common.LogUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

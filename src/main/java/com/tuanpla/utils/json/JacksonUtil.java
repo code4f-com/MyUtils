@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import static com.tuanpla.utils.logging.LogUtils.getLogMessage;
+import static com.tuanpla.utils.common.LogUtils.getLogMessage;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;

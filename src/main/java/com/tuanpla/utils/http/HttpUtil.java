@@ -14,7 +14,7 @@ import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.config.HttpConstants;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
 import com.tuanpla.utils.json.GsonUtil;
-import com.tuanpla.utils.logging.LogUtils;
+import com.tuanpla.utils.common.LogUtils;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
