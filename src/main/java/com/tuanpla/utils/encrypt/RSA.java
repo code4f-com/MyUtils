@@ -84,10 +84,6 @@ public class RSA {
         return keyPair;
     }
 
-    public static void main(String[] args) {
-
-    }
-
     public static void generateKey(String pathPrivate, String pathPublic) throws IOException {
         try {
             final KeyPairGenerator keyGen = KeyPairGenerator.getInstance(ALGORITHM);
