@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 public class RSA {
 
     private static final Logger logger = LoggerFactory.getLogger(RSA.class);
-    private static final String PROVIDER = BouncyCastleProvider.PROVIDER_NAME;
     public static final int KEY_SIZE_2048 = 2048;
     public static final int KEY_SIZE_1024 = 1024;
     /**
@@ -77,7 +76,7 @@ public class RSA {
         if (keySize % 1024 != 0) {
             // TODO KeySize invalid
         }
-        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", PROVIDER);
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", new BouncyCastleProvider());
         generator.initialize(keySize);
         KeyPair keyPair = generator.generateKeyPair();
         logger.info("RSA key pair generated.");

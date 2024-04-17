@@ -14,7 +14,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public class TestRSA {
 
-    static String pathStore = "D:/Dev/rsa/";
+    static String pathStore = "/Users/tuanpla/Project/ComWork/rsa/";
     private static final String PROVIDER = BouncyCastleProvider.PROVIDER_NAME;
 
     public static void main(String[] args) {
