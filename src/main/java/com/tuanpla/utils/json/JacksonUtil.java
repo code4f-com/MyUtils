@@ -26,10 +26,6 @@ public abstract class JacksonUtil {
     private static final Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
     private static ObjectMapper objMapper = new ObjectMapper();
 
-    private JacksonUtil() {
-        throw new IllegalStateException("Utility class");
-    }
-
     public static String toJson(Object obj) {
         String str = "";
 
