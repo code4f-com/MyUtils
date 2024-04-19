@@ -119,7 +119,7 @@ public class HttpUtil {
             Enumeration<String> allParam = request.getParameterNames();
             while (allParam.hasMoreElements()) {
                 String oneParam = allParam.nextElement();
-                System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
+                System.out.println(ConsoleColors.MAGENTA + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.MAGENTA + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
 //                logger.debug(oneParam + ":" + request.getParameter(oneParam));
             }
         } else {
@@ -129,7 +129,7 @@ public class HttpUtil {
                 Enumeration<String> allParam = request.getParameterNames();
                 while (allParam.hasMoreElements()) {
                     String oneParam = allParam.nextElement();
-                    System.out.println(ConsoleColors.PURPLE + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.PURPLE + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
+                    System.out.println(ConsoleColors.MAGENTA + PROJECT_NAME + ":" + ConsoleColors.BLUE + " DEBUG " + ConsoleColors.MAGENTA + className + ".java [d" + lineNumber + "] " + (oneParam + ":" + request.getParameter(oneParam)) + ConsoleColors.RESET);
 //                logger.debug(oneParam + ":" + request.getParameter(oneParam));
                 }
             } catch (Exception e) {
