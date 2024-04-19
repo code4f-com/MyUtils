@@ -34,6 +34,13 @@ public abstract class Sequence {
     }
 
     /**
+     * Default start with 1
+     */
+    public Sequence() {
+        value = 1;
+    }
+
+    /**
      * Return the next value.
      *
      * @return the next value.
