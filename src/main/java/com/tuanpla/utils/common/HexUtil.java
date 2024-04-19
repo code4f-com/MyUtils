@@ -11,7 +11,7 @@ import java.util.Arrays;
  *
  * @author TUANPLA
  */
-public class HexUtil {
+public abstract class HexUtil {
 
     public static char[] HEX_TABLE = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 

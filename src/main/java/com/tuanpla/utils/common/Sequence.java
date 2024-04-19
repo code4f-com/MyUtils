@@ -22,7 +22,7 @@ package com.tuanpla.utils.common;
  * @since 2.0
  *
  */
-public class Sequence {
+public abstract class Sequence {
 
     private int value;
 

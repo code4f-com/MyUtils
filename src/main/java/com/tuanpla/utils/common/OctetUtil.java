@@ -22,7 +22,7 @@ package com.tuanpla.utils.common;
  * @version 1.0
  *
  */
-public class OctetUtil {
+public abstract class OctetUtil {
 
     /**
      * Convert integer (4 octets) value to bytes.

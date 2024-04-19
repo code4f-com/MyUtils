@@ -3,7 +3,7 @@ package com.tuanpla.utils.common;
 import java.util.Date;
 import java.util.List;
 
-public class Compare {
+public abstract class Compare {
 
     public static boolean lessThan(Character character, Character character1) {
         return character < character1;

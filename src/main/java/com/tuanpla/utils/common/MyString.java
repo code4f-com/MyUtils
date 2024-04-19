@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  *
  * @author tuanp
  */
-public class MyString {
+public abstract class MyString {
 
     private static final Random RANDOM = new SecureRandom();
     private static final String PRINTABLE = ": ~`!@#$%^&*()-_+=/\\,.[]{}|?<>\"'";

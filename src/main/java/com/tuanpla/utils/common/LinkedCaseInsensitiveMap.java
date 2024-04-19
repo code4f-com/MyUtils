@@ -15,8 +15,6 @@
  */
 package com.tuanpla.utils.common;
 
-import com.tuanpla.utils.common.CollectionUtils;
-import com.tuanpla.utils.common.Nullable;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractSet;

@@ -8,7 +8,7 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SMSUtils {
+public abstract class SMSUtils {
 
     private static final String HEXINDEX = "0123456789abcdef          ABCDEF";
     public static String CHAR_PARSE_MT = "###";

@@ -11,7 +11,7 @@ import org.apache.commons.codec.binary.Base64;
  *
  * @author tuanp
  */
-public class Convert {
+public abstract class Convert {
 
     /**
      * Primitive Data Types

@@ -10,7 +10,7 @@ import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
  *
  * @author tuanp
  */
-public class LogUtils {
+public abstract class LogUtils {
 
     /**
      * alway print message input

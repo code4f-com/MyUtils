@@ -5,7 +5,6 @@
 package com.tuanpla.utils.common;
 
 import com.tuanpla.utils.config.PublicConfig;
-import com.tuanpla.utils.common.LogUtils;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -31,7 +30,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author tuanpla
  */
-public class MyUtils {
+public abstract class MyUtils {
 
     private static Logger logger = LoggerFactory.getLogger(MyUtils.class);
 //    static final Logger logger = LogManager.getLogger(MyUtils.class);

@@ -19,8 +19,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import static com.tuanpla.utils.json.JsonValueTypeAdapter.getJsonValueTypeAdapter;
 import com.tuanpla.utils.common.LogUtils;
+import static com.tuanpla.utils.json.JsonValueTypeAdapter.getJsonValueTypeAdapter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author tuanp https://www.mkyong.com/java/how-to-parse-json-with-GSON/
  */
-public class GsonUtil {
+public abstract class GsonUtil {
 
     private static Logger logger = LoggerFactory.getLogger(GsonUtil.class);
 //    https://www.baeldung.com/gson-json-to-map
