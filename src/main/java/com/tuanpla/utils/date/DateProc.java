@@ -618,6 +618,17 @@ public abstract class DateProc {
         return result;
     }
 
+    public static String long2Date_ddMM4YHHmm(Long input) {
+        String result = "";
+        try {
+            Timestamp ts = new Timestamp(input);
+            result = timestamp2String(ts, "dd/MM/yyyy HH:mm");
+        } catch (Exception e) {
+        }
+
+        return result;
+    }
+
     /**
      * Lưu ý java.sql.Date chỉ biểu thị ngày không có giờ
      *
