@@ -15,12 +15,16 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.WeekFields;
 import java.util.Calendar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author tuanpla
  */
 public abstract class DateProc {
+
+    private static final Logger logger = LoggerFactory.getLogger(DateProc.class);
 
     /*
         https://www.w3resource.com/mysql/date-and-time-functions/mysql-from_unixtime-function.php
@@ -186,6 +190,7 @@ public abstract class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(format);
             return dateFormat.format(d);
         } catch (Exception ex) {
+            logger.error(ex.getMessage());
             return "";
         }
     }
@@ -214,6 +219,7 @@ public abstract class DateProc {
             String strDate = date2String(date, fmOut);
             return Integer.valueOf(strDate);
         } catch (NumberFormatException ex) {
+            logger.error(ex.getMessage());
             return null;
         }
     }
@@ -224,6 +230,7 @@ public abstract class DateProc {
             String strDate = date2String(d, fmOut);
             return Integer.valueOf(strDate);
         } catch (NumberFormatException ex) {
+            logger.error(ex.getMessage());
             return null;
         }
     }
@@ -233,6 +240,7 @@ public abstract class DateProc {
             String crdStr = date2String(currentDate(), fmOut);
             return Integer.valueOf(crdStr);
         } catch (NumberFormatException e) {
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -242,6 +250,7 @@ public abstract class DateProc {
             String strDate = date2String(string2Date(input, fmInput), fmOut);
             return Integer.valueOf(strDate);
         } catch (NumberFormatException e) {
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -272,6 +281,7 @@ public abstract class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(inFormat);
             return new Timestamp(dateFormat.parse(strDate).getTime());
         } catch (ParseException ex) {
+            logger.error(ex.getMessage());
             return null;
         }
     }
@@ -281,6 +291,7 @@ public abstract class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(fmOut);
             return dateFormat.format(ts);
         } catch (Exception ex) {
+            logger.error(ex.getMessage());
             return "";
         }
     }
@@ -297,6 +308,7 @@ public abstract class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(forMat);
             return new Timestamp(dateFormat.parse(strInputDate).getTime());
         } catch (ParseException ex) {
+            logger.error(ex.getMessage());
             return null;
         }
     }
@@ -310,6 +322,7 @@ public abstract class DateProc {
         try {
             return new Timestamp(input);
         } catch (Exception ex) {
+            logger.error(ex.getMessage());
             return null;
         }
     }
@@ -328,6 +341,7 @@ public abstract class DateProc {
             String crdStr = timestamp2String(currentTimestamp(), fmOut);
             return Long.valueOf(crdStr);
         } catch (NumberFormatException e) {
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -338,6 +352,7 @@ public abstract class DateProc {
             String dateStr = timestamp2String(ts, fmOut);
             return Long.valueOf(dateStr);
         } catch (NumberFormatException e) {
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -347,6 +362,7 @@ public abstract class DateProc {
             SimpleDateFormat dateFormat = new SimpleDateFormat(fmOut);
             return dateFormat.format(ti);
         } catch (Exception ex) {
+            logger.error(ex.getMessage());
             return "";
         }
     }
@@ -514,6 +530,7 @@ public abstract class DateProc {
             String str = timestamp2String(currentTimestamp(), "yyyyMMddHHmmssSSS");
             return Long.parseLong(str);
         } catch (NumberFormatException e) {
+            logger.error(e.getMessage());
             return Long.MIN_VALUE;
         }
     }
@@ -528,6 +545,7 @@ public abstract class DateProc {
             String str = timestamp2String(currentTimestamp(), "yyyyMMdd");
             return Long.parseLong(str);
         } catch (NumberFormatException e) {
+            logger.error(e.getMessage());
             return Long.MIN_VALUE;
         }
     }
@@ -542,6 +560,7 @@ public abstract class DateProc {
             String str = timestamp2String(currentTimestamp(), "yyyyMMddHHmmss");
             return Long.parseLong(str);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             return Long.MIN_VALUE;
         }
     }
@@ -555,6 +574,7 @@ public abstract class DateProc {
         try {
             return timestamp2String(currentTimestamp(), "yyyyMMddHHmmssSSS");
         } catch (Exception e) {
+            logger.error(e.getMessage());
             return "";
         }
     }
@@ -571,6 +591,7 @@ public abstract class DateProc {
             String str = timestamp2String(ts, "yyyyMMddHHmmssSSS");
             return Long.parseLong(str);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             return 0;
         }
     }
@@ -586,6 +607,7 @@ public abstract class DateProc {
             Date d = string2Date(date, fmIn); // GMT +0
             return d.getTime();
         } catch (Exception e) {
+            logger.error(e.getMessage());
             return Long.MIN_VALUE;
         }
     }
@@ -603,8 +625,21 @@ public abstract class DateProc {
             String str = timestamp2String(ts, fmOut);
             return Long.parseLong(str);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             return 0;
         }
+    }
+
+    public static String long2Date(Long input, String fmOut) {
+        String result = "";
+        try {
+            Timestamp ts = new Timestamp(input);
+            result = timestamp2String(ts, fmOut);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+
+        return result;
     }
 
     public static String long2Date_ddMM4Y(Long input) {
@@ -613,6 +648,7 @@ public abstract class DateProc {
             Timestamp ts = new Timestamp(input);
             result = timestamp2String(ts, "dd/MM/yyyy");
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
 
         return result;
@@ -624,6 +660,7 @@ public abstract class DateProc {
             Timestamp ts = new Timestamp(input);
             result = timestamp2String(ts, "dd/MM/yyyy HH:mm");
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
 
         return result;
@@ -640,6 +677,7 @@ public abstract class DateProc {
         try {
             result = new Date(input);
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
 
         return result;
@@ -716,6 +754,7 @@ public abstract class DateProc {
             long distance = longEnd - longStart;
             result = (int) (distance / (24 * 60 * 60 * 1000));
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
         return result;
     }
