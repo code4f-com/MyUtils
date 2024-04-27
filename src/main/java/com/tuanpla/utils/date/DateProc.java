@@ -516,10 +516,6 @@ public abstract class DateProc {
         return tsNew;
     }
 
-    public static void main(String[] args) {
-        System.out.println(nowToLong());
-    }
-
     /**
      * long format yyyyMMddHHmmssSSS
      *
