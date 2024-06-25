@@ -851,6 +851,12 @@ public abstract class MyString {
         return formattedNumber;
     }
 
+    public static String toStringFormat(String number, int maxLength) {
+        Long numberLong = Long.valueOf(number);
+        String formattedNumber = String.format("%0" + maxLength + "d", numberLong);
+        return formattedNumber;
+    }
+
     public static boolean stringInList(List<String> data, String value) {
         List<String> lowercaseList = data.stream()
                 .map(String::toLowerCase)
