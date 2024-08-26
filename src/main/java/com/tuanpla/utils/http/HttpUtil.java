@@ -386,12 +386,12 @@ public class HttpUtil {
 
     public static String getURI(HttpServletRequest request) {
         String currentURL;
-        if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
-            currentURL = (String) request.getAttribute("javax.servlet.forward.request_uri");
+        if (request.getAttribute("jakarta.servlet.forward.request_uri") != null) {
+            currentURL = (String) request.getAttribute("jakarta.servlet.forward.request_uri");
         } else {
             currentURL = request.getRequestURI();
         }
-        if (currentURL != null && request.getAttribute("javax.servlet.include.query_string") != null) {
+        if (currentURL != null && request.getAttribute("jakarta.servlet.include.query_string") != null) {
             currentURL += "?" + request.getQueryString();
         }
         return currentURL;
@@ -400,12 +400,12 @@ public class HttpUtil {
     public static String getFullURL(HttpServletRequest request) {
         String currentURL;
         String domain = request.getScheme() + "://" + request.getHeader("host");
-        if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
-            currentURL = (String) request.getAttribute("javax.servlet.forward.request_uri");
+        if (request.getAttribute("jakarta.servlet.forward.request_uri") != null) {
+            currentURL = (String) request.getAttribute("jakarta.servlet.forward.request_uri");
         } else {
             currentURL = request.getRequestURI();
         }
-        if (currentURL != null && request.getAttribute("javax.servlet.include.query_string") != null) {
+        if (currentURL != null && request.getAttribute("jakarta.servlet.include.query_string") != null) {
             currentURL += "?" + request.getQueryString();
         }
         return domain + currentURL;
