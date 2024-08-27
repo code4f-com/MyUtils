@@ -515,6 +515,14 @@ public abstract class DateProc {
         Timestamp tsNew = new Timestamp(calendar.getTimeInMillis());
         return tsNew;
     }
+    public static Timestamp getBackDate() {
+        Timestamp ts = currentTimestamp();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(ts);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        Timestamp tsNew = new Timestamp(calendar.getTimeInMillis());
+        return tsNew;
+    }
 
     /**
      * long format yyyyMMddHHmmssSSS
