@@ -116,6 +116,7 @@ public class HttpUtil {
         String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
         int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
         if (!isMultipart) {
+            logger.debug("form is not Multipart");
             Enumeration<String> allParam = request.getParameterNames();
             while (allParam.hasMoreElements()) {
                 String oneParam = allParam.nextElement();
