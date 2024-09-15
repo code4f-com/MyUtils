@@ -52,11 +52,6 @@
             <version>2.10.1</version>
             <type>jar</type>
         </dependency>
-        <!--        <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
-            <version>1.1.4</version>
-        </dependency>-->
         <!--RSA-->
         <dependency>
             <groupId>org.bouncycastle</groupId>
@@ -80,11 +75,6 @@
             <groupId>com.github.jgonian</groupId>
             <artifactId>commons-ip-math</artifactId>
             <version>1.32</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.2</version>
         </dependency>
         <!--JSOAP-->
         <dependency>
