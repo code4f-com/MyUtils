@@ -8,8 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class DBUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(DBUtils.class);
+    private static final Logger logger = LogManager.getLogger(DBUtils.class);
 
     public void freeConn(ResultSet rs, PreparedStatement pstm, Connection conn) {
         try {

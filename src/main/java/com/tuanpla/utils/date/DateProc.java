@@ -15,8 +15,8 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.WeekFields;
 import java.util.Calendar;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class DateProc {
 
-    private static final Logger logger = LoggerFactory.getLogger(DateProc.class);
+    private static final Logger logger = LogManager.getLogger(DateProc.class);
 
     /*
         https://www.w3resource.com/mysql/date-and-time-functions/mysql-from_unixtime-function.php

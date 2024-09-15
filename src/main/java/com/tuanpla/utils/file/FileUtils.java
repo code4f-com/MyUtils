@@ -4,8 +4,8 @@
  */
 package com.tuanpla.utils.file;
 
-import com.tuanpla.utils.common.MyString;
 import com.tuanpla.utils.common.LogUtils;
+import com.tuanpla.utils.common.MyString;
 import java.awt.image.BufferedImage;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -33,8 +33,8 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import net.coobird.thumbnailator.Thumbnails;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FileUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(FileUtils.class);
+    private static Logger logger = LogManager.getLogger(FileUtils.class);
 
     /**
      *

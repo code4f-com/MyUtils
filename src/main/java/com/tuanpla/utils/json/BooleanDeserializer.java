@@ -8,8 +8,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BooleanDeserializer extends JsonDeserializer<Boolean> {
 
-    private static Logger logger = LoggerFactory.getLogger(BooleanDeserializer.class);
+    private static Logger logger = LogManager.getLogger(BooleanDeserializer.class);
 
     @Override
     public Boolean deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {

@@ -5,6 +5,7 @@
  */
 package com.tuanpla.utils.json;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -35,9 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import javax.json.JsonValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class GsonUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(GsonUtil.class);
+    private static Logger logger = LogManager.getLogger(GsonUtil.class);
 //    https://www.baeldung.com/gson-json-to-map
 //    GsonBuilder gsonBuilder = new GsonBuilder().serializeNulls ();
 //    Gson GSON = gsonBuilder.create();

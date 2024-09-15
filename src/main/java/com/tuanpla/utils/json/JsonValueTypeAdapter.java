@@ -4,334 +4,109 @@
  */
 package com.tuanpla.utils.json;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import static com.google.gson.stream.JsonToken.NULL;
+import static com.google.gson.stream.JsonToken.NUMBER;
+import static com.google.gson.stream.JsonToken.STRING;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import java.util.Map.Entry;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonNumber;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonString;
-import javax.json.JsonValue;
-import javax.json.JsonValue.ValueType;
 
 /**
  *
  * @author tuanp
  */
-public class JsonValueTypeAdapter extends TypeAdapter<JsonValue> {
+public class JsonValueTypeAdapter extends TypeAdapter<JsonElement> {
 
-    private static final TypeAdapter<JsonValue> jsonValueTypeAdapter = new JsonValueTypeAdapter();
+    private static final TypeAdapter<JsonElement> jsonValueTypeAdapter = new JsonValueTypeAdapter();
 
     private JsonValueTypeAdapter() {
     }
 
-    public static TypeAdapter<JsonValue> getJsonValueTypeAdapter() {
+    public static TypeAdapter<JsonElement> getJsonValueTypeAdapter() {
         return jsonValueTypeAdapter;
     }
 
     @Override
-    public void write(final JsonWriter out, final JsonValue jsonValue) throws IOException {
-        final ValueType valueType = jsonValue.getValueType();
-        switch (valueType) {
-            case ARRAY:
-                JsonArrayTypeAdapter.instance.write(out, (JsonArray) jsonValue);
-                break;
-            case OBJECT:
-                JsonObjectTypeAdapter.instance.write(out, (JsonObject) jsonValue);
-                break;
-            case STRING:
-                JsonStringTypeAdapter.instance.write(out, (JsonString) jsonValue);
-                break;
-            case NUMBER:
-                JsonNumberTypeAdapter.instance.write(out, (JsonNumber) jsonValue);
-                break;
-            case TRUE:
-                JsonBooleanTypeAdapter.instance.write(out, jsonValue);
-                break;
-            case FALSE:
-                JsonBooleanTypeAdapter.instance.write(out, jsonValue);
-                break;
-            case NULL:
-                JsonNullTypeAdapter.instance.write(out, jsonValue);
-                break;
-            default:
-                throw new AssertionError(valueType);
+    public void write(final JsonWriter out, final JsonElement jsonElement) throws IOException {
+        if (jsonElement == null || jsonElement.isJsonNull()) {
+            out.nullValue();
+            return;
         }
+        if (jsonElement.isJsonPrimitive()) {
+            JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
+            if (jsonPrimitive.isString()) {
+                out.value(jsonPrimitive.getAsString());
+            } else if (jsonPrimitive.isNumber()) {
+                out.value(jsonPrimitive.getAsNumber());
+            } else if (jsonPrimitive.isBoolean()) {
+                out.value(jsonPrimitive.getAsBoolean());
+            }
+        } else if (jsonElement.isJsonArray()) {
+            out.beginArray();
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
+            for (JsonElement element : jsonArray) {
+                write(out, element);
+            }
+            out.endArray();
+        } else if (jsonElement.isJsonObject()) {
+            out.beginObject();
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            for (String key : jsonObject.keySet()) {
+                out.name(key);
+                write(out, jsonObject.get(key));
+            }
+            out.endObject();
+        } else {
+            throw new IllegalStateException("Unexpected JsonElement type: " + jsonElement.getClass());
+        }
+
     }
 
     @Override
-    public JsonValue read(final JsonReader in) throws IOException {
-        final JsonToken jsonToken = in.peek();
+    public JsonElement read(final JsonReader in) throws IOException {
+        JsonToken jsonToken = in.peek();
         switch (jsonToken) {
-            case BEGIN_ARRAY:
-                return JsonArrayTypeAdapter.instance.read(in);
-            case END_ARRAY:
-                throw new AssertionError("Must never happen due to delegation to the array type adapter");
-            case BEGIN_OBJECT:
-                return JsonObjectTypeAdapter.instance.read(in);
-            case END_OBJECT:
-                throw new AssertionError("Must never happen due to delegation to the object type adapter");
-            case NAME:
-                throw new AssertionError("Must never happen");
-            case STRING:
-                return JsonStringTypeAdapter.instance.read(in);
-            case NUMBER:
-                return JsonNumberTypeAdapter.instance.read(in);
-            case BOOLEAN:
-                return JsonBooleanTypeAdapter.instance.read(in);
-            case NULL:
-                return JsonNullTypeAdapter.instance.read(in);
-            case END_DOCUMENT:
-                throw new AssertionError("Must never happen");
-            default:
-                throw new AssertionError(jsonToken);
-        }
-    }
-
-    private static final class JsonNullTypeAdapter extends TypeAdapter<JsonValue> {
-
-        private static final TypeAdapter<JsonValue> instance = new JsonNullTypeAdapter().nullSafe();
-
-        @Override
-        @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonValue jsonNull) throws IOException {
-            out.nullValue();
-        }
-
-        @Override
-        public JsonValue read(final JsonReader in) throws IOException {
-            if (in.peek() == JsonToken.NULL) {
+            case BEGIN_ARRAY -> {
+                JsonArray jsonArray = new JsonArray();
+                in.beginArray();
+                while (in.hasNext()) {
+                    jsonArray.add(read(in));
+                }
+                in.endArray();
+                return jsonArray;
+            }
+            case BEGIN_OBJECT -> {
+                JsonObject jsonObject = new JsonObject();
+                in.beginObject();
+                while (in.hasNext()) {
+                    String name = in.nextName();
+                    jsonObject.add(name, read(in));
+                }
+                in.endObject();
+                return jsonObject;
+            }
+            case STRING -> {
+                return new JsonPrimitive(in.nextString());
+            }
+            case NUMBER -> {
+                return new JsonPrimitive(in.nextDouble());
+            }
+            case BOOLEAN -> {
+                return new JsonPrimitive(in.nextBoolean());
+            }
+            case NULL -> {
                 in.nextNull();
-                return JsonValue.NULL;
+                return JsonNull.INSTANCE;
             }
-            // TODO Với cách tiếp cận này, JsonValueTypeAdapter sẽ bỏ qua tất cả các trường có giá trị là null hoặc không phải là số trong quá trình chuyển đổi thành JSON.
-            if (in.peek() == JsonToken.NUMBER) {
-                String numberString = in.nextString();
-                if (isNumeric(numberString)) {
-                    return instance.fromJson(numberString);
-                } else {
-                    return null;
-                }
-            }
-            return instance.read(in);
-        }
-
-    }
-
-    private static final class JsonBooleanTypeAdapter extends TypeAdapter<JsonValue> {
-
-        private static final TypeAdapter<JsonValue> instance = new JsonBooleanTypeAdapter().nullSafe();
-
-        @Override
-        @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonValue jsonBoolean)
-                throws IllegalArgumentException, IOException {
-            final ValueType valueType = jsonBoolean.getValueType();
-            switch (valueType) {
-                case TRUE:
-                    out.value(true);
-                    break;
-                case FALSE:
-                    out.value(false);
-                    break;
-                case ARRAY:
-                case OBJECT:
-                case STRING:
-                case NUMBER:
-                case NULL:
-                    throw new IllegalArgumentException("Not a boolean: " + valueType);
-                default:
-                    throw new AssertionError(jsonBoolean.getValueType());
-            }
-        }
-
-        @Override
-        public JsonValue read(final JsonReader in)
-                throws IOException {
-            return in.nextBoolean() ? JsonValue.TRUE : JsonValue.FALSE;
-        }
-
-    }
-
-    private static final class JsonNumberTypeAdapter extends TypeAdapter<JsonNumber> {
-
-        private static final TypeAdapter<JsonNumber> instance = new JsonNumberTypeAdapter().nullSafe();
-
-        @Override
-        @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonNumber jsonNumber)
-                throws IOException {
-            if (jsonNumber.isIntegral()) {
-                out.value(jsonNumber.longValue());
-            } else {
-                out.value(jsonNumber.doubleValue());
-            }
-        }
-
-        @Override
-        public JsonNumber read(final JsonReader in)
-                throws IOException {
-            // TODO is there a good way to instantiate a JsonNumber instance?
-            return (JsonNumber) Json.createArrayBuilder()
-                    .add(in.nextDouble())
-                    .build()
-                    .get(0);
-        }
-
-    }
-
-    private static final class JsonStringTypeAdapter extends TypeAdapter<JsonString> {
-
-        private static final TypeAdapter<JsonString> instance = new JsonStringTypeAdapter().nullSafe();
-
-        @Override
-        @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonString jsonString) throws IOException {
-            out.value(jsonString.getString());
-        }
-
-        @Override
-        public JsonString read(final JsonReader in) throws IOException {
-            // TODO is there a good way to instantiate a JsonString instance?
-            return (JsonString) Json.createArrayBuilder()
-                    .add(in.nextString())
-                    .build()
-                    .get(0);
-        }
-
-    }
-
-    private static final class JsonObjectTypeAdapter extends TypeAdapter<JsonObject> {
-
-        private static final TypeAdapter<JsonObject> instance = new JsonObjectTypeAdapter().nullSafe();
-
-        @Override
-        @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonObject jsonObject) throws IOException {
-            out.beginObject();
-            for (final Entry<String, JsonValue> e : jsonObject.entrySet()) {
-                out.name(e.getKey());
-                jsonValueTypeAdapter.write(out, e.getValue());
-            }
-            out.endObject();
-        }
-
-        @Override
-        public JsonObject read(final JsonReader in) throws IOException {
-            final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-            in.beginObject();
-            while (in.hasNext()) {
-                final String key = in.nextName();
-                final JsonToken token = in.peek();
-                switch (token) {
-                    case BEGIN_ARRAY:
-                        jsonObjectBuilder.add(key, jsonValueTypeAdapter.read(in));
-                        break;
-                    case END_ARRAY:
-                        throw new AssertionError("Must never happen due to delegation to the array type adapter");
-                    case BEGIN_OBJECT:
-                        jsonObjectBuilder.add(key, jsonValueTypeAdapter.read(in));
-                        break;
-                    case END_OBJECT:
-                        throw new AssertionError("Must never happen due to delegation to the object type adapter");
-                    case NAME:
-                        throw new AssertionError("Must never happen");
-                    case STRING:
-                        jsonObjectBuilder.add(key, in.nextString());
-                        break;
-                    case NUMBER:
-                        jsonObjectBuilder.add(key, in.nextDouble());
-                        break;
-                    case BOOLEAN:
-                        jsonObjectBuilder.add(key, in.nextBoolean());
-                        break;
-                    case NULL:
-                        in.nextNull();
-                        jsonObjectBuilder.addNull(key);
-                        break;
-                    case END_DOCUMENT:
-                        // do nothing
-                        break;
-                    default:
-                        throw new AssertionError(token);
-                }
-            }
-            in.endObject();
-            return jsonObjectBuilder.build();
-        }
-
-    }
-
-    private static final class JsonArrayTypeAdapter extends TypeAdapter<JsonArray> {
-
-        private static final TypeAdapter<JsonArray> instance = new JsonArrayTypeAdapter().nullSafe();
-
-        @Override
-        @SuppressWarnings("resource")
-        public void write(final JsonWriter out, final JsonArray jsonArray) throws IOException {
-            out.beginArray();
-            for (final JsonValue jsonValue : jsonArray) {
-                jsonValueTypeAdapter.write(out, jsonValue);
-            }
-            out.endArray();
-        }
-
-        @Override
-        public JsonArray read(final JsonReader in) throws IOException {
-            final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-            in.beginArray();
-            while (in.hasNext()) {
-                final JsonToken token = in.peek();
-                switch (token) {
-                    case BEGIN_ARRAY:
-                        jsonArrayBuilder.add(jsonValueTypeAdapter.read(in));
-                        break;
-                    case END_ARRAY:
-                        throw new AssertionError("Must never happen due to delegation to the array type adapter");
-                    case BEGIN_OBJECT:
-                        jsonArrayBuilder.add(jsonValueTypeAdapter.read(in));
-                        break;
-                    case END_OBJECT:
-                        throw new AssertionError("Must never happen due to delegation to the object type adapter");
-                    case NAME:
-                        throw new AssertionError("Must never happen");
-                    case STRING:
-                        jsonArrayBuilder.add(in.nextString());
-                        break;
-                    case NUMBER:
-                        jsonArrayBuilder.add(in.nextDouble());
-                        break;
-                    case BOOLEAN:
-                        jsonArrayBuilder.add(in.nextBoolean());
-                        break;
-                    case NULL:
-                        in.nextNull();
-                        jsonArrayBuilder.addNull();
-                        break;
-                    case END_DOCUMENT:
-                        // do nothing
-                        break;
-                    default:
-                        throw new AssertionError(token);
-                }
-            }
-            in.endArray();
-            return jsonArrayBuilder.build();
-        }
-    }
-
-    private static boolean isNumeric(String value) {
-        try {
-            Integer.valueOf(value);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
+            default -> throw new JsonSyntaxException("Unexpected token: " + jsonToken);
         }
     }
 }

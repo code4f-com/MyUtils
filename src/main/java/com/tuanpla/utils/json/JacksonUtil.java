@@ -14,8 +14,8 @@ import static com.tuanpla.utils.common.LogUtils.getLogMessage;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class JacksonUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
+    private static final Logger logger = LogManager.getLogger(JacksonUtil.class);
     private static ObjectMapper objMapper = new ObjectMapper();
 
     public static String toJson(Object obj) {

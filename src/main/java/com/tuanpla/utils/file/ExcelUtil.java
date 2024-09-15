@@ -14,14 +14,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ExcelUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
+    private static Logger logger = LogManager.getLogger(ExcelUtil.class);
 
     public static String normalizeCellType(Cell cell) {
         String value = null;

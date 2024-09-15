@@ -29,8 +29,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.apache.commons.net.util.SubnetUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class HttpUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
+    private static Logger logger = LogManager.getLogger(HttpUtil.class);
 
     public static String getUrlFromImageTag(String imageTag) {
         try {
