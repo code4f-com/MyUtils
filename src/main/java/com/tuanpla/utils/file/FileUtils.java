@@ -31,6 +31,10 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.logging.log4j.LogManager;
@@ -150,6 +154,45 @@ public class FileUtils {
             System.err.println("Tool : Error: ReadFile >> " + e.getMessage());
         }
         return sContent;
+    }
+
+    public static List<String> txtToList(String filePath) {
+        List<String> lines = new ArrayList<>();
+
+        // Cách 1: Sử dụng Files.lines (Java 8+)
+        try {
+            lines = Files.readAllLines(Paths.get(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Cách 2: Sử dụng BufferedReader
+        /*
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+         */
+        // In ra danh sách các dòng đã đọc
+        return lines;
+    }
+
+    public static List<String> txtToList(InputStream inputStream) {
+        List<String> lines = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
     }
 
     public static String getFieldName(Method method) {
