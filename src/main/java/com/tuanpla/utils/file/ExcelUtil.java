@@ -99,6 +99,12 @@ public class ExcelUtil {
         return allRow;
     }
 
+    /**
+     * Read sheet 0
+     *
+     * @param ipt
+     * @return
+     */
     public static HSSFSheet readXsl(InputStream ipt) {
         HSSFSheet oneSheet = null;
         try {
