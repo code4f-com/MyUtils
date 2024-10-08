@@ -626,6 +626,17 @@ public abstract class DateProc {
         }
     }
 
+    public static long dateToLongEndDay(String date, String fmIn) {
+        try {
+            Date d = string2Date(date, fmIn); // GMT +0
+            Today td = new Today(d.getTime());
+            return td.endOf();
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+            return Long.MIN_VALUE;
+        }
+    }
+
     public static String long2Date(Long input, String fmOut) {
         String result = "";
         try {
