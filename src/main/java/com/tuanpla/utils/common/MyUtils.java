@@ -23,8 +23,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class MyUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(MyUtils.class);
+    private static Logger logger = LogManager.getLogger(MyUtils.class);
 //    static final Logger logger = LogManager.getLogger(MyUtils.class);
     private static final Random RANDOM = new SecureRandom();
     // https://stackoverflow.com/questions/19456313/simple-timeout-in-java

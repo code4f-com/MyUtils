@@ -1,10 +1,10 @@
 package com.tuanpla.utils.thread;
 
-import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.common.LogUtils;
+import com.tuanpla.utils.config.PublicConfig;
 import java.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * <p>
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 public class WorkQueue {
 
-    private static Logger logger = LoggerFactory.getLogger(WorkQueue.class);
+    private static Logger logger = LogManager.getLogger(WorkQueue.class);
 
     private final int maxPoolSize;
     private int activeCount;

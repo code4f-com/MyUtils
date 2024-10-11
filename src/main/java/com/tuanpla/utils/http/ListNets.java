@@ -2,15 +2,14 @@ package com.tuanpla.utils.http;
 
 import com.tuanpla.utils.common.LogUtils;
 import java.io.*;
-import static java.lang.System.out;
 import java.net.*;
 import java.util.*;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.InitialDirContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,16 +22,16 @@ import org.slf4j.LoggerFactory;
  */
 public class ListNets {
 
-    private static Logger logger = LoggerFactory.getLogger(ListNets.class);
+    private static Logger logger = LogManager.getLogger(ListNets.class);
 
     static void displayInterfaceInformation(NetworkInterface netint) throws SocketException {
-        out.printf("Display name: %s\n", netint.getDisplayName());
-        out.printf("Name: %s\n", netint.getName());
+        System.out.printf("Display name: %s\n", netint.getDisplayName());
+        System.out.printf("Name: %s\n", netint.getName());
         Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
         for (InetAddress inetAddress : Collections.list(inetAddresses)) {
-            out.printf("InetAddress: %s\n", inetAddress);
+            System.out.printf("InetAddress: %s\n", inetAddress);
         }
-        out.printf("\n");
+        System.out.printf("\n");
     }
 
     // returns a String array of mail exchange servers (mail hosts) 

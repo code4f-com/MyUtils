@@ -15,6 +15,8 @@ import com.tuanpla.utils.common.Nullable;
 import com.tuanpla.utils.config.HttpConstants;
 import static com.tuanpla.utils.config.PublicConfig.PROJECT_NAME;
 import com.tuanpla.utils.json.GsonUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -26,11 +28,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.net.util.SubnetUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class HttpUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
+    private static Logger logger = LogManager.getLogger(HttpUtil.class);
 
     public static String getUrlFromImageTag(String imageTag) {
         try {
@@ -116,6 +116,7 @@ public class HttpUtil {
         String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
         int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
         if (!isMultipart) {
+            logger.debug("form is not Multipart");
             Enumeration<String> allParam = request.getParameterNames();
             while (allParam.hasMoreElements()) {
                 String oneParam = allParam.nextElement();
@@ -386,12 +387,12 @@ public class HttpUtil {
 
     public static String getURI(HttpServletRequest request) {
         String currentURL;
-        if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
-            currentURL = (String) request.getAttribute("javax.servlet.forward.request_uri");
+        if (request.getAttribute("jakarta.servlet.forward.request_uri") != null) {
+            currentURL = (String) request.getAttribute("jakarta.servlet.forward.request_uri");
         } else {
             currentURL = request.getRequestURI();
         }
-        if (currentURL != null && request.getAttribute("javax.servlet.include.query_string") != null) {
+        if (currentURL != null && request.getAttribute("jakarta.servlet.include.query_string") != null) {
             currentURL += "?" + request.getQueryString();
         }
         return currentURL;
@@ -400,12 +401,12 @@ public class HttpUtil {
     public static String getFullURL(HttpServletRequest request) {
         String currentURL;
         String domain = request.getScheme() + "://" + request.getHeader("host");
-        if (request.getAttribute("javax.servlet.forward.request_uri") != null) {
-            currentURL = (String) request.getAttribute("javax.servlet.forward.request_uri");
+        if (request.getAttribute("jakarta.servlet.forward.request_uri") != null) {
+            currentURL = (String) request.getAttribute("jakarta.servlet.forward.request_uri");
         } else {
             currentURL = request.getRequestURI();
         }
-        if (currentURL != null && request.getAttribute("javax.servlet.include.query_string") != null) {
+        if (currentURL != null && request.getAttribute("jakarta.servlet.include.query_string") != null) {
             currentURL += "?" + request.getQueryString();
         }
         return domain + currentURL;

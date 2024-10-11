@@ -8,8 +8,8 @@ package com.tuanpla.utils.thread;
 import com.tuanpla.utils.config.PublicConfig;
 import com.tuanpla.utils.date.DateProc;
 import java.util.LinkedList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MonitorWorker extends Thread {
 
-    private static Logger logger = LoggerFactory.getLogger(MonitorWorker.class);
+    private static Logger logger = LogManager.getLogger(MonitorWorker.class);
     private static final LinkedList<String> DEMON_THREAD_LIST = new LinkedList<>();            // Dem So Demon Thread
     private static final LinkedList<WorkQueue> WORKS = new LinkedList<>();
     int delay;

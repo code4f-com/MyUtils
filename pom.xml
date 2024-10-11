@@ -3,94 +3,75 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tuanpla.utils</groupId>
     <artifactId>tuanpla-common-utils</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.3</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <jaxson.version>2.12.7</jaxson.version>
-        <!--<jaxson.version>2.17.0</jaxson.version>-->
+        <jaxson.version>2.17.2</jaxson.version>
     </properties>
     <name>MyUtils</name>
     <description>My Utilities</description>
     <dependencies>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <type>jar</type>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
             <version>0.4.20</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>5.2.5</version>
-            <type>jar</type>
+            <version>5.3.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>5.2.5</version>
-            <type>jar</type>
+            <version>5.3.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>2.0.3</version>
-            <type>jar</type>
+            <version>3.0.2</version>
         </dependency>
         <!--GSON-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.10.1</version>
-            <type>jar</type>
+            <version>2.11.0</version>
         </dependency>
-        <!--        <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
-            <version>1.1.4</version>
-        </dependency>-->
         <!--RSA-->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.78</version>
-            <type>jar</type>
+            <version>1.78.1</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk18on</artifactId>
-            <version>1.78</version>
-            <type>jar</type>
+            <version>1.78.1</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.10.0</version>
-            <type>jar</type>
+            <version>3.11.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.jgonian</groupId>
             <artifactId>commons-ip-math</artifactId>
             <version>1.32</version>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.12</version>
-        </dependency>
         <!--JSOAP-->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.17.2</version>
+            <version>1.18.1</version>
         </dependency>
         <!--JACK SON-->
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
@@ -109,21 +90,17 @@
             <artifactId>jackson-annotations</artifactId>
             <version>${jaxson.version}</version>
         </dependency>
-        <!--javaee-api-->
-        
+        <!--javaee-api for mail-->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>8.0.1</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
-            <type>jar</type>
         </dependency>
-        
     </dependencies>
     <build>
         <plugins>
