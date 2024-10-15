@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,7 +45,9 @@ public class ExcelUtil {
                 if (DateUtil.isCellDateFormatted(cell)) {
                     return cell.getDateCellValue().toString();  // Chuyển ngày thành chuỗi
                 } else {
-                    return String.valueOf(cell.getNumericCellValue());  // Chuyển số thành chuỗi
+                    // Sử dụng BigDecimal để tránh định dạng khoa học
+                    BigDecimal bd = BigDecimal.valueOf(cell.getNumericCellValue());
+                    return bd.toPlainString();  // Chuyển số thành chuỗi mà không có dạng khoa học
                 }
             }
             case BOOLEAN -> {
@@ -54,7 +57,8 @@ public class ExcelUtil {
                 // Trong trường hợp ô là công thức, bạn có thể lựa chọn giữa giá trị tính toán hoặc công thức
                 return switch (cell.getCachedFormulaResultType()) {
                     case NUMERIC ->
-                        String.valueOf(cell.getNumericCellValue());
+//                        String.valueOf(cell.getNumericCellValue());
+                        BigDecimal.valueOf(cell.getNumericCellValue()).toPlainString();
                     case STRING ->
                         cell.getStringCellValue();
                     default ->
