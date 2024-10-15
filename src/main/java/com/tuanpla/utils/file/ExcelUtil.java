@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -32,17 +33,46 @@ public class ExcelUtil {
     private static Logger logger = LogManager.getLogger(ExcelUtil.class);
 
     public static String normalizeCellType(Cell cell) {
-        String value = null;
-        if (cell != null) {
-//            cell.setCellType(Cell.CELL_TYPE_STRING);
-            value = cell.getStringCellValue();
+        if (cell == null) {
+            return null;
         }
-        return value;
+        switch (cell.getCellType()) {
+            case STRING -> {
+                return cell.getStringCellValue();
+            }
+            case NUMERIC -> {
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    return cell.getDateCellValue().toString();  // Chuyển ngày thành chuỗi
+                } else {
+                    return String.valueOf(cell.getNumericCellValue());  // Chuyển số thành chuỗi
+                }
+            }
+            case BOOLEAN -> {
+                return String.valueOf(cell.getBooleanCellValue());  // Chuyển boolean thành chuỗi
+            }
+            case FORMULA -> {
+                // Trong trường hợp ô là công thức, bạn có thể lựa chọn giữa giá trị tính toán hoặc công thức
+                return switch (cell.getCachedFormulaResultType()) {
+                    case NUMERIC ->
+                        String.valueOf(cell.getNumericCellValue());
+                    case STRING ->
+                        cell.getStringCellValue();
+                    default ->
+                        cell.getCellFormula();
+                }; // Trả về công thức nếu không có giá trị tính toán
+            }
+            case BLANK -> {
+                return "";  // Nếu ô trống, trả về chuỗi rỗng
+            }
+            default -> {
+                return "";  // Với các kiểu khác, trả về chuỗi rỗng
+            }
+        }
     }
 
     /**
-     * Doc file XSL Từ file Source
-     * Cái đệt
+     * Doc file XSL Từ file Source Cái đệt
+     *
      * @param path
      * @param sheetNum
      * @return
