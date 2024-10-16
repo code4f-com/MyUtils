@@ -7,6 +7,8 @@ package com.tuanpla.utils.date;
 import com.tuanpla.utils.common.Nullable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.Calendar;
 
 /**
@@ -22,6 +24,7 @@ public class Today {
     private int hh;
     private int mi;
     private int sec;
+    private int weekOfYear;
     private String dayOfWeek;
 
     public Today() {
@@ -91,6 +94,10 @@ public class Today {
         return sec;
     }
 
+    public int getWeekOfYear() {
+        return weekOfYear;
+    }
+
     private void init(Calendar cal) {
         int d = cal.get(Calendar.DAY_OF_WEEK);
         dayOfWeek = switch (d) {
@@ -124,6 +131,8 @@ public class Today {
         hh = cal.get(Calendar.HOUR_OF_DAY);
         mi = cal.get(Calendar.MINUTE);
         sec = cal.get(Calendar.SECOND);
+        LocalDate ld = LocalDate.of(yyyy, mm, dd);
+        weekOfYear = ld.get(WeekFields.ISO.weekOfWeekBasedYear());
     }
 
     public static final Today getInstance() {
