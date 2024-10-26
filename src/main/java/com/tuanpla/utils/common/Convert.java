@@ -5,6 +5,8 @@
 package com.tuanpla.utils.common;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -374,6 +376,19 @@ public abstract class Convert {
         } catch (NumberFormatException e) {
             return defaultVal;
         }
+    }
+
+    public static List<Long> string2Long(String input, String separation) {
+        List<Long> result = new ArrayList<>();
+        try {
+            String[] arr = input.split(separation);
+            for (String one : arr) {
+                result.add(Long.parseLong(one));
+            }
+        } catch (NumberFormatException e) {
+        }
+
+        return result;
     }
 
     public static Double getDouble(Object input, @Nullable Double defaultVal) {
