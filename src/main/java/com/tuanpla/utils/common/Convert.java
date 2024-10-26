@@ -383,7 +383,7 @@ public abstract class Convert {
         try {
             String[] arr = input.split(separation);
             for (String one : arr) {
-                result.add(Long.parseLong(one));
+                result.add(Long.valueOf(one));
             }
         } catch (NumberFormatException e) {
         }
