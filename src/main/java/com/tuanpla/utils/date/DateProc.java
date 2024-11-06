@@ -175,6 +175,11 @@ public abstract class DateProc {
         }
     }
 
+    public static void main(String[] args) {
+        Long a = DateProc.date2Long(System.currentTimeMillis(), "yyyyMMddHHmmss");
+        System.out.println(a);
+    }
+
     public static Date string2Date(String strDate, String fmIn) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat(fmIn);
@@ -240,7 +245,7 @@ public abstract class DateProc {
 
     public static Long date2Long(Long date, String fmOut) {
         try {
-            if (fmOut == null || fmOut.length() > 10) {
+            if (fmOut == null || fmOut.length() > 17) {
                 throw new NumberFormatException("fmOut not valid Long value:" + fmOut);
             }
             Date d = new Date(date);
