@@ -226,9 +226,26 @@ public abstract class DateProc {
 
     public static Integer date2Int(Long date, String fmOut) {
         try {
+            if (fmOut == null || fmOut.length() > 10) {
+                throw new NumberFormatException("fmOut not valid interger:" + fmOut);
+            }
             Date d = new Date(date);
             String strDate = date2String(d, fmOut);
             return Integer.valueOf(strDate);
+        } catch (NumberFormatException ex) {
+            logger.warn(ex.getMessage());
+            return null;
+        }
+    }
+
+    public static Long date2Long(Long date, String fmOut) {
+        try {
+            if (fmOut == null || fmOut.length() > 10) {
+                throw new NumberFormatException("fmOut not valid Long value:" + fmOut);
+            }
+            Date d = new Date(date);
+            String strDate = date2String(d, fmOut);
+            return Long.valueOf(strDate);
         } catch (NumberFormatException ex) {
             logger.warn(ex.getMessage());
             return null;
