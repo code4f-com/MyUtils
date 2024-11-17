@@ -68,6 +68,14 @@ public abstract class MyString {
 
     private static final char EXTENSION_SEPARATOR = '.';
 
+    public static String validKeyLike(String keySearch) {
+        if (isEmpty(keySearch)) {
+            return "";
+        } else {
+            return "%" + keySearch + "%";
+        }
+    }
+
     /**
      * Searches the string for occurrences of the pattern $ENV{key} and attempts
      * to replace this pattern with a value from the System environment obtained
