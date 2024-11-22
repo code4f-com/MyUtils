@@ -176,8 +176,16 @@ public abstract class DateProc {
     }
 
     public static void main(String[] args) {
-        Long a = DateProc.date2Long(System.currentTimeMillis(), "yyyyMMddHHmmss");
-        System.out.println(a);
+//        Long a = DateProc.date2Long(System.currentTimeMillis(), "yyyyMMddHHmmss");
+//        System.out.println(a);
+        long startTime = 1732113979102L;    // 2024-11-20 21:46:19.102
+        long asw = 1732113991296L;          // 2024-11-20 21:46:31.296
+        long et = 1732286811811L;          //  2024-11-22 21:46:51.81
+        System.out.println(long2Timestamp(et));
+
+        Timestamp ts = string2Timestamp("2024-11-20 21:46:51.810", "yyyy-MM-dd HH:mm:ss.SSS"); // -- > 1732114011810
+        System.out.println(ts.getTime());
+        
     }
 
     public static Date string2Date(String strDate, String fmIn) {
