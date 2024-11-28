@@ -33,6 +33,18 @@ public class ExcelUtil {
 
     private static Logger logger = LogManager.getLogger(ExcelUtil.class);
 
+    public static void writeCellValue(Cell cell, Object value) {
+        if (value == null || value == "") {
+            cell.setCellValue(""); // Giá trị null => để rỗng
+        } else if (value instanceof Number numVal) {
+            cell.setCellValue(numVal.doubleValue()); // Số => chuyển thành double
+        } else if (value instanceof Boolean boolVal) {
+            cell.setCellValue(boolVal); // Boolean => set trực tiếp
+        } else {
+            cell.setCellValue(value.toString()); // Các kiểu khác => chuyển thành chuỗi
+        }
+    }
+
     public static String normalizeCellType(Cell cell) {
         if (cell == null) {
             return null;
