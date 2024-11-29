@@ -11,6 +11,9 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -198,5 +201,21 @@ public abstract class MyUtils {
 
     public static boolean notDel() {
         return !PublicConfig.ISDEL;
+    }
+
+    public static void releaseCon(ResultSet rs, PreparedStatement pstm, Connection conn) {
+        try {
+            if (rs != null) {
+                rs = null;
+            }
+            if (pstm != null) {
+                pstm = null;
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 }
