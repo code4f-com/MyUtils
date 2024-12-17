@@ -68,6 +68,19 @@ public abstract class MyString {
 
     private static final char EXTENSION_SEPARATOR = '.';
 
+    public static List<String> str2List(String input, String determine) {
+        List<String> result = new ArrayList<>();
+        try {
+            if (input == null) {
+                return result;
+            }
+            String[] arr = input.split(determine);
+            result = Arrays.asList(arr);
+        } catch (Exception e) {
+        }
+        return result;
+    }
+
     public static String validKeyLike(String keySearch) {
         if (isEmpty(keySearch)) {
             return "";
