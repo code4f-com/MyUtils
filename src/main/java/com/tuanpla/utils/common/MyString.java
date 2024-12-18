@@ -81,6 +81,36 @@ public abstract class MyString {
         return result;
     }
 
+    public static List<Integer> str2ListInt(String input, String determine) {
+        List<Integer> result = new ArrayList<>();
+        try {
+            if (input == null) {
+                return result;
+            }
+            String[] arr = input.split(determine);
+            for (String one : arr) {
+                result.add(Integer.valueOf(one));
+            }
+        } catch (Exception e) {
+        }
+        return result;
+    }
+
+    public static List<Long> str2ListLong(String input, String determine) {
+        List<Long> result = new ArrayList<>();
+        try {
+            if (input == null) {
+                return result;
+            }
+            String[] arr = input.split(determine);
+            for (String one : arr) {
+                result.add(Long.valueOf(one));
+            }
+        } catch (Exception e) {
+        }
+        return result;
+    }
+
     public static String validKeyLike(String keySearch) {
         if (isEmpty(keySearch)) {
             return "";
