@@ -15,10 +15,12 @@ import org.apache.logging.log4j.Logger;
  * Copyright: Copyright (c) 2011</p>
  * <p>
  * Company:MSM </p>
+ * Chuyển sang sử dụng Execute Thread Pool
  *
  * @author tuanpla
  * @version 3.0
  */
+@Deprecated
 public class WorkQueue {
 
     private static Logger logger = LogManager.getLogger(WorkQueue.class);

@@ -5,9 +5,8 @@
  */
 package com.tuanpla.utils.thread;
 
-import com.tuanpla.utils.config.PublicConfig;
-import com.tuanpla.utils.date.DateProc;
 import java.util.LinkedList;
+import java.util.concurrent.ThreadPoolExecutor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,25 +14,26 @@ import org.apache.logging.log4j.Logger;
  *
  * @author TUANPLA
  */
-public class MonitorWorker extends Thread {
+public class MonitorWorker {
 
-    private static Logger logger = LogManager.getLogger(MonitorWorker.class);
+    private static final Logger logger = LogManager.getLogger(MonitorWorker.class);
     private static final LinkedList<String> DEMON_THREAD_LIST = new LinkedList<>();            // Dem So Demon Thread
-    private static final LinkedList<WorkQueue> WORKS = new LinkedList<>();
-    int delay;
+    private static final LinkedList<ThreadPoolExecutor> WORKS = new LinkedList<>();
 
-    public MonitorWorker(int delaySecond) {
-        this.delay = delaySecond;
-        this.setName("MonitorWorker [" + DateProc.currentTimestamp() + "]");
-        MonitorWorker.addDemonName(this.getName());
+    private static String LB_NODE = "Unset";
+
+    public static void setNodeName(String name) {
+        LB_NODE = name;
     }
 
-    public static void addWorkQueue(final WorkQueue work) {
+    public static void addWorkQueue(final ThreadPoolExecutor work) {
+        if (work == null) {
+            logger.warn("MonitorWorker ThreadPoolExecutor work is null");
+        }
         synchronized (WORKS) {
-            MonitorWorker.WORKS.add(work);
+            WORKS.add(work);
             WORKS.notify();
         }
-
     }
 
     public static void addDemonName(String name) {
@@ -41,14 +41,13 @@ public class MonitorWorker extends Thread {
             DEMON_THREAD_LIST.add(name);
             DEMON_THREAD_LIST.notify();
         }
-
     }
 
     public static void removeDemonName(String name) {
         synchronized (DEMON_THREAD_LIST) {
             DEMON_THREAD_LIST.remove(name);
-            logger.debug("|==> " + name + " ended...");
             DEMON_THREAD_LIST.notify();
+            logger.debug("|==> " + name + " ended...");
         }
     }
 
@@ -62,53 +61,25 @@ public class MonitorWorker extends Thread {
         synchronized (DEMON_THREAD_LIST) {
             int i = 1;
             for (String one : DEMON_THREAD_LIST) {
-                logger.debug((i++) + ". " + one + " is runing");
+                logger.info((i++) + ". " + one + " is runing");
             }
             DEMON_THREAD_LIST.notify();
         }
     }
 
-    @Override
-    public void run() {
-        logger.debug("|==> MonitorWorker Started...");
-        while (PublicConfig.AppRunning) {
-            showMonitor();
-            try {
-                Thread.sleep(delay * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        MonitorWorker.removeDemonName(this.getName());
-        logger.debug("==> MyMonitorThread is die...[DemonThread size:" + DEMON_THREAD_LIST.size() + "]");
-        if (!DEMON_THREAD_LIST.isEmpty()) {
-            showDemon();
-        }
-        logger.debug("=========> Xong roi Quit di....");
-    }
-
-    public static void showMonitor() {
+    public static void ShowMonitor() {
         synchronized (WORKS) {
             if (!WORKS.isEmpty()) {
-                for (WorkQueue work : WORKS) {
-                    logger.debug("************MonitorWorker**************");
-                    logger.debug(
-                            String.format("M-Worker [" + work.getName() + "] [%d] Active: %d, Wait %d, Completed: %d, Task: %d",
-                                    work.getMaxPoolSize(),
-                                    work.getActiveCount(),
-                                    work.getWaitTaskCount(),
-                                    work.getCompletedTaskCount(),
-                                    work.getTaskCount()
-                            )
-                    );
+                logger.info("-------------MonitorWorker [ " + LB_NODE + "  ]-----------");
+                for (ThreadPoolExecutor work : WORKS) {
+                    logger.info("M-Worker" + work.toString());
                 }
                 showDemon();
+                DataQueue.showQueuesSize();
+            } else {
+                logger.info("WORKS QUEUE is Empty... ^.^");
             }
             WORKS.notify();
         }
-    }
-
-    public void shutDown() {
-        this.interrupt();
     }
 }
