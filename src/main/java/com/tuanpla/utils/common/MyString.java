@@ -2853,6 +2853,42 @@ public abstract class MyString {
         return pw;
     }
 
+    public static String getRandomPassword(int length) {
+        if (length < 6) {
+            throw new IllegalArgumentException("Length must be at least 6 to include all character types.");
+        }
+        String upperCaseLetters = "ABCDEFGHJKMNPQRSTUVWXYZ";
+        String lowerCaseLetters = "abcdefghjkmnpqrstuvwxyz";
+        String digits = "23456789";
+        String specialCharacters = "!@#$%^&*()|";
+        String allCharacters = upperCaseLetters + lowerCaseLetters + digits + specialCharacters;
+
+        List<Character> result = new ArrayList<>();
+
+        // Ensure at least one character from each category
+        result.add(upperCaseLetters.charAt(RANDOM.nextInt(upperCaseLetters.length())));
+        result.add(lowerCaseLetters.charAt(RANDOM.nextInt(lowerCaseLetters.length())));
+        result.add(digits.charAt(RANDOM.nextInt(digits.length())));
+        result.add(specialCharacters.charAt(RANDOM.nextInt(specialCharacters.length())));
+
+        // Fill the rest with random characters from all categories
+        for (int i = 4; i < length; i++) {
+            result.add(allCharacters.charAt(RANDOM.nextInt(allCharacters.length())));
+        }
+
+        // Shuffle the result to ensure randomness
+        Collections.shuffle(result);
+
+        // Convert List<Character> to String
+        StringBuilder password = new StringBuilder();
+        for (char c : result) {
+            password.append(c);
+        }
+
+        return password.toString();
+
+    }
+
     public static String validStringJs(String input) {
         if (input == null) {
             return "";
