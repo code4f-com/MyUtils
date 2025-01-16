@@ -2860,7 +2860,7 @@ public abstract class MyString {
         String upperCaseLetters = "ABCDEFGHJKMNPQRSTUVWXYZ";
         String lowerCaseLetters = "abcdefghjkmnpqrstuvwxyz";
         String digits = "23456789";
-        String specialCharacters = "!@#$%^&*()|";
+        String specialCharacters = "!@#$%^&*()";
         String allCharacters = upperCaseLetters + lowerCaseLetters + digits;
 
         List<Character> result = new ArrayList<>();
