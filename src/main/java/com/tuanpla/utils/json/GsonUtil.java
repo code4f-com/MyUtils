@@ -51,6 +51,7 @@ public abstract class GsonUtil {
 //    Gson GSON = gsonBuilder.create();
     private static final Gson gson = new GsonBuilder()
             .setDateFormat("dd/MM/yyyy")
+            .setPrettyPrinting()
             // .registerTypeAdapter(Double.class, new DoubleJsonSerializer()) // => Thằng này làm cho Double thành long :))
             .registerTypeHierarchyAdapter(JsonValue.class, getJsonValueTypeAdapter())
             .create();
@@ -93,7 +94,7 @@ public abstract class GsonUtil {
 //        @Override
 //        public Timestamp read(JsonReader in) throws IOException {
 //            if (in != null) {
-////                MyConfig.debugOut(DE_BUG,"JsonReader in.nextString:" + in.nextString());
+        ////                MyConfig.debugOut(DE_BUG,"JsonReader in.nextString:" + in.nextString());
 //                MyConfig.debugOut(DE_BUG,"JsonReader in.isLenient:" + in.isLenient());
 //                MyConfig.debugOut(DE_BUG,"JsonReader in.peek:" + in.peek());
 //                Instant instant = Instant.ofEpochMilli(in.getAsJsonPrimitive().getAsLong());
